@@ -1,0 +1,16 @@
+# artefactos de build (se generan, no se versionan)
+build/out-v*/
+build/work-v*/
+build/rootfs/
+build/stockfs/
+build/*.squashfs
+build/xImage*
+
+# firmware: ni el stock ni el construido van al repo (van a Releases)
+*.upt
+*.ingenic
+*.zip
+
+__pycache__/
+*.pyc
+build/stock/

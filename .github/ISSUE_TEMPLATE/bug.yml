@@ -1,0 +1,73 @@
+name: Bug report
+description: Something in the ROM behaves wrong
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: if the player will not boot, go to
+        [docs/RECOVERY.md](../../blob/main/docs/RECOVERY.md) first. Recovery is a key combo and
+        does not depend on anything in this ROM.
+
+  - type: input
+    id: rom
+    attributes:
+      label: ROM version
+      description: The md5 of the .upt you flashed, or the release tag.
+      placeholder: "07dd6952… / v1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: stock
+    attributes:
+      label: Stock firmware it was flashed over
+      description: Settings → About, before you flashed. Say "don't know" if you don't.
+      placeholder: "V3_ANALOG_2025 v1.2, build 202601301221"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      options:
+        - TempoTec V3 Blaze
+        - Other (this ROM is only for the Blaze)
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What you see, and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce it
+      description: |
+        Exact steps. If it only happens sometimes, say roughly how often and what you were doing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: photo
+    attributes:
+      label: Photo
+      description: |
+        For anything visual, attach a photo of the screen. Drag it into this box.
+        Most bugs here are cosmetic, and a photo settles in one second what paragraphs cannot.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I verified the md5 of the .upt before flashing
+        - label: This is the stock theme's behaviour too (if you tested it)

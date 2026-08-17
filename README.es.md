@@ -1,0 +1,143 @@
+<h1 align="center">V3 Blaze — Reskin de HiBy OS</h1>
+
+<p align="center">
+  <b>La apariencia actual de HiBy OS, portada al TempoTec V3 Blaze y horneada en el firmware.</b><br>
+  Sin root, sin adb, sin PC después de instalar. Se instala igual que una actualización de TempoTec.
+</p>
+
+<p align="center">
+  <img alt="Aparato" src="https://img.shields.io/badge/aparato-TempoTec%20V3%20Blaze-lightgrey">
+  <img alt="Firmware base" src="https://img.shields.io/badge/base-V3__ANALOG__2025%20v1.2-blue">
+  <img alt="Instalación" src="https://img.shields.io/badge/instalaci%C3%B3n-microSD%2C%20sin%20PC-brightgreen">
+</p>
+
+<p align="center">
+  <a href="#instalación">Instalación</a> ·
+  <a href="#qué-cambia">Qué cambia</a> ·
+  <a href="#si-algo-sale-mal">Recovery</a> ·
+  <a href="docs/HOW-IT-WORKS.md">Cómo funciona</a> ·
+  <a href="docs/BUILD.md">Compilarlo tú mismo</a> ·
+  <a href="README.md">English</a>
+</p>
+
+---
+
+<p align="center">
+  <img src="docs/img/launcher.jpg" alt="Launcher corriendo en el V3 Blaze" width="45%">
+  &nbsp;&nbsp;
+  <img src="docs/img/nowplaying.jpg" alt="Now Playing corriendo en el V3 Blaze" width="45%">
+</p>
+
+<p align="center"><sub>Corriendo en el aparato, no es un mockup.</sub></p>
+
+El V3 Blaze usa HiBy OS con la interfaz de fábrica de TempoTec, que corresponde al diseño viejo de
+HiBy. Esto la reemplaza por el **diseño actual de HiBy OS**, el que traen los HiBy R3 Pro II 2025:
+iconos más grandes, portadas a pantalla completa y una interfaz oscura.
+
+Ese diseño llegó al V3 Blaze pasando por el TempoTec V3 Analog, donde **Kae0** ya lo había portado.
+Este proyecto completa el camino y corrige lo que se rompió en el trayecto.
+
+Es una **imagen de firmware**, no un archivo de tema. El diseño va horneado en el sistema de
+archivos raíz, así que sobrevive a los reinicios y no necesita nada instalado en el aparato.
+
+## Antes de empezar
+
+> [!WARNING]
+> Esto reemplaza el firmware. Una instalación fallida puede dejar el reproductor inservible.
+> **Lee [docs/RECOVERY.md](docs/RECOVERY.md) antes de empezar**, no después. El recovery es una
+> combinación de botones que el aparato ya trae y no depende de nada de esta ROM, pero conviene
+> conocerla de antemano.
+
+**Esta ROM es solo para el TempoTec V3 Blaze**, cuyo firmware se identifica como
+`V3_ANALOG_2025`. **No** es para el TempoTec V3 Analog anterior, que usa otro SoC.
+
+Puedes verificarlo en *Ajustes → Acerca de*. Compilada contra la **v1.2, build `202601301221`**.
+
+## Instalación
+
+1. Descarga `v3_analog_2025.upt` desde [Releases](../../releases) y verifica la suma:
+
+   ```
+   md5sum v3_analog_2025.upt
+   07dd695255f398a6893f0708c770f0a2
+   ```
+
+2. Cópialo a la **raíz de una microSD**, con el nombre exacto `v3_analog_2025.upt`.
+   El reproductor busca ese nombre específico: si lo renombras, no ocurre nada.
+
+3. Inserta la tarjeta en el reproductor.
+
+4. *Ajustes → Actualización de firmware → Actualización a través de una tarjeta micro SD*.
+
+5. El aparato reinicia en recovery, instala y vuelve a arrancar. No lo toques mientras trabaja.
+
+Listo. Sin PC, sin cable, sin adb.
+
+> [!TIP]
+> Conserva tu `.upt` anterior en la tarjeta con otro nombre (`v3_analog_2025.upt.bak`, por ejemplo).
+> Volver atrás consiste en renombrarlo y repetir el paso 4.
+>
+> **Nunca lo llames `update.upt`**: recovery elige ese nombre por encima del que copiaste e instala
+> ese en su lugar. Ver [RECOVERY.md](docs/RECOVERY.md).
+
+## Qué cambia
+
+**La apariencia** — el diseño actual de HiBy OS: iconos más grandes en el launcher y las
+categorías, portada a pantalla completa en Now Playing, paleta oscura en todo el sistema.
+
+**Correcciones encima.** El material gráfico se hizo para otro binario de reproductor y buena parte
+no sobrevivió el cambio. Corregido aquí:
+
+| | |
+|---|---|
+| **Relleno de la batería** | El motor recorta un porcentaje de la imagen y lo pega abajo. El gráfico original era una batería completa, así que su propio contorno reaparecía a media altura: una segunda batería dentro de la primera. Rehecho como relleno puro del tamaño del hueco. |
+| **Pantalla de carga** | El mismo defecto, visible al cargar con el equipo apagado. |
+| **Indicador de ganancia** | El Blaze alterna tres niveles; el gráfico solo tenía dos, así que el intermedio no mostraba nada. Estado faltante dibujado a juego. |
+| **Control de brillo** | Estaba en el menú desplegable pero no respondía: el binario solo lo conecta bajo un nombre exacto. Renombrado, funciona. |
+| **Control de volumen** | Restaurado en el menú desplegable, junto al de brillo. |
+| **Calidad de reproducción** | Un error del firmware degradaba la calidad reportada al activar el caché de imágenes. Corregido con un parche de cuatro bytes al binario. |
+| **Elementos de layout faltantes** | 14 archivos de layout venían sin elementos que el binario busca por nombre. Restaurados. |
+| **Identidad visual** | El material original traía logos y códigos QR de otro fabricante. Restaurados los de TempoTec. |
+
+**Además se activaron**, porque el firmware ya los incluía y solo estaban desactivados:
+
+- *Ajustes → Acerca de*, que es la vía al modo desarrollador y a adb
+- *Ajustes → Tema de color*, el selector de acento propio del firmware
+- Caché de imágenes y de base de datos, más ajustes de lectura anticipada del sistema de archivos:
+  la base de música se construye bastante más rápido
+
+## Qué se pierde
+
+Lista honesta, no de folleto:
+
+- **El marco rojo de batería baja.** Corregir el relleno implicó separar el marco como imagen
+  estática, y el cambio de estado se fue con él. El porcentaje se sigue mostrando.
+- **Dos controles del menú desplegable** — el corazón y el modo de reproducción — quedan ocultos.
+  El binario los dibuja pero nunca escucha el toque. Funcionan en Now Playing.
+- **Sin PEQ todavía.**
+
+## Si algo sale mal
+
+[docs/RECOVERY.md](docs/RECOVERY.md) — la combinación de botones y el camino completo de vuelta si
+el aparato no arranca. Vale la pena leerlo una vez antes de instalar.
+
+## Compilarlo tú mismo
+
+No necesitas confiar en el binario. [docs/BUILD.md](docs/BUILD.md) lo reproduce desde el firmware
+oficial de TempoTec y verifica el resultado archivo por archivo.
+
+## Créditos
+
+Este proyecto es un port. El diseño visual es de **HiBy**, del HiBy OS actual; los archivos
+llegaron a este aparato a través de la build para V3 Analog que publicó **Kae0**; y el firmware es
+de TempoTec.
+**[CREDITS.md](CREDITS.md) nombra a cada uno y lo que aportó** — conviene leerlo antes de suponer
+que algo de este material gráfico es mío.
+
+## Licencia
+
+MIT cubre las herramientas de `build/`: los scripts, las utilidades de análisis y la documentación.
+**No** cubre el firmware ni el material gráfico, que siguen siendo propiedad de TempoTec y HiBy.
+Ver [LICENSE](LICENSE) y [NOTICE.md](NOTICE.md).
+
+Sin afiliación, respaldo ni soporte de TempoTec ni de HiBy.

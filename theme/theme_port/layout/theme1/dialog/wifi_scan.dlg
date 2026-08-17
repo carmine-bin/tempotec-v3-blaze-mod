@@ -1,0 +1,47 @@
+{
+	"viewgroup":{
+		"textview":{
+				"name":"tv_wifi_scan",
+				"size":18,
+				"color":"0xffffff",
+				"type":"roll|h_center",
+				"ini":"exception.ini",
+				"text":"scaning",
+				"measure":1,
+				"x":4,
+				"y":158,
+				"w":312,
+				"h":40,
+				"textview":true
+			},
+		"textview":{
+				"name":"wifi_scan_tv_no",
+				"size":18,
+				"color":"0xffffff",
+				"bg_color":"0x009ff6",
+				"type":"roll|h_center",
+				"ini":"exception.ini",
+				"text":"cancel",
+				"bg_focus_color":"0x33000000",
+				"x":160,
+				"y":386,
+				"w":160,
+				"h":64,
+
+				"textview":true
+			},
+		"name":"vg_dialog_wifi_scan",
+		"type":"hgl_view",
+		"x":0,
+		"y":0,
+		"w":320,
+		"h":450,
+		"hglview_x":0,
+		"hglview_y":30,
+		"hglview_w":320,
+		"hglview_h":450,
+		"color":"0x000000",
+		"viewgroup":true,
+		"add_layout":true
+	}
+}
