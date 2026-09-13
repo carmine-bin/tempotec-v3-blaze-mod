@@ -35,7 +35,7 @@ KERNEL_MD5=97c4b230fb8ef830cfc57c837bf0854a
 STAGE="${STAGE:-$ROOT/theme/theme_port}"
 MANIFEST="${MANIFEST:-$ROOT/theme/manifest.sha256}"
 
-MTD2_SIZE=47185920      # /dev/mtd2 rootfs (ver ~/blaze-mtd-backup/MANIFEST.md)
+MTD2_SIZE=47185920      # /dev/mtd2 rootfs (partición rootfs del V3 Blaze verificada)
 MTD1_SIZE=5242880       # /dev/mtd1 kernel
 
 WORK="$HERE/work-v3"
@@ -185,7 +185,7 @@ grep -q 'mount -o noatime -t ubifs' "$MU" || die "el patch de mount_ubifs.sh no 
 sh -n "$MU" || die "mount_ubifs.sh quedo con sintaxis invalida"
 echo "mount_ubifs.sh: /usr/data ubifs  sync -> noatime"
 
-# read_ahead 2048, igual que el mod: el R1 declara 64 MB (08-refs/.../docs/r1/SPECS.md) y el Blaze
+# read_ahead 2048, igual que el mod: el R1 declara 64 MB (las especificaciones del HiBy R1) y el Blaze
 # reporta 56936 kB de MemTotal = los mismos 64 MB menos framebuffer y kernel. Mismo equipo en la practica.
 # vfs_cache_pressure por /proc porque en este firmware NO existe el binario sysctl.
 HP="$R/usr/bin/hiby_player.sh"

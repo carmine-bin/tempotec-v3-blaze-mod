@@ -17,9 +17,9 @@ La generación actual parte del firmware oficial `V3_ANALOG_2025` **v1.3**. Vers
 
 ## Dos descargas
 
-**Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: aspecto y funciones oficiales de TempoTec v1.3, incluidos PEQ y sus mejoras de estabilidad, más la corrección de este proyecto para la corrupción digital LDAC de v1.3, confirmada en el dispositivo. Son los bytes exactos del TEST 2 probado en hardware. Sin tema, launcher, ajustes de caché/E/S ni parche personalizado del reproductor.
+**Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: aspecto y funciones oficiales de TempoTec v1.3, incluidos PEQ y sus mejoras de estabilidad, más la corrección de este proyecto para la corrupción digital LDAC de v1.3, confirmada en el dispositivo. Es la imagen de publicación probada en el V3 Blaze. Sin tema, launcher, ajustes de caché/E/S ni parche personalizado del reproductor.
 
-**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: la misma base v1.3 corregida, con el port completo de la interfaz de estilo HiBy y las personalizaciones validadas del Blaze. Es la última imagen final probada con éxito, con las correcciones finales del launcher, los iconos play/pause y el texto de los avisos.
+**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: la misma base v1.3 corregida, con el port completo de la interfaz de estilo HiBy y las personalizaciones validadas del Blaze. Es la imagen final de Full Mod validada en hardware, con las correcciones finales del launcher, los iconos play/pause y el texto de los avisos.
 
 Descarga la edición elegida desde [Releases v1.1.0](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Las compilaciones reproducidas se validan por separado y no sustituyen las imágenes ya probadas.
 
@@ -43,7 +43,7 @@ El changelog de TempoTec añade **PEQ** y **búsqueda Bluetooth en tiempo real**
 
 La base oficial v1.3 mejoró los bloqueos/reinicios observados en v1.2. En un caso reproducido de degradación severa de señal Bluetooth, perder la conexión deliberadamente ya no reinició el equipo: siguió encendido y se recuperó al volver la conectividad. También se comunicó que dejó de ocurrir la inestabilidad asociada a portadas. La evidencia conservada no permite establecer la codificación JPEG, las dimensiones ni el tamaño exactos de la portada histórica; se desconoce si era JPEG progresivo o no progresivo.
 
-Esta mejora de estabilidad pertenece a **TempoTec v1.3**, no al parche LDAC. La versión oficial introdujo además otra regresión: corrupción digital/electrónica LDAC aun recibiendo correctamente los paquetes. TEST 1 aisló el decoder y TEST 2 evita únicamente la condición problemática que suprime coeficientes. Es una modificación downstream presente en el firmware, de autor y finalidad desconocidos; no hay dependencia demostrada con PEQ. [Evidencia técnica](docs/LDAC-REGRESSION.md).
+Esta mejora de estabilidad pertenece a **TempoTec v1.3**, no al parche LDAC. La versión oficial introdujo además otra regresión: corrupción digital/electrónica LDAC aun recibiendo correctamente los paquetes. Las pruebas en hardware aislaron el decoder; la corrección evita únicamente la condición problemática que suprime coeficientes. Es una modificación downstream presente en el firmware, de autor y finalidad desconocidos; no hay dependencia demostrada con PEQ. [Evidencia técnica](docs/LDAC-REGRESSION.md).
 
 ## Personalizaciones de Full Mod
 
@@ -65,7 +65,7 @@ El diseño de HiBy llegó a través del **port de Kae0 para el V3 Analog**: laun
 | Sistema de archivos/E/S | Read-ahead MMC `2048` y presión de caché `50`, con comprobaciones; UBIFS `sync → noatime`, que también elimina las escrituras síncronas. |
 | Parche del reproductor | Reubicado y validado para v1.3: offset `0x38240` (VA `0x438240`), `08 da 10 0c → 00 00 00 00`. Omite el parseo de metadatos de la pista siguiente sobre el buffer de la actual, manteniendo la copia de salida y el delay slot. |
 
-El [manifiesto completo](build/v1.3/full-mod-manifest.json) registra 607 archivos modificados/añadidos y dos directorios nuevos. Las [notas de migración](docs/HOW-IT-WORKS.md#migration-to-official-v13) explican la validación. El kernel, los componentes Bluetooth/audio y los demás archivos del sistema siguen siendo los oficiales de v1.3. El usuario confirmó que la imagen final funciona correctamente en hardware; esto no demuestra una mejora medida de cada ajuste de rendimiento.
+El [manifiesto completo](build/v1.3/full-mod-manifest.json) registra 607 archivos modificados/añadidos y dos directorios nuevos. Las [notas de migración](docs/HOW-IT-WORKS.md#migration-to-official-v13) explican la validación. El kernel, los componentes Bluetooth/audio y los demás archivos del sistema siguen siendo los oficiales de v1.3. La imagen final de Full Mod se validó en un V3 Blaze físico; esto no demuestra una mejora medida de cada ajuste de rendimiento.
 
 ## Problemas conocidos y limitaciones
 

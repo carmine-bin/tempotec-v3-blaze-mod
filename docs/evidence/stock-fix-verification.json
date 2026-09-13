@@ -1,0 +1,126 @@
+{
+  "status": "PASS",
+  "edition": "stock-fix",
+  "release_artifact": {
+    "edition": "stock-fix",
+    "filename": "V3-Blaze-v1.3-Stock-LDAC-Fix.upt",
+    "size": 44367872,
+    "sha256": "273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1",
+    "md5": "cd380b93df9a600a5d24cb64585aac88",
+    "rootfs_sha256": "aa3f317b7de8fa07c00f3ecf63bd51f1e3131a521a63daf1ff0a452c0fff2fac",
+    "hardware_test": "Validated on physical TempoTec V3 Blaze hardware",
+    "filesystem_manifest": "build/v1.3/stock-fix-manifest.json",
+    "decoder_sha256": "0f6e179f2e7fd31b5700cd0f0bbfaa4fca25b56201439c0c5b64eee96e14ca2d",
+    "player_sha256": "143c926f3b767fd7cbc63dcae0e0e3988a4b3a7e1a324afc0212eec7f90e0001",
+    "reference_artifact": "V3-Blaze-v1.3-Stock-LDAC-Fix.upt"
+  },
+  "canonical_manifest": "build/v1.3/stock-fix-manifest.json",
+  "container_verification": {
+    "status": "PASS",
+    "firmware": "V3-Blaze-v1.3-Stock-LDAC-Fix.upt",
+    "decoder_experiment": "TEST 2",
+    "sha256": "273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1",
+    "bytes": 44367872,
+    "iso_trees": "Rock Ridge and Joliet paths/content verified",
+    "iso_metadata": "modes, numeric owners/groups and timestamps preserved",
+    "ota": [
+      {
+        "image": "xImage",
+        "bytes": 3731520,
+        "chunks": 8,
+        "md5": "490bfb2569ff3fbb6b4e1dcf7b46a146",
+        "sha256": "5fd39bd5a3e26cc2fb97681058ad0fb1211d9a57f41bd76eb6944b18f2fb6c3b",
+        "status": "PASS"
+      },
+      {
+        "image": "rootfs.squashfs",
+        "bytes": 40108032,
+        "chunks": 77,
+        "md5": "5326512483040b323ce5a15e13ec0dfd",
+        "sha256": "aa3f317b7de8fa07c00f3ecf63bd51f1e3131a521a63daf1ff0a452c0fff2fac",
+        "status": "PASS"
+      }
+    ],
+    "unchanged_images": [
+      "xImage"
+    ],
+    "filesystem_changed_paths": [
+      "usr/lib/libldacdec.so.1"
+    ],
+    "source_hashes_unchanged": true
+  },
+  "filesystem_verification": {
+    "status": "PASS",
+    "exact_changed_paths": [
+      "usr/lib/libldacdec.so.1"
+    ],
+    "path_count": 4172,
+    "original_superblock": {
+      "magic": 1936814952,
+      "inodes": 3760,
+      "mkfs_time": 1787106951,
+      "block_size": 131072,
+      "fragments": 144,
+      "compression": 3,
+      "block_log": 17,
+      "flags": 192,
+      "no_ids": 3,
+      "major": 4,
+      "minor": 0,
+      "root_inode": 2844532344,
+      "bytes_used": 40105343,
+      "id_table_start": 40105335,
+      "xattr_id_table_start": 18446744073709551615,
+      "inode_table_start": 40003987,
+      "directory_table_start": 40050060,
+      "fragment_table_start": 40093893,
+      "lookup_table_start": 40105289
+    },
+    "rebuilt_superblock": {
+      "magic": 1936814952,
+      "inodes": 3760,
+      "mkfs_time": 1787106951,
+      "block_size": 131072,
+      "fragments": 144,
+      "compression": 3,
+      "block_log": 17,
+      "flags": 192,
+      "no_ids": 3,
+      "major": 4,
+      "minor": 0,
+      "root_inode": 2844532344,
+      "bytes_used": 40105343,
+      "id_table_start": 40105335,
+      "xattr_id_table_start": 18446744073709551615,
+      "inode_table_start": 40003987,
+      "directory_table_start": 40050060,
+      "fragment_table_start": 40093893,
+      "lookup_table_start": 40105289
+    },
+    "permissions_owners_groups_timestamps_symlinks": "identical to official 1.3",
+    "hardlink_topology": "identical",
+    "decoder_md5": "6b544233cb85edb0710ee740e10172dd",
+    "rootfs_sha256": "aa3f317b7de8fa07c00f3ecf63bd51f1e3131a521a63daf1ff0a452c0fff2fac",
+    "rootfs_md5": "5326512483040b323ce5a15e13ec0dfd",
+    "rootfs_size": 40108032
+  },
+  "decoder_patch_record": "stock-fix-decoder-patch.json",
+  "decoder_patch": {
+    "path": "/usr/lib/libldacdec.so.1",
+    "original_sha256": "0427893de5def29975bc3bdf578fef32bc6e6300b73801d4813f0f918ceedb49",
+    "patched_sha256": "0f6e179f2e7fd31b5700cd0f0bbfaa4fca25b56201439c0c5b64eee96e14ca2d",
+    "original_md5": "0bf6e48555334e95cdf476c2aa69501e",
+    "patched_md5": "6b544233cb85edb0710ee740e10172dd",
+    "size": 28804,
+    "instruction_virtual_address": "0x3b80",
+    "instruction_file_offset": "0x3b80",
+    "instruction_before": "10 00 40 10",
+    "instruction_after": "10 00 00 10",
+    "byte_offset": "0x3b82",
+    "byte_before": "40",
+    "byte_after": "00",
+    "meaning": "Unconditional branch to existing sum at 0x3bc4; delay-slot multiply unchanged",
+    "matches_validated_offline_control": true
+  },
+  "release_hardware_validation": "The Stock + LDAC Fix release image was validated on physical V3 Blaze hardware in the TEST 2 decoder experiment"
+}

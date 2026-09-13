@@ -21,9 +21,9 @@
 import json, os, re
 from PIL import Image
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1")
-LY = os.path.join(WS, "staging/theme_port/layout/theme1")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
+LY = os.path.join(WS, "theme/theme_port/layout/theme1")
 VERDE = (1, 219, 17, 255)
 
 def hueco_de(rel):

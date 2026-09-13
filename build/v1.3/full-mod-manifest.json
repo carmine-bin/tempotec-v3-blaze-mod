@@ -48,7 +48,7 @@
   {
     "path": "/usr/bin/mount_ubifs.sh",
     "operation": "modify",
-    "reason": "Reapply original custom UBIFS sync-to-noatime policy; persistence validation pending hardware test",
+    "reason": "Preserve custom UBIFS sync-to-noatime policy; removes synchronous writes and adds noatime, without an isolated performance or power-loss guarantee",
     "before": {
       "mode": "-rwxr-xr-x",
       "uid": 0,

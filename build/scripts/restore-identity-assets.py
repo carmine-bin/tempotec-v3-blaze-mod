@@ -15,10 +15,14 @@
 # Idempotente.
 import json, os, shutil, filecmp
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STOCK = os.path.join(WS, "../00-recon/rootfs-mtd2/usr/resource/litegui/theme1")
-V3A = os.path.join(WS, "../11-v3analog-ref/rootfs/usr/resource/litegui/theme1")
-STAGE = os.path.join(WS, "staging/theme_port/litegui/theme1")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+STOCK_ROOTFS = os.environ.get("BLAZE_STOCK_ROOTFS")
+DONOR_ROOTFS = os.environ.get("V3_ANALOG_ROOTFS")
+if not STOCK_ROOTFS or not DONOR_ROOTFS:
+    raise SystemExit("Set BLAZE_STOCK_ROOTFS and V3_ANALOG_ROOTFS to extracted firmware rootfs trees")
+STOCK = os.path.join(STOCK_ROOTFS, "usr/resource/litegui/theme1")
+V3A = os.path.join(DONOR_ROOTFS, "usr/resource/litegui/theme1")
+STAGE = os.path.join(WS, "theme/theme_port/litegui/theme1")
 
 IDENTIDAD = ["certificate/certificate.png", "about_dev/logo.png",
              "about_dev/facebook_qrcode.png", "about_dev/wechat_qrcode.png", "about_dev/weibo_qrcode.png"]
@@ -41,7 +45,7 @@ for origen, lista, que in ((STOCK, IDENTIDAD, "stock"), (V3A, LOOK, "V3A")):
 print(f"identidad/look: {n} archivos ajustados")
 
 # --- recentrar el logo del About (44x37 del stock en pantalla de 320)
-f = os.path.join(WS, "staging/theme_port/layout/theme1/hiby_about_dev.view")
+f = os.path.join(WS, "theme/theme_port/layout/theme1/hiby_about_dev.view")
 t = open(f, newline="").read()
 i = t.index('"name":"about_dev_iv_icon"')
 fin = t.index("},", i)

@@ -4,7 +4,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [1.1.0] — 2026-09-12 (TempoTec v1.3 generation)
 
-Two hardware-tested editions: Stock + LDAC Fix (exact TEST 2) and Full Mod (exact successful final UI-state port). Project tag `v1.1.0`.
+Two hardware-tested editions: Stock + LDAC Fix and Full Mod, both using the original hardware-tested release images. Project tag `v1.1.0`.
 
 ### Based on official TempoTec v1.3
 
@@ -14,9 +14,9 @@ Two hardware-tested editions: Stock + LDAC Fix (exact TEST 2) and Full Mod (exac
 
 ### Fixed by this project
 
-- Isolated the v1.3 digital LDAC corruption to the decoder with TEST 1.
+- Isolated the v1.3 digital LDAC corruption to the receiver decoder through hardware testing.
 - Identified an additional downstream coefficient-suppression gate; author/purpose unknown.
-- TEST 2 bypasses only this condition, retains the v1.3 decoder and produces hardware-confirmed clean LDAC playback. This does not fix Bluetooth range or account for the official stability improvement.
+- The one-byte decoder patch bypasses only this condition, retains the v1.3 decoder and produces hardware-confirmed clean LDAC playback. This does not fix Bluetooth range or account for the official stability improvement.
 - Relocated the Full Mod player patch to file offset `0x38240`, independently validated against v1.3 bytes and surrounding logic.
 - Selectively ported Full Mod UI/visual fixes; corrected final launcher backgrounds, play/pause image mapping and popup text.
 

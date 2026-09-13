@@ -20,9 +20,9 @@
 import json, os
 from PIL import Image
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1")
-LY = os.path.join(WS, "staging/theme_port/layout/theme1")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
+LY = os.path.join(WS, "theme/theme_port/layout/theme1")
 ROJO = (255, 0, 0, 255)          # el mismo rojo del battery_low_bg.png del V3A
 
 # --- 1. geometría del hueco (idéntica a fix-battery-fill.py)

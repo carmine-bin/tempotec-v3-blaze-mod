@@ -166,9 +166,17 @@ decompilation. All in [`../build/scripts`](../build/scripts).
 
 ## Migration to official v1.3
 
+The comparison firmware images are identified by their SHA-256 hashes, independently of local filenames:
+
+| Comparison input | SHA-256 |
+|---|---|
+| Official TempoTec v1.2 | `561797a3e1041e6cd38a909bef1cf2950eac97d589935bc86eec72ebab39d811` |
+| Previous v1.2 Full Mod | `bb26dbf8fbd9ebb49972adee978154eb20d6f16bc4772a6d811ea3e452926e97` |
+| Official TempoTec v1.3 | `5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95` |
+
 Official v1.3 is the complete base for both current editions, including PEQ, real-time Bluetooth search and TempoTec's stability fixes. It changes 208 non-timestamp paths from v1.2, including player/server, Bluetooth, kernel/modules, USB and supporting resources. Overlaying the old rootfs or replacing whole theme directories would risk rolling back functional fixes or dropping v1.3-only resources. No old Bluetooth/audio/kernel/system components were copied over.
 
-Full Mod ports an explicit allowlist of layouts/assets and exact configuration/script deltas. All 151 official layouts remain, including byte-identical PEQ/filter layouts. Duplicate JSON object keys are preserved with ordered pairs: repeated widget-type keys and construction-marker order are meaningful to this renderer. The final merge preserves 1,283 official named widget/type/parent contracts. The final launcher image fallback, play/pause state mapping and notice first-child text behavior were corrected after intermediate hardware tests exposed their defects. The user subsequently confirmed that this exact final image worked successfully on physical hardware.
+Full Mod ports an explicit allowlist of layouts/assets and exact configuration/script deltas. All 151 official layouts remain, including byte-identical PEQ/filter layouts. Duplicate JSON object keys are preserved with ordered pairs: repeated widget-type keys and construction-marker order are meaningful to this renderer. The final merge preserves 1,283 official named widget/type/parent contracts. The final launcher image fallback, play/pause state mapping and notice first-child text behavior were corrected after intermediate hardware tests exposed their defects. The final Full Mod image was validated on physical V3 Blaze hardware.
 
 The old v1.2 player offset cannot be reused. In v1.3 the patch is at **file offset `0x38240`, VA `0x438240`**: `08 da 10 0c → 00 00 00 00`, removing `jal 0x436820`. The next-track API output structure (`0xa88` bytes) is copied first. The removed parse would write next-track metadata into the shared current-track buffer at `0x988f90`; API operation 4 reads that buffer. The identified operation-`0x1f` callers use the returned path at buffer+4. Output copy, selection restoration, unlock/return path and `addiu a0,a0,4` delay slot remain unchanged. The old `0x36a00` offset is not modified.
 

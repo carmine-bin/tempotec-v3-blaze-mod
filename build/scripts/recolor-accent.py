@@ -33,9 +33,9 @@ h1, s1, v1 = hsv(DESTINO)
 DH, KS, KV = h1 - h0, s1 / s0, v1 / v0
 VENTANA = 0.04          # ± en tono: agarra el acento y sus variantes, no toca el resto de la paleta
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1")
-LY = os.path.join(WS, "staging/theme_port/layout/theme1")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
+LY = os.path.join(WS, "theme/theme_port/layout/theme1")
 
 def mueve(r, g, b):
     h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)

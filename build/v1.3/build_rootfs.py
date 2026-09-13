@@ -1,4 +1,4 @@
-"""Single-candidate SquashFS build and metadata-exact verification."""
+"""SquashFS reproduction with metadata-exact verification."""
 from pathlib import Path
 import json,hashlib,stat,tarfile,datetime,struct,subprocess,re,os,copy,csv
 B=Path(os.environ['V3_BUILD_BASE']);W=Path(os.environ['V3_BUILD_WORK'])

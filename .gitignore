@@ -15,6 +15,6 @@ __pycache__/
 *.pyc
 build/stock/
 
-# Private v1.3 outputs, never tracked
+# Generated build and packaging outputs
 build/reproductions/
-release-staging/
+*-staging/

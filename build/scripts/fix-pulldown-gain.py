@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # El icono de ganancia del pull-down V3A usa el modelo 2-estados (img_path=gain_l + img_focus_path=gain_h),
 # pero la ganancia tiene 3 estados (L/M/H) y el binario del Blaze la maneja por INDICE (img_path_0/1/2).
-# Fix: reemplazar por img_path_0/1/2 = gain_l/gain_m/gain_h. Corre DESPUÉS de build-tanda2. Idempotente.
+# Fix: reemplazar por img_path_0/1/2 = gain_l/gain_m/gain_h. Corre DESPUÉS de importar el layout donante. Idempotente.
 import json, os
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-f = os.path.join(WS, "staging/theme_port/layout/theme1/hiby_pull_down_menu.view")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+f = os.path.join(WS, "theme/theme_port/layout/theme1/hiby_pull_down_menu.view")
 t = open(f).read()
 
 # aislar el bloque del elemento gain

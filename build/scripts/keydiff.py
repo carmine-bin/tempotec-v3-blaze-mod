@@ -3,9 +3,12 @@
    OJO: estos JSON repiten claves ("imageview" varias veces en el mismo objeto) -> hay que
    preservar duplicados (object_pairs_hook), si no json.loads se queda solo con el ultimo."""
 import json, os, sys
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))          # .../12-v3a-reskin
-STOCK = os.path.join(WS, "../00-recon/rootfs-mtd2/usr/resource/layout/theme1")
-STAGE = os.path.join(WS, "staging/theme_port/layout/theme1")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))          # repository root
+STOCK_ROOTFS = os.environ.get("BLAZE_STOCK_ROOTFS")
+if not STOCK_ROOTFS:
+    raise SystemExit("Set BLAZE_STOCK_ROOTFS to an extracted official V3 Blaze rootfs")
+STOCK = os.path.join(STOCK_ROOTFS, "usr/resource/layout/theme1")
+STAGE = os.path.join(WS, "theme/theme_port/layout/theme1")
 
 class Multi(list):  # lista de pares (k,v) que se comporta como dict-ish
     def get(self,k,d=None):

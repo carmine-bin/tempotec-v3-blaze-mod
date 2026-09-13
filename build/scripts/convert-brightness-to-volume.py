@@ -4,10 +4,10 @@
 #   - pull_down_menu_bklight_pb        -> pull_down_menu_vol_pb   (el binario SÍ lo cablea a volumen)
 #   - pull_down_menu_iv_bklight_icon   -> pull_down_menu_iv_vol   (ícono que el binario actualiza)
 #   - ícono: menu\blk.png (brillo)     -> menu\speaker.png        (speaker)
-# Los assets del slider ya eran estilo-volumen (menu\vol_bg/cursor/vol_progress). Corre DESPUÉS de build-tanda2.
+# Los assets del slider ya eran estilo-volumen (menu\vol_bg/cursor/vol_progress). Corre DESPUÉS de importar el layout donante.
 import json, os
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-f = os.path.join(WS, "staging/theme_port/layout/theme1/hiby_pull_down_menu.view")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+f = os.path.join(WS, "theme/theme_port/layout/theme1/hiby_pull_down_menu.view")
 t = open(f).read()
 assert t.count('"pull_down_menu_bklight_pb"') == 1, "pb no único"
 assert t.count('"pull_down_menu_iv_bklight_icon"') == 1, "icono no único"

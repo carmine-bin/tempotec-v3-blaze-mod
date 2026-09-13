@@ -4,8 +4,8 @@
 # tamaño de la H, centrada en la misma caja que L/H -> alineada, con margen al parlante y al borde del badge.
 import os
 from PIL import Image, ImageDraw, ImageFont
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1/menu")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1/menu")
 im = Image.open(os.path.join(LG, "gain_h.png")).convert("RGBA")
 W, H = im.size
 px = im.load()

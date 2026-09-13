@@ -1,6 +1,6 @@
 # Origin of the firmware 1.3 LDAC coefficient gate
 
-Investigation completed 2026-09-11. TEST 1 and TEST 2 hardware PASS are user-reported, accepted results. Existing replay and firmware verification were reused, not repeated. No firmware was modified or generated during this investigation.
+Investigation completed 2026-09-11. TEST 1 and TEST 2 passed physical V3 Blaze hardware validation. The origin assessment uses binary/source comparison and the recorded decoder experiments.
 
 ## Assessment
 
@@ -45,7 +45,7 @@ The 1.2 dequantizer begins at `0x333c`; its weighted integer arithmetic and diag
 
 In 1.3, raw coarse/fine integers are loaded at `0x3b50`/`0x3b54`. Adding 3 and testing unsigned `< 7` implements inclusive −3…+3. Both weighted multiplications execute (`0x3b7c` and branch delay slot `0x3b84`) even on the zero-output path. The gate avoids the final addition and conversion, but does not avoid bitstream parsing, the coefficient loops, scaling or IMDCT. It adds range tests and branches. No device benchmark establishes a speed benefit.
 
-The retained [BlueALSA comparison](../bluealsa-ldac-function-comparison.json) shows the same aligned 1,268-byte LDAC receiver-thread instruction sequence, apart from relocated call/address operands: entry `0x41a8bc` in 1.2, `0x41a9dc` in 1.3. This establishes unchanged local control flow, not equivalence of every called function. In 1.3 the decoder call is at `0x41ad80`, with format 2 set at `0x41ad7c`; PCM scaling and writing follow at `0x41addc` and `0x41adec`. Their targets are `io_pcm_scale` at `0x414e64` and `io_pcm_write` at `0x4151f4`.
+The retained [BlueALSA comparison](bluealsa-ldac-function-comparison.json) shows the same aligned 1,268-byte LDAC receiver-thread instruction sequence, apart from relocated call/address operands: entry `0x41a8bc` in 1.2, `0x41a9dc` in 1.3. This establishes unchanged local control flow, not equivalence of every called function. In 1.3 the decoder call is at `0x41ad80`, with format 2 set at `0x41ad7c`; PCM scaling and writing follow at `0x41addc` and `0x41adec`. Their targets are `io_pcm_scale` at `0x414e64` and `io_pcm_write` at `0x4151f4`.
 
 ### PEQ comparison
 
@@ -91,12 +91,11 @@ Two public changes help distinguish the variants:
 
 The noise-workaround hypothesis has an important limitation: the gate tests raw coefficient integers, not scale-factor zero. It therefore cannot be equated to the public silence fix. Small encoded values can become substantial audio after band scaling, which explains why this rule can discard legitimate signal. Hardware PASS establishes the causal regression for the tested symptom, not the author's motivation.
 
-## Evidence and stopping state
+## Evidence and limitations
 
-- [Repository LDAC investigation](../LDAC-REGRESSION.md): exact gate disassembly, retained offline numerical controls and subsequent hardware-PASS banner.
-- [Original ELF comparison](../ELF-ANALYSIS.md), [filesystem comparison](../FILESYSTEM-DIFF.md), and `../elf/`: retained original decoder/player/BlueALSA evidence.
-- [Source evidence manifest](origin-research/upstream-evidence.json): repository revisions, refs, histories, fork hashes, and verified original decoder hashes.
-- `origin-research/*-dequant-scale.txt`, `v13-peq-module-init.txt`, and `*-bluealsa-device-string.txt`: focused original-binary disassembly excerpts.
-- `origin-research/noise-silence-fix.patch` and `handle-initialization-change.patch`: exact public commit diffs.
+- [LDAC investigation](../LDAC-REGRESSION.md): exact gate semantics, controlled capture conclusions and hardware decoder isolation.
+- [BlueALSA instruction comparison](bluealsa-ldac-function-comparison.json): aligned receiver-thread code differences.
+- [Public source revision inventory](ldac-public-source-manifest.json): inspected revisions/history, fork snapshot hashes and original decoder hashes.
+- [Decoder patch verification](stock-fix-decoder-patch.json) and [release manifest](../releases/release-manifest.json): exact correction and reference artifact hashes.
 
-Investigation complete at the available evidence boundary. Determining the actual rationale would require the vendor/SDK source diff or author explanation. No additional firmware or hardware experiment was created or proposed.
+The upstream commit links above identify the public noise/silence and initialization changes. Determining the downstream gate's actual rationale would require a vendor/SDK source diff or the original author's explanation; its purpose and author remain unknown.

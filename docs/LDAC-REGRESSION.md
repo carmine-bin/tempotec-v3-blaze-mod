@@ -55,6 +55,6 @@ Public LDAC history includes a fixed-point change concerning a “noise instead 
 
 ## Evidence boundary
 
-Source records: local `v3-ldac-analysis/PHASE1-REPORT.md`, `decoder-investigation/DECODER-REGRESSION.md`, `decoder-investigation/DECODER-ORIGIN.md`, TEST 1/TEST 2 manifests, capture extraction and user-reported hardware PASS. Original research was reused rather than repeated. Portable [TEST 2 verification](evidence/stock-fix-FINAL-VERIFICATION.json) and [decoder verification](evidence/stock-fix-decoder-patch.json) accompany the [edition manifests](../build/v1.3/).
+Evidence includes the controlled receiver capture and hardware decoder experiments documented above, the [decoder origin investigation](evidence/DECODER-ORIGIN.md), [public source revision inventory](evidence/ldac-public-source-manifest.json), [BlueALSA instruction comparison](evidence/bluealsa-ldac-function-comparison.json), [Stock + LDAC Fix firmware verification](evidence/stock-fix-verification.json), [decoder patch verification](evidence/stock-fix-decoder-patch.json) and [edition manifests](../build/v1.3/). Firmware and decoder hashes identify the reference artifacts independently of their local storage locations.
 
 The reboot improvement belongs to the official v1.3 base. This patch does not claim to fix reboot behavior, Bluetooth range, receiver sensitivity or interference.

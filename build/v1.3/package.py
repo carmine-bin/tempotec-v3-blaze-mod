@@ -1,4 +1,4 @@
-"""Create exactly one test UPT using stock 1.3 ISO as template, then independently verify."""
+"""Create one reproducible UPT from the official v1.3 ISO template and independently verify it."""
 from build_rootfs import *
 from iso_reader import iso_tree
 import zlib

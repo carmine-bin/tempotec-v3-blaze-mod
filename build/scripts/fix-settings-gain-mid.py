@@ -9,8 +9,8 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1/settings")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1/settings")
 src = Image.open(os.path.join(LG, "gain_high.png")).convert("RGBA")
 W, H = src.size
 BLUE = (0, 159, 246, 255)
@@ -49,7 +49,7 @@ pill.save(os.path.join(LG, "gain_mid.png"))
 print(f"settings/gain_mid.png: pastilla azul + perilla centrada (x{kx}) + M {GW}x{GH}")
 
 # --- 4. el layout: el V3A dejo listview_class_iv_switch sin img_path_6 (indice del estado medio)
-LV = os.path.join(WS, "staging/theme_port/layout/theme1/listview/vg_listview_class.listview")
+LV = os.path.join(WS, "theme/theme_port/layout/theme1/listview/vg_listview_class.listview")
 t = open(LV, newline="").read()          # newline="" -> preserva los CRLF del archivo
 KEY = '"img_path_6":"settings\\\\gain_mid.png",'
 if KEY in t:

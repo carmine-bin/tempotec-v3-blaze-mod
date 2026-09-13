@@ -1,0 +1,400 @@
+{
+  "v12_address": "0x41a8bc",
+  "v13_address": "0x41a9dc",
+  "size": 1268,
+  "differing_instructions": [
+    {
+      "offset": 52,
+      "old": "0xc10bb28",
+      "new": "0xc10bb90",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 64,
+      "old": "0x2442dff8",
+      "new": "0x2442e118",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 76,
+      "old": "0xc10bb1c",
+      "new": "0xc10bb84",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 108,
+      "old": "0xc10b918",
+      "new": "0xc10b980",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 148,
+      "old": "0xc10b83c",
+      "new": "0xc10b8a4",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 160,
+      "old": "0xc10b7dc",
+      "new": "0xc10b844",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 176,
+      "old": "0xc10b710",
+      "new": "0xc10b778",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 184,
+      "old": "0xc10b760",
+      "new": "0xc10b7c8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 200,
+      "old": "0x24a58d20",
+      "new": "0x24a58eb0",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 204,
+      "old": "0xc101570",
+      "new": "0xc1015b8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 224,
+      "old": "0x2442e420",
+      "new": "0x2442e5c0",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 236,
+      "old": "0xc10bb1c",
+      "new": "0xc10bb84",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 264,
+      "old": "0xc10b7b0",
+      "new": "0xc10b818",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 272,
+      "old": "0xc10b918",
+      "new": "0xc10b980",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 348,
+      "old": "0xc10ba28",
+      "new": "0xc10ba90",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 368,
+      "old": "0xc10b7e8",
+      "new": "0xc10b850",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 376,
+      "old": "0xc105c4c",
+      "new": "0xc105c94",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 392,
+      "old": "0x24a58e14",
+      "new": "0x24a58fa4",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 396,
+      "old": "0xc101570",
+      "new": "0xc1015b8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 412,
+      "old": "0x244253b4",
+      "new": "0x244254d4",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 456,
+      "old": "0xc10bb1c",
+      "new": "0xc10bb84",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 488,
+      "old": "0xc10b918",
+      "new": "0xc10b980",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 500,
+      "old": "0x244253b4",
+      "new": "0x244254d4",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 512,
+      "old": "0xc10bb1c",
+      "new": "0xc10bb84",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 544,
+      "old": "0xc10b918",
+      "new": "0xc10b980",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 568,
+      "old": "0xc1014d0",
+      "new": "0xc101518",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 584,
+      "old": "0xc10b710",
+      "new": "0xc10b778",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 592,
+      "old": "0xc10b760",
+      "new": "0xc10b7c8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 612,
+      "old": "0x24a547d0",
+      "new": "0x24a548f0",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 624,
+      "old": "0xc1014d0",
+      "new": "0xc101518",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 664,
+      "old": "0xc105597",
+      "new": "0xc1055df",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 688,
+      "old": "0x26b54870",
+      "new": "0x26b54990",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 692,
+      "old": "0xc103051",
+      "new": "0xc103099",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 696,
+      "old": "0x26d68e3c",
+      "new": "0x26d68fcc",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 732,
+      "old": "0xc10547b",
+      "new": "0xc1054c3",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 760,
+      "old": "0xc10b710",
+      "new": "0xc10b778",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 768,
+      "old": "0xc10b760",
+      "new": "0xc10b7c8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 784,
+      "old": "0x24a5483c",
+      "new": "0x24a5495c",
+      "opcode_old": 9,
+      "opcode_new": 9
+    },
+    {
+      "offset": 788,
+      "old": "0xc101570",
+      "new": "0xc1015b8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 808,
+      "old": "0xc105582",
+      "new": "0xc1055ca",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 844,
+      "old": "0xc1055d6",
+      "new": "0xc10561e",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 852,
+      "old": "0xc103457",
+      "new": "0xc10349f",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 932,
+      "old": "0xc10b858",
+      "new": "0xc10b8c0",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 948,
+      "old": "0xc10b7e8",
+      "new": "0xc10b850",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 956,
+      "old": "0xc105c4c",
+      "new": "0xc105c94",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 972,
+      "old": "0xc101570",
+      "new": "0xc1015b8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1024,
+      "old": "0xc105351",
+      "new": "0xc105399",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1040,
+      "old": "0xc105435",
+      "new": "0xc10547d",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1080,
+      "old": "0xc10561b",
+      "new": "0xc105663",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1096,
+      "old": "0xc10b710",
+      "new": "0xc10b778",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1104,
+      "old": "0xc10b760",
+      "new": "0xc10b7c8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1120,
+      "old": "0xc101570",
+      "new": "0xc1015b8",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1136,
+      "old": "0xc10b828",
+      "new": "0xc10b890",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1156,
+      "old": "0xc10b828",
+      "new": "0xc10b890",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1176,
+      "old": "0xc10b828",
+      "new": "0xc10b890",
+      "opcode_old": 3,
+      "opcode_new": 3
+    },
+    {
+      "offset": 1196,
+      "old": "0xc10b828",
+      "new": "0xc10b890",
+      "opcode_old": 3,
+      "opcode_new": 3
+    }
+  ],
+  "interpretation": "Same aligned instruction sequence except JAL targets and ADDIU immediates used for addresses; supports unchanged local decoder-thread control flow, not a proof that all called routines are equivalent."
+}

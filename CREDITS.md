@@ -71,6 +71,6 @@ expanded, or removed — open an issue and it gets done.
 
 ## v1.3 generation research and validation
 
-Acknowledgement to the project's maintainer for physical-device TEST 1/TEST 2 and final Full Mod validation, receiver-side captures and observations, and to the AI-assisted binary/source comparison, selective UI port, relocated player-patch validation and metadata/OTA audit work. QEMU MIPS, LLVM disassembly, readelf and libarchive also supported the investigation and validation. Existing TempoTec, HiBy, Kae0, losber and community-tooling attribution above is retained.
+Acknowledgement to the project's maintainer for physical-device decoder isolation/correction experiments and final Full Mod validation, receiver-side captures and observations, and to the AI-assisted binary/source comparison, selective UI port, relocated player-patch validation and metadata/OTA audit work. QEMU MIPS, LLVM disassembly, readelf and libarchive also supported the investigation and validation. TempoTec, HiBy, Kae0, losber and community-tooling contributions are credited above.
 
 The downstream LDAC coefficient gate's author and purpose are unknown. Analysis and a documented patch do not claim ownership of proprietary TempoTec/HiBy/LDAC code. Project tooling/documentation remain under the existing licence. No affiliation with or endorsement by TempoTec or HiBy.

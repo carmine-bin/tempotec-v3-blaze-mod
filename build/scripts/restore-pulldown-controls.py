@@ -17,7 +17,7 @@
 # Ícono del slider de volumen: menu\speaker.png es el asset del STOCK (20x20, tosco entre los V3A y se ve
 # pixelado) -> touch_set\vol.png (V3A, 24x24, mismo tamaño que el ícono de brillo del V3A).
 #
-# Idempotente. Correr DESPUES de build-tanda2 + convert-brightness-to-volume + fix-pulldown-gain.
+# Idempotente. Correr DESPUES de importar el layout donante + convert-brightness-to-volume + fix-pulldown-gain.
 import json, os, sys
 
 MODO = "vol"
@@ -26,8 +26,8 @@ for a in sys.argv[1:]:
         MODO = a.split("=", 1)[1]
 assert MODO in ("vol", "brillo"), "usar --slider=vol | --slider=brillo"
 
-WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-f = os.path.join(WS, "staging/theme_port/layout/theme1/hiby_pull_down_menu.view")
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+f = os.path.join(WS, "theme/theme_port/layout/theme1/hiby_pull_down_menu.view")
 t = open(f, newline="").read()
 eol = "\r\n" if "\r\n" in t else "\n"
 
@@ -113,7 +113,7 @@ for nm in ("pull_down_menu_iv_collect", "pull_down_menu_iv_play_mode"):
 open(f, "w", newline="").write(t)
 json.loads(t)   # gate de sintaxis (lo unico que puede colgar el boot)
 
-LG = os.path.join(WS, "staging/theme_port/litegui/theme1")
+LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
 for ref in (ICONO[1].replace("\\\\", "/"), "menu/vol_bg.png", "menu/cursor.png", "menu/vol_progress.png"):
     assert os.path.isfile(os.path.join(LG, ref)), f"falta el asset {ref}"
 print("JSON valido y assets del slider presentes")

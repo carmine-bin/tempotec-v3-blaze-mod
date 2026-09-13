@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-11",
+  "repos": {
+    "hegdi-libldacdec": {
+      "head": "7f3bd6cc1586b764b02f2e4f20b16c7ff18758b9",
+      "refs": "7f3bd6cc1586b764b02f2e4f20b16c7ff18758b9 refs/heads/master\n7f3bd6cc1586b764b02f2e4f20b16c7ff18758b9 refs/remotes/origin/HEAD\n7f3bd6cc1586b764b02f2e4f20b16c7ff18758b9 refs/remotes/origin/master\n",
+      "remote": "https://github.com/hegdi/libldacdec.git\n",
+      "spectrum_history": "bbba07ce8d81da7f1ddad6526ad02af1bd3e60fb 2021-02-05T18:39:58+01:00 - added null packed - some more cleanup\n7b6a4d8000e9622bbe49e1eeb12cd42f7745d6d4 2021-01-08T15:43:43+01:00 - first working version in a library\na6583a66a2019a6a99fd1e182978a614567fd51c 2021-01-02T17:45:07+01:00 - initial brain dump\n"
+    },
+    "anonymix007-libldacdec": {
+      "head": "c90094b15e25aef0e47c6d775fa94aceb36cabbc",
+      "refs": "c90094b15e25aef0e47c6d775fa94aceb36cabbc refs/heads/master\nc90094b15e25aef0e47c6d775fa94aceb36cabbc refs/remotes/origin/HEAD\n61509f05e9ea63e6c1747cf4f409550028bc3b1b refs/remotes/origin/fixedpoint\nc90094b15e25aef0e47c6d775fa94aceb36cabbc refs/remotes/origin/master\n",
+      "remote": "https://github.com/anonymix007/libldacdec.git\n",
+      "spectrum_history": "efd4e3d8e156c38dec625eba338cf5a6806f82ae 2022-01-25T23:05:25+03:00 Fix noise-instead-of-silence issue\n4dcd384547e36e9bfc985a51a8be83ae675dbcbf 2022-01-24T15:44:02+03:00 Fix clipping\na923470b3bcc500f79a91cf75fc847ccb4791eca 2022-01-23T12:35:31+03:00 Add fixed-point IMDCT implementation\n04f2982d72d06661fc22f07e60cda08d7c502a6b 2021-11-01T18:11:44+03:00 Add option to use float instead of double\nbbba07ce8d81da7f1ddad6526ad02af1bd3e60fb 2021-02-05T18:39:58+01:00 - added null packed - some more cleanup\n7b6a4d8000e9622bbe49e1eeb12cd42f7745d6d4 2021-01-08T15:43:43+01:00 - first working version in a library\na6583a66a2019a6a99fd1e182978a614567fd51c 2021-01-02T17:45:07+01:00 - initial brain dump\n"
+    }
+  },
+  "fork_spectrum_snapshots": {
+    "Awh1236-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "Joon2020-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "Nikita205-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "RFCreations-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "Reskydown-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "VitToCode-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "alingooo-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "cfint-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "hchataing-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "hongshui3000-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "liunix61-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "luzpaz-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "mringwal-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "sht413-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599",
+    "zzm24-spectrum.c": "861816188e848a05b7967e075eeed2d92916a5aaf1b8fc5bbaded65061d69599"
+  },
+  "firmware_decoders": {
+    "v12": {
+      "bytes": 42488,
+      "sha256": "3889bca33fde5da1c1cf3630fd19de2811d6d6227ccc77ee621be606d1d3ff3b"
+    },
+    "v13": {
+      "bytes": 28804,
+      "sha256": "0427893de5def29975bc3bdf578fef32bc6e6300b73801d4813f0f918ceedb49"
+    }
+  }
+}

@@ -17,9 +17,9 @@ Current generation: official `V3_ANALOG_2025` **v1.3**. Project release/tag: **v
 
 ## Two downloads
 
-**Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: official TempoTec v1.3 appearance and features, including PEQ and TempoTec's stability fixes, plus this project's hardware-confirmed correction for v1.3 LDAC digital corruption. Exact hardware-tested TEST 2 bytes; no custom theme, launcher, cache/I/O tuning or custom player patch.
+**Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: official TempoTec v1.3 appearance and features, including PEQ and TempoTec's stability fixes, plus this project's hardware-confirmed correction for v1.3 LDAC digital corruption. Hardware-tested release image; no custom theme, launcher, cache/I/O tuning or custom player patch.
 
-**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: the same corrected v1.3 base, plus the complete current HiBy-style UI port and validated V3 Blaze customizations. Exact latest successful hardware-tested port, including its final launcher, play/pause and popup-text corrections.
+**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: the same corrected v1.3 base, plus the complete current HiBy-style UI port and validated V3 Blaze customizations. The final hardware-tested Full Mod image, including its final launcher, play/pause and popup-text corrections.
 
 Download either edition from [v1.1.0 Releases](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Reproductions are validated separately and do not replace the tested release images.
 
@@ -43,7 +43,7 @@ TempoTec's changelog adds **Parametric EQ**, **real-time Bluetooth search**, fix
 
 Previously observed v1.2 freezes/reboots improved with the official v1.3 base. In a reproduced severe Bluetooth degradation case, deliberately losing connectivity no longer rebooted the player: it stayed powered on and recovered when connectivity returned. The previously observed artwork/cover-related instability was also reported resolved. The exact JPEG encoding condition, image dimensions and filesize of that historical trigger could not be established from the retained evidence; progressive versus non-progressive JPEG remains unknown.
 
-These stability improvements belong to **official v1.3**, not the project's LDAC patch. Official v1.3 also introduced a separate decoder regression: electronic/digital LDAC corruption despite successful packet reception. TEST 1 isolated the decoder; TEST 2 bypasses only its problematic downstream coefficient-suppression gate. [Technical evidence](docs/LDAC-REGRESSION.md).
+These stability improvements belong to **official v1.3**, not the project's LDAC patch. Official v1.3 also introduced a separate decoder regression: electronic/digital LDAC corruption despite successful packet reception. Hardware testing isolated the decoder; the correction bypasses only its problematic downstream coefficient-suppression gate. [Technical evidence](docs/LDAC-REGRESSION.md).
 
 ## Full Mod customizations
 
@@ -65,7 +65,7 @@ The HiBy design reached this project through **Kae0's V3 Analog port**, with the
 | Filesystem/I/O | Guarded MMC read-ahead `2048`, cache pressure `50`; UBIFS `sync → noatime`, which also removes synchronous writes. |
 | Player patch | Independently relocated for v1.3 to file offset `0x38240` (VA `0x438240`): `08 da 10 0c → 00 00 00 00`. Omits next-track metadata parsing into the shared current-track buffer, retaining output copy and delay slot. |
 
-The [complete manifest](build/v1.3/full-mod-manifest.json) lists 607 changed/added regular files and two added directories. The [migration notes](docs/HOW-IT-WORKS.md#migration-to-official-v13) explain patch validation. The kernel, Bluetooth/audio components and unrelated system files stay official v1.3. The user confirmed successful operation of this final image on physical hardware; that does not establish a measured benefit for every tuning option.
+The [complete manifest](build/v1.3/full-mod-manifest.json) lists 607 changed/added regular files and two added directories. The [migration notes](docs/HOW-IT-WORKS.md#migration-to-official-v13) explain patch validation. The kernel, Bluetooth/audio components and unrelated system files stay official v1.3. The final Full Mod image was validated on physical V3 Blaze hardware; that does not establish a measured benefit for every tuning option.
 
 ## Known issues and limitations
 
