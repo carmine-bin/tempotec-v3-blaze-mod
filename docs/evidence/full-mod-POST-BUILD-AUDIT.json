@@ -1,0 +1,39 @@
+{
+  "layout_construction_marker_order": "PASS",
+  "final_layouts": 151,
+  "official_named_contracts": 1283,
+  "new_missing_images": [],
+  "peq_layouts_exact_13": true,
+  "official_changed_paths_preserved_except_four_documented_merges": true,
+  "settings_exact_scoped_deltas": true,
+  "scripts_exact_custom_hunks_and_valid_syntax": true,
+  "patched_ELF_layout_ABI_imports_exports_relocations_unchanged": true,
+  "protected_component_hashes": {
+    "usr/bin/bluealsa": "8dfcc9f5995635fea0cf2bb947637a804026df7be4680b5cacee8b4daf8ee104",
+    "usr/bin/bluealsa-aplay": "efecdc575ae8e6b8067cba587dabadfabadb128f7fdc737f897ff4b7ed3457b1",
+    "usr/libexec/bluetooth/bluetoothd": "ba69c67d59a63e625bf32aab3fc7d1b4bdecee96f85e6b4acd3220034d685c20",
+    "usr/bin/sys_server": "88448b202824b917a2e0cf484d8af2b7e571403d834e854f21a90d91b30520e8",
+    "usr/bin/adbd": "81909bf38f45f3626731030086361fba2b0f6618855706b1649b5e1b42423d23",
+    "usr/resource/ot_devices_2025.json": "2d97deb193b1f697eb62b707dd57077195df9cbb8060ec56d3925cc4d4e04324",
+    "usr/bin/bt_init": "aa5f29213d4e0e45134abe2d7c4068e964718c628e5f39b4ed8c3c55e4b61efa",
+    "usr/bin/bt_resume": "ecbb7ea7628467a1cd79b88d1386e68c19b2c6dada4dff879423b5e6c8a16273",
+    "usr/bin/bt_suspend": "19af1c4d6942c233faf3b74ce45c03f77672fc8b8303b4d1b67ec06696c5889d",
+    "usr/bin/uac_device_config.sh": "fd2a5e618811d00c49698e02a895d890a230ba21193d7ff9cc276062f049c4a8",
+    "usr/bin/usb_dev_mass_storage.sh": "5a08292a0cc4dd38c5bbfee66a4d9d691aa65d7468305aacb3bdd2bee63e5691"
+  },
+  "no_old_theme_boot_hook": true,
+  "changed_file_categories": {
+    "assets/tint": 487,
+    "UI": 114,
+    "configs": 2,
+    "scripts": 2,
+    "player": 1,
+    "LDAC": 1
+  },
+  "existing_files_modified": 560,
+  "added_files": 47,
+  "unchanged_official_regular_files": 2925,
+  "firmware_sha256": "fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933",
+  "status": "PASS",
+  "hardware": "pending"
+}

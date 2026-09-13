@@ -1,0 +1,28 @@
+{
+	"viewgroup":{
+		"imageview":{
+                "name":"url_qrcode_iv_qrcode",
+				"img_path_0":"about_dev\\facebook_qrcode.png",
+				"img_path_1":"about_dev\\wechat_qrcode.png",
+				"img_path_2":"about_dev\\weibo_qrcode.png",
+				"x":9,
+				"y":9,
+				"visible":"hide",
+				"imageview":true
+			},
+		"name":"vg_dialog_url_qrcode",
+		"type":"hgl_view",
+		"x":0,
+		"y":0,
+		"w":186,
+		"h":186,
+		"hglview_x":67,
+		"hglview_y":125,
+		"hglview_w":186,
+		"hglview_h":186,
+		"flag":"dirty",
+		"color":"0x000000",
+		"viewgroup":true,
+		"add_layout":true
+	}
+}

@@ -8,6 +8,7 @@
 #   --record : guarda el set colgante del baseline stock (lo llama 00-baseline.sh)
 #   (default): compara el set actual contra el baseline; falla (exit 1) si hay NUEVAS.
 set -uo pipefail
+export LC_ALL=C
 WS="$(cd "$(dirname "$0")/../.." && pwd)"        # <repo>
 LG="$WS/theme/theme_port/litegui/theme1"
 LY="$WS/theme/theme_port/layout/theme1"
@@ -28,7 +29,7 @@ fi
 
 [ -f "$BASE" ] || { echo "falta baseline-missing-refs.txt (correr 00-baseline.sh)"; exit 2; }
 new="$WS/theme/new-missing-refs.txt"
-comm -23 "$cur" "$BASE" > "$new"
+comm -23 "$cur" <(sort -u "$BASE") > "$new"
 n=$(wc -l < "$new"); tot=$(wc -l < "$cur"); b=$(wc -l < "$BASE")
 if [ "$n" -gt 0 ]; then
   echo "FALLA: $n refs faltantes NUEVAS (regresión cosmética); total colgantes=$tot (baseline=$b)"; cat "$new"; exit 1

@@ -93,7 +93,7 @@ This same shape recurred three separate times (gain, the PEQ switch, and a setti
 always as an element indexed `img_path_N` where `N` runs over a state count the binary decides.
 When porting between HiBy devices, **count the states before trusting an indexed control.**
 
-## Four bytes
+## Four bytes (historical v1.2 patch)
 
 Enabling the image cache made the player report degraded playback quality — a bitrate readout
 that no longer matched the file.
@@ -133,7 +133,7 @@ Two traps worth knowing:
   truth.
 - The list uses Windows-style paths and **CRLF** line endings. Preserve them.
 
-## How the build keeps itself honest
+## How the historical v1.2 build kept itself honest
 
 Rebuilding a root filesystem by hand is easy to get subtly wrong, and the failure mode is a
 device that does not boot. The build runs four gates and refuses to produce an image if any fail:
@@ -153,9 +153,7 @@ The kernel is passed through untouched and its checksum compared against TempoTe
 
 ## Things that stayed broken
 
-- **PEQ.** Not enabled yet. The layout contract was fully reverse-engineered — 29 element names
-  and a hardcoded 2×5 band grid — so the screen itself is reachable; what remains is getting the
-  processing behind it to actually run.
+- **PEQ is now included in official v1.3** and preserved in both editions. The earlier v1.2 investigation established 29 element names and a hardcoded 2×5 band grid, but did not have working processing.
 - **Two pull-down controls** the binary draws but never listens to. Hidden rather than left as
   dead widgets.
 
@@ -165,3 +163,19 @@ The kernel is passed through untouched and its checksum compared against TempoTe
 `mipsdis.py`, `annotate.py` (disassembly annotated with string pointers), `lookup-audit.py`
 (finds unguarded dereferences after name lookups, delay slots included), and Ghidra headless for
 decompilation. All in [`../build/scripts`](../build/scripts).
+
+## Migration to official v1.3
+
+Official v1.3 is the complete base for both current editions, including PEQ, real-time Bluetooth search and TempoTec's stability fixes. It changes 208 non-timestamp paths from v1.2, including player/server, Bluetooth, kernel/modules, USB and supporting resources. Overlaying the old rootfs or replacing whole theme directories would risk rolling back functional fixes or dropping v1.3-only resources. No old Bluetooth/audio/kernel/system components were copied over.
+
+Full Mod ports an explicit allowlist of layouts/assets and exact configuration/script deltas. All 151 official layouts remain, including byte-identical PEQ/filter layouts. Duplicate JSON object keys are preserved with ordered pairs: repeated widget-type keys and construction-marker order are meaningful to this renderer. The final merge preserves 1,283 official named widget/type/parent contracts. The final launcher image fallback, play/pause state mapping and notice first-child text behavior were corrected after intermediate hardware tests exposed their defects. The user subsequently confirmed that this exact final image worked successfully on physical hardware.
+
+The old v1.2 player offset cannot be reused. In v1.3 the patch is at **file offset `0x38240`, VA `0x438240`**: `08 da 10 0c → 00 00 00 00`, removing `jal 0x436820`. The next-track API output structure (`0xa88` bytes) is copied first. The removed parse would write next-track metadata into the shared current-track buffer at `0x988f90`; API operation 4 reads that buffer. The identified operation-`0x1f` callers use the returned path at buffer+4. Output copy, selection restoration, unlock/return path and `addiu a0,a0,4` delay slot remain unchanged. The old `0x36a00` offset is not modified.
+
+Validation used actual v1.3 MIPS bytes, disassembly, callsite inspection, exact original/final hashes and bounded instruction execution with external calls mocked. Six cases passed: valid next-track output, null output, absent next track, absent lock callback and API 4 with/without output. This proves isolated logic, not every indirect caller or the complete player pipeline. The final binary differs in exactly four bytes; ELF layout/import/export/relocation output remains unchanged. See [player validation](evidence/full-mod-player-validation.json) and [complete file manifest](../build/v1.3/full-mod-manifest.json).
+
+Both editions independently apply the **same TEST 2 decoder correction**, a single changed byte in the v1.3 LDAC decoder. It has no demonstrated dependency on the theme, custom player patch or PEQ. Stock Fix changes no other filesystem content. See [LDAC-REGRESSION.md](LDAC-REGRESSION.md) for exact gate semantics and hardware isolation; [BLUETOOTH-RANGE.md](BLUETOOTH-RANGE.md) covers the separate unresolved RF symptom.
+
+The final pull-down intentionally preserves brightness only; official volume/decorative lookup objects are hidden. Earlier documentation claiming two visible sliders was inaccurate. Full Mod's exact cache/script settings are recorded in the manifest and README; the UBIFS substitution removes synchronous writes as well as adding noatime. Do not infer a quantified v1.3 speed or stability benefit from inclusion alone.
+
+The current builder supplies ownership, permissions, special bits, timestamps and links explicitly through a numeric-owner TAR rather than trusting unprivileged extraction. It validates the rebuilt and re-extracted filesystem against the manifest and optionally against the exact tested UPT. See [BUILD.md](BUILD.md). Historical v1.2 gates/counts above remain documentation of the earlier implementation.

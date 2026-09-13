@@ -1,0 +1,30 @@
+{
+	"viewgroup":{
+		"textview":{
+				"name":"listview_tv_a_z",
+				"size":28,
+				"color":"0xffffff",
+				"type":"static|h_center",
+				"x":0,
+				"y":0,
+				"w":37,
+				"h":37,
+				"textview":true
+			},
+		"name":"vg_listview_a_z_hiby",
+		"type":"hgl_view",
+		"x":0,
+		"y":0,
+		"w":37,
+		"h":37,
+		"hglview_x":240,
+		"hglview_y":240,
+		"hglview_w":37,
+		"hglview_h":37,
+		"zorder":37,
+		"flag":"static",
+		"img_path1":"touch_list\\a_z_result_bg.png",
+		"viewgroup":true,
+		"add_layout":true
+	}
+}

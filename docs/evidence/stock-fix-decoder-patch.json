@@ -1,0 +1,17 @@
+{
+  "path": "/usr/lib/libldacdec.so.1",
+  "original_sha256": "0427893de5def29975bc3bdf578fef32bc6e6300b73801d4813f0f918ceedb49",
+  "patched_sha256": "0f6e179f2e7fd31b5700cd0f0bbfaa4fca25b56201439c0c5b64eee96e14ca2d",
+  "original_md5": "0bf6e48555334e95cdf476c2aa69501e",
+  "patched_md5": "6b544233cb85edb0710ee740e10172dd",
+  "size": 28804,
+  "instruction_virtual_address": "0x3b80",
+  "instruction_file_offset": "0x3b80",
+  "instruction_before": "10 00 40 10",
+  "instruction_after": "10 00 00 10",
+  "byte_offset": "0x3b82",
+  "byte_before": "40",
+  "byte_after": "00",
+  "meaning": "Unconditional branch to existing sum at 0x3bc4; delay-slot multiply unchanged",
+  "matches_validated_offline_control": true
+}

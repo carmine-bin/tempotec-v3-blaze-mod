@@ -1,115 +1,49 @@
-# Building it yourself
+# Reproduce the two official-v1.3 editions
 
-You do not have to trust the `.upt` in Releases. This rebuilds it from TempoTec's official
-firmware, on your machine, with the same script that produced the published image.
+Release images are the exact hardware-tested TEST 2 and successful final Full Mod. A new build is a **reproduction**, not an automatic replacement for either tested image. Firmware/base version v1.3 is separate from project tag v1.1.0.
 
-## What you need
+## Inputs and tools
 
-Linux, and:
+Linux, Python 3 (without `-O`), squashfs-tools with LZO/TAR input support, xorriso, bsdtar (libarchive), binutils/readelf. No root needed: a metadata-explicit numeric-owner TAR preserves stock owners, modes, special bits, timestamps, symlinks and hardlink groups. Never use a blanket all-root repack. Historical fakeroot instructions are preserved in [v1.0.0-BUILD.md](releases/v1.0.0-BUILD.md).
 
-```
-squashfs-tools   fakeroot   xorriso   python3   python3-pillow
-```
-
-The build refuses to run without `fakeroot`, and that is deliberate — see [Why fakeroot](#why-fakeroot).
-
-## 1. Get TempoTec's firmware
-
-Download the official V3 Blaze package from TempoTec's firmware page —
-https://www.tempotec.net/pages/firmware-download :
+Supply the official TempoTec V3 Blaze v1.3 UPT from TempoTec's firmware distribution. It must have SHA-256:
 
 ```
-TempoTec_V3_ANALOG_2025_1.2_202601301221.zip
+5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95
 ```
 
-Inside it, alongside the `.upt`, is a `.ingenic` file — the factory USB-boot image. Extract it
-(`7z x`, or any tool that reads it) and you get an `images/` directory containing the stock root
-filesystem and kernel.
+The builder extracts ISO payloads and reconstructs kernel/rootfs automatically. No proprietary player/decoder binary or official firmware input is committed. Current resources live in `theme/v1.3/`; the previous `theme/theme_port/` and scripts are historical sources, not a v1.3 overlay.
 
-## 2. Put the two stock inputs in place
+## Build separately
 
-```
-build/stock/rootfs.squashfs      md5  bceb44f6434d17d8e6b634f80737821a
-build/stock/xImage.stock         md5  97c4b230fb8ef830cfc57c837bf0854a
-```
-
-`rootfs.squashfs` comes straight from `images/`. The kernel is the stock `xImage`, reassembled
-from the OTA chunks or taken from `images/kernel.bin` — whichever matches the md5 above.
-
-These are **not** in this repository: they are TempoTec's firmware, not mine to redistribute.
-The build checks both checksums before doing anything and stops if either is wrong.
-
-## 3. Build
+From the repository root, use a new, nonexistent output directory for each invocation:
 
 ```bash
-cd build
-./build-upt-v3.sh
+python3 build/build-v1.3.py stock-fix --input /path/official-v1.3.upt --output /path/new-stock-build --reference /path/V3_1.3_TEST2_LDAC_GATE_BYPASS.upt
+python3 build/build-v1.3.py full-mod --input /path/official-v1.3.upt --output /path/new-full-build --reference /path/tested-final-full-mod.upt
 ```
 
-Output lands in `build/out-v3/v3_analog_2025.upt`.
+`--reference` is optional for building, but required to prove equivalence to the hardware-tested edition. It checks the reference's exact expected UPT hash, independently extracts it and compares every path's content, ownership, permissions/special bits, timestamps, symlink target, hardlink topology and the kernel. Directory sizes may change during compression and are not security metadata. The exact reference paths/hashes are in the repository update report.
 
-The script re-executes itself under `fakeroot` automatically. It takes a couple of minutes,
-mostly squashfs.
+Output: `reproduced.upt`, its `.sha256`, `FILE-MANIFEST.json`/`.tsv`, `FINAL-VERIFICATION.json` and `REPRODUCTION-REPORT.json`, plus retained extraction/audit logs. Existing outputs are never overwritten or deleted. Failed build directories remain for diagnosis; rerun in another empty location after correcting the failure.
 
-### Options
+## Intentional filesystem changes
 
-| Variable | Default | Effect |
-|---|---|---|
-| `BINFIX` | `1` | The four-byte player patch. `0` leaves the binary byte-identical to stock — useful for bisecting whether a bug is mine or the firmware's. |
-| `TF_IMG` | `1` | Image cache. |
-| `TF_DB` | `1` | Music database cache. |
-| `IO_TUNE` | `1` | Filesystem read-ahead and `noatime`. |
+**Stock Fix:** only `/usr/lib/libldacdec.so.1`, exactly byte `0x3b82`, `40 → 00`. Original v1.3 decoder hash and instruction bytes must match before patching; final hash must match TEST 2. No theme, player, config or script changes. [Stock manifest](../build/v1.3/stock-fix-manifest.json).
 
-## About the checksum
+**Full Mod:** exact [609-entry manifest](../build/v1.3/full-mod-manifest.json): 560 modified regular files, 47 new PNGs and two new directories. Categories: 114 layouts, 487 assets/tint-list files, two JSON configs, two scripts, player and decoder. The configs enable only about/color, DAC persistence and TF image/database cache. Scripts add guarded read-ahead/cache-pressure tuning and UBIFS `sync → noatime`. Player patch only at `0x38240`, original `08 da 10 0c`, final NOP, delay slot untouched; exact original/final SHA-256 checked. Both PEQ layouts remain official v1.3.
 
-**Your image will not have the same md5 as the published one, and that is expected.**
-`mksquashfs` is not deterministic — build the identical tree twice and you get two different
-files.
+The build imports only manifest-listed final resource/config/script bytes. Player and decoder are patched from verified official binaries, never supplied as old replacements. Both binary ELF metadata outputs must stay identical to official v1.3. Original bytes/hashes, changed-byte locations and final hashes fail closed.
 
-So do not verify by comparing md5s of the `.upt`. Verify the way the build itself does, by
-content. Every run checks:
+## Validation and packaging
 
-1. **Staging manifest** — all 826 theme files against recorded SHA-256s, before anything is packed.
-2. **Layout syntax** — all 149 layout files must parse as JSON. Malformed layout is the one thing
-   that reliably causes a boot loop.
-3. **Dangling references** — no *new* missing PNG references versus the stock baseline. Stock
-   already ships 38, and the player tolerates them; the gate catches regressions, not the baseline.
-4. **Metadata diff** versus the stock filesystem: modes, owners, sizes.
-5. **Content diff**, SHA-256 per file: 2677 files outside the theme byte-identical to stock, and
-   the five that differ verified individually — including `hiby_player`, byte-counted, which must
-   differ in **exactly four bytes**.
-6. **Kernel** md5 compared against TempoTec's own manifest. It is passed through untouched.
+- Verify official UPT hash, both ISO naming trees, actual extracted payload hashes and OTA declarations/chunk chains before accepting the input.
+- Preserve all official paths, metadata and hardlinks; generate an exact changed-files manifest. Stock Fix must have one changed file. Full Mod must match its complete documented allowlist.
+- Parse all layouts using duplicate-key-safe JSON, preserve official widget/type/parent and indexed-image contracts, and enforce properties before construction markers. Check no new missing image references, PNG chunk CRCs, modified configuration JSON and shell syntax. Any invalid unrelated stock JSON must remain byte-identical and is reported as a stock exception, never silently repaired.
+- Rebuild SquashFS 4.0/LZO, 131072-byte blocks, stock flags/export table/IDs/no-xattrs and original creation time; retain the 40,108,032-byte write span with verified zero padding.
+- Re-extract and compare all files/metadata/links before packaging and again from final UPT. Keep the exact official v1.3 kernel; verify uImage header/payload CRC32 and decompressed equality.
+- Use official ISO as template, replacing only rootfs chunks/list and rootfs checksum in `ota_update.in`. Recalculate all hashes; check contiguous chunk indices, previous-chunk filename chains, lengths/whole-image MD5, Rock Ridge/Joliet trees, ISO metadata and identifiers. Kernel chunks and updater control files stay intact.
 
-If any gate fails the build stops rather than producing an image. A build that completes has
-already proven more than a matching checksum would.
+UPT/compressed layout hashes may differ despite identical filesystem content; report both comparisons explicitly. **Do not silently substitute a reproduction for a hardware-tested release image.** Rename the chosen image to `v3_analog_2025.upt` only when preparing to flash; see [INSTALL.md](INSTALL.md) and [RECOVERY.md](RECOVERY.md).
 
-## Why fakeroot
-
-Unpacking the stock filesystem as a normal user silently drops the setuid bit on `/bin/busybox`
-and the ownership of a few files under `/var/www` and `/run/dbus`. Repack that and the device
-does not boot.
-
-This cost one bricked-looking build early on. The script now runs the whole round trip under
-`fakeroot` and asserts the setuid bit survived unpacking, so the failure cannot recur silently.
-
-**Never repack this filesystem without it.**
-
-## Regenerating the theme assets
-
-The staged theme in `theme/` is the finished article; you do not need to regenerate it to build.
-If you do change assets, the scripts in `build/scripts/` are the ones that produced them —
-`fix-battery-fill.py`, `fix-pulldown-gain.py`, `recolor-accent.py` and so on. They are idempotent.
-
-After changing anything staged, rebuild the manifest before building:
-
-```bash
-cd theme && sha256sum $(find theme_port -type f | sort) > manifest.sha256
-```
-
-Otherwise gate 1 stops the build — which is the point, but a stale manifest looks like corruption
-rather than a reminder.
-
-## Flashing what you built
-
-Same as the release image: copy it to the root of a microSD card as `v3_analog_2025.upt` and use
-*Settings → Firmware update*. See [INSTALL.md](INSTALL.md), and [RECOVERY.md](RECOVERY.md) first.
+The old `build/build-upt-v3.sh` is protected as historical v1.2 tooling; it requires explicit `BUILD_HISTORICAL_V12=1` and is not the current build interface.

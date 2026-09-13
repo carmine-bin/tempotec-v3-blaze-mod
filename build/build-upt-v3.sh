@@ -18,6 +18,7 @@
 # Salida: out-v3/v3_analog_2025.upt  (ese nombre exacto es el que busca el player en la SD)
 
 set -euo pipefail
+[ "${BUILD_HISTORICAL_V12:-0}" = 1 ] || { echo "Historical v1.2 builder: use python3 build/build-v1.3.py for current editions." >&2; exit 1; }
 
 # re-exec bajo fakeroot para preservar owners/modos del squashfs
 if [ -z "${FAKEROOTKEY:-}" ]; then exec fakeroot "$0" "$@"; fi

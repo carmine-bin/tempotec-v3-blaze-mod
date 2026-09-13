@@ -1,0 +1,20 @@
+[
+  {
+    "file": "usr/resource/layout/theme1/launcher/hiby_launcher_apps.view",
+    "sha256_before": "d17253233cb7fb127913588ce25ff447949ba6a6282900f30c03c856fb139bc1",
+    "sha256_after": "4b6706b44065d532f2c1e5afca559358675ed4836b802361f00f1b08120d6e2d",
+    "reason": "Retain hidden template lookup object but remove stock background image bindings; verified launcher renderer falls back to existing custom black group colors when template images are absent"
+  },
+  {
+    "file": "usr/resource/layout/theme1/hiby_playing_plane.view",
+    "sha256_before": "c7d900085600152c99b741d014debb8200b9911c21b7a17656e3193126f05cb1",
+    "sha256_after": "a97f9cb50f1568b050da5e1a77a4939afbc7e3f153affb45db2b6331348d514d",
+    "reason": "Restore official normal=play/focus=pause state-axis semantics for both indices; retain custom 56x56 icons and geometry, without mixing stock 30x30 pressed artwork"
+  },
+  {
+    "file": "usr/resource/layout/theme1/dialog/notice.dlg",
+    "sha256_before": "8c0e74ed12eb37d000fcbf871337398ab78323e0e05f79d54ada3c07a76d801e",
+    "sha256_after": "54521a780b0148e1920ccb0978e42eaa600d74fc8bbdd9d6c1257f8bf287d624",
+    "reason": "Remove empty donor wrapper left before tv_notice by parent-restoration merge; preserve official direct text parent, custom popup geometry/colors and dynamic message path"
+  }
+]

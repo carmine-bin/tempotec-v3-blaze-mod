@@ -1,0 +1,25 @@
+[
+  {
+    "path": "/usr/lib/libldacdec.so.1",
+    "operation": "modify",
+    "reason": "Exact hardware-confirmed TEST 2 spectral-gate bypass: offset 0x3b82, 40 -> 00; all other 1.3 decoder bytes retained",
+    "before": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "size": 28804,
+      "mtime": "2026-04-17 01:15:45",
+      "target": null,
+      "sha256": "0427893de5def29975bc3bdf578fef32bc6e6300b73801d4813f0f918ceedb49"
+    },
+    "after": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "size": 28804,
+      "mtime": "2026-04-17 01:15:45",
+      "target": null,
+      "sha256": "0f6e179f2e7fd31b5700cd0f0bbfaa4fca25b56201439c0c5b64eee96e14ca2d"
+    }
+  }
+]

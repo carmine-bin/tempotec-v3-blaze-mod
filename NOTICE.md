@@ -1,45 +1,17 @@
 # Notice on firmware and artwork
 
-The `.upt` image distributed in Releases is a **modified build of TempoTec firmware for the
-V3 Blaze**. It contains, essentially unchanged:
+The two v1.3 release images are modified TempoTec firmware for the V3 Blaze. The firmware remains TempoTec's; HiBy OS, proprietary player/litegui code and visual assets retain their respective rights holders. LDAC code is not claimed as project-owned. The MIT licence applies to original project tooling/documentation, not proprietary firmware or imported artwork. [CREDITS.md](CREDITS.md) preserves TempoTec, HiBy, Kae0, previous contributors and tooling attribution.
 
-- the Linux kernel, byte-identical to TempoTec's release
-- the root filesystem, in which 2677 files outside the theme are byte-identical to stock
-- `hiby_player` and the HiBy OS userland
+Both editions keep the official v1.3 kernel byte-for-byte. Stock + LDAC Fix changes only one byte in `/usr/lib/libldacdec.so.1`. Full Mod adds the selective UI/resource/config/script changes and four-byte relocated player patch listed in its [complete manifest](build/v1.3/full-mod-manifest.json). No old v1.2 Bluetooth/audio/kernel components are overlaid. Internal code authorship is not inferred from who distributed the firmware; the downstream LDAC gate's author/purpose remain unknown.
 
-These originate from TempoTec's and HiBy's proprietary firmware and **remain their property**.
-They are not covered by the MIT licence in this repository, which applies only to the original
-tooling and documentation.
-
-The graphical assets are likewise not mine to license. 385 of them come from a theme published by
-Kae0, and 187 from TempoTec's stock firmware. See [CREDITS.md](CREDITS.md).
-
-## What was actually changed
-
-Outside the theme directories, exactly five files differ from stock, and the build verifies this
-file-by-file on every run:
-
-| File | Change |
-|---|---|
-| `usr/resource/set_functions.json` | two menu entries enabled (`about`, `color`) |
-| `usr/resource/config_2025.json` | image and database caching enabled |
-| `usr/bin/hiby_player.sh` | filesystem read-ahead and cache-pressure tuning |
-| `usr/bin/mount_ubifs.sh` | `noatime` mount option |
-| `usr/bin/hiby_player` | **four bytes** — one instruction replaced with a no-op |
-
-The binary patch is documented in full, with the reasoning and the address, in
-[docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md). Nothing is hidden, and
-[docs/BUILD.md](docs/BUILD.md) lets you reproduce the image yourself from TempoTec's official
-firmware rather than trusting the one in Releases.
+The [technical documentation](docs/HOW-IT-WORKS.md), [LDAC investigation](docs/LDAC-REGRESSION.md) and [build instructions](docs/BUILD.md) describe the changes. Hardware-tested release artifacts and newly reproduced images are distinguished. Bluetooth range/interference remains unresolved.
 
 ## Purpose and risk
 
-This is distributed for personal use, research, and the device-modding community. Flashing
-modified firmware is done at your own risk and may void your warranty.
+Distributed for personal use, research and the device-modding community. Flashing modified firmware is at your own risk and may void your warranty.
 
 Not affiliated with, endorsed by, or supported by TempoTec or HiBy.
 
 ## Rights holders
 
-If you are TempoTec, HiBy, or any other rights holder and object to the contents of this
-repository, open an issue or contact me directly and I will take it down. No argument.
+If you are TempoTec, HiBy or another rights holder and object to repository contents, open an issue or contact the maintainer directly for removal.

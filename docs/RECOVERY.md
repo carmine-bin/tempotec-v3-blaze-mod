@@ -1,5 +1,7 @@
 # Recovery — getting back if something goes wrong
 
+Both v1.3 editions use this same recovery mechanism. Rename the selected public download to `v3_analog_2025.upt` before flashing; the `update.upt` priority warning below still applies.
+
 Read this **before** you flash. It is short, and it is the reason flashing this player is a
 calculated risk rather than a gamble.
 

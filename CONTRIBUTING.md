@@ -22,14 +22,14 @@ wrong conclusion in this project came from that.
 
 ## Rebuild the manifest
 
-After regenerating any staged asset, rebuild `manifest.sha256` before applying or building.
+For current v1.3 editions, intentionally update the relevant `build/v1.3/*-manifest.json` hashes and reviewed delta before building. Historical v1.2 assets use `theme/manifest.sha256`.
 The build refuses to run on a manifest mismatch — that is the point, but it means a stale
 manifest looks like corruption.
 
 ## Layout syntax is the dangerous part
 
 A missing PNG is cosmetic; the stock firmware already ships 38 dangling references. **Malformed
-layout JSON is what causes a boot loop.** The build gates all 149 layout files, so let it.
+layout JSON is what causes a boot loop.** The current build gates all 151 official v1.3 layouts, so let it.
 
 Renaming an element is never cosmetic — see [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 

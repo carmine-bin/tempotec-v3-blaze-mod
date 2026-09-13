@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "method": "static inspection plus bounded execution of original MIPS API instructions with external callees mocked",
+  "offset": "0x38240",
+  "before": "08 da 10 0c",
+  "after": "00 00 00 00",
+  "delay_slot_unchanged": "04 00 84 24",
+  "source_sha256": "143c926f3b767fd7cbc63dcae0e0e3988a4b3a7e1a324afc0212eec7f90e0001",
+  "surrounding_window_sha256": "9363c2e286b3680866913b53a560b832c61089d076e5d581e8172bb427c618a5",
+  "direct_api_calls": 284,
+  "constant_31_callers": [
+    {
+      "va": "0x518320",
+      "nearby_a0_constants": [
+        [
+          "0x518324",
+          31
+        ]
+      ]
+    },
+    {
+      "va": "0x51d25c",
+      "nearby_a0_constants": [
+        [
+          "0x51d260",
+          31
+        ]
+      ]
+    }
+  ],
+  "api_4_current_metadata_read": "0x438504 copies 128 bytes from 0x988f90",
+  "tests": [
+    {
+      "api": 31,
+      "output_pointer": true,
+      "next_track": true,
+      "lock_callback": true,
+      "result": "PASS",
+      "stock_calls": [
+        "0xa00000",
+        "0x906cd0",
+        "0x437840",
+        "0x435720",
+        "0x906300",
+        "0x436820",
+        "0xa00004"
+      ],
+      "patched_calls": [
+        "0xa00000",
+        "0x906cd0",
+        "0x437840",
+        "0x435720",
+        "0x906300",
+        "0xa00004"
+      ]
+    },
+    {
+      "api": 31,
+      "output_pointer": false,
+      "next_track": true,
+      "lock_callback": true,
+      "result": "PASS",
+      "stock_calls": [
+        "0xa00000",
+        "0xa00004"
+      ],
+      "patched_calls": [
+        "0xa00000",
+        "0xa00004"
+      ]
+    },
+    {
+      "api": 31,
+      "output_pointer": true,
+      "next_track": false,
+      "lock_callback": true,
+      "result": "PASS",
+      "stock_calls": [
+        "0xa00000",
+        "0x906cd0",
+        "0x437840",
+        "0x435720",
+        "0xa00004"
+      ],
+      "patched_calls": [
+        "0xa00000",
+        "0x906cd0",
+        "0x437840",
+        "0x435720",
+        "0xa00004"
+      ]
+    },
+    {
+      "api": 31,
+      "output_pointer": true,
+      "next_track": true,
+      "lock_callback": false,
+      "result": "PASS",
+      "stock_calls": [],
+      "patched_calls": []
+    },
+    {
+      "api": 4,
+      "output_pointer": true,
+      "next_track": true,
+      "lock_callback": true,
+      "result": "PASS",
+      "stock_calls": [
+        "0xa00000",
+        "0x906300",
+        "0xa00004"
+      ],
+      "patched_calls": [
+        "0xa00000",
+        "0x906300",
+        "0xa00004"
+      ]
+    },
+    {
+      "api": 4,
+      "output_pointer": false,
+      "next_track": true,
+      "lock_callback": true,
+      "result": "PASS",
+      "stock_calls": [
+        "0xa00000",
+        "0xa00004"
+      ],
+      "patched_calls": [
+        "0xa00000",
+        "0xa00004"
+      ]
+    }
+  ],
+  "limits": "Does not run the full player, file parser, PEQ or device hardware. Does not prove every indirect/dynamic API caller."
+}

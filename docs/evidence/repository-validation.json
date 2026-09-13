@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "validation_date": "2026-09-12",
+  "phase": "Final documentation-only commit preparation; prior byte-identical build results rechecked against immutable artifacts",
+  "checks": [
+    {
+      "check": "stock-fix original/staged/reproduced UPT bytes unchanged and checksums consistent",
+      "status": "PASS",
+      "sha256": "273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1"
+    },
+    {
+      "check": "full-mod original/staged/reproduced UPT bytes unchanged and checksums consistent",
+      "status": "PASS",
+      "sha256": "fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933"
+    },
+    {
+      "check": "605 Full Mod source resources match tested hashes; Stock manifest remains decoder-only",
+      "status": "PASS"
+    },
+    {
+      "check": "v1.1.0 dated 2026-09-12; historical changelog preserved verbatim",
+      "status": "PASS"
+    },
+    {
+      "check": "release-ready wording, EN/ES parity, hashes, current/historical distinctions",
+      "status": "PASS"
+    },
+    {
+      "check": "all maintained/archived documentation local links resolve",
+      "status": "PASS"
+    },
+    {
+      "check": "layout/JSON and shell/Python syntax, historical asset hashes/reference checks, git whitespace",
+      "status": "PASS",
+      "layout_files": 263
+    },
+    {
+      "check": "HEAD unchanged; v1.1.0 tag absent; index unstaged",
+      "status": "PASS"
+    }
+  ]
+}

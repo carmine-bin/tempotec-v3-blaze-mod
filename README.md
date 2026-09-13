@@ -1,145 +1,104 @@
-<h1 align="center">V3 Blaze — HiBy OS Reskin</h1>
+<h1 align="center">V3 Blaze — v1.3 Firmware</h1>
+
+<p align="center"><b>Official TempoTec v1.3, with a confirmed LDAC decoder correction. Two editions.</b><br>Stock appearance or the complete HiBy-style UI port. Both hardware-tested.</p>
 
 <p align="center">
-  <b>The current HiBy OS look, ported to the TempoTec V3 Blaze and baked into the firmware.</b><br>
-  No root, no adb, no PC after flashing. Install it the way TempoTec ships updates.
+<img alt="Device" src="https://img.shields.io/badge/device-TempoTec%20V3%20Blaze-lightgrey">
+<img alt="Base firmware" src="https://img.shields.io/badge/base-V3__ANALOG__2025%20v1.3-blue">
+<img alt="Install" src="https://img.shields.io/badge/install-microSD%2C%20no%20PC-brightgreen">
+<img alt="Docs" src="https://img.shields.io/badge/docs-EN%20%2B%20ES-informational">
 </p>
 
-<p align="center">
-  <img alt="Device" src="https://img.shields.io/badge/device-TempoTec%20V3%20Blaze-lightgrey">
-  <img alt="Base firmware" src="https://img.shields.io/badge/base-V3__ANALOG__2025%20v1.2-blue">
-  <img alt="Install" src="https://img.shields.io/badge/install-microSD%2C%20no%20PC-brightgreen">
-  <img alt="Docs" src="https://img.shields.io/badge/docs-EN%20%2B%20ES-informational">
-</p>
+<p align="center"><img src="docs/img/launcher.jpg" alt="Full Mod launcher" width="45%"> &nbsp; <img src="docs/img/nowplaying.jpg" alt="Full Mod Now Playing" width="45%"></p>
 
-<p align="center">
-  <a href="#install">Install</a> ·
-  <a href="#whats-different">What's different</a> ·
-  <a href="#if-it-goes-wrong">Recovery</a> ·
-  <a href="docs/HOW-IT-WORKS.md">How it works</a> ·
-  <a href="docs/BUILD.md">Build it yourself</a> ·
-  <a href="README.es.md">Español</a>
-</p>
+[Español](README.es.md) · [Install](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md) · [Technical notes](docs/HOW-IT-WORKS.md) · [Build](docs/BUILD.md)
 
----
+Current generation: official `V3_ANALOG_2025` **v1.3**. Project release/tag: **v1.1.0**. Project version and TempoTec base version are separate. Screenshots preserve the previous Full Mod's visual identity; they are not a new v1.3 screen-by-screen test record.
 
-<p align="center">
-  <img src="docs/img/launcher.jpg" alt="Launcher running on the V3 Blaze" width="45%">
-  &nbsp;&nbsp;
-  <img src="docs/img/nowplaying.jpg" alt="Now Playing running on the V3 Blaze" width="45%">
-</p>
+## Two downloads
 
-<p align="center"><sub>Running on the device, not a mockup.</sub></p>
+**Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: official TempoTec v1.3 appearance and features, including PEQ and TempoTec's stability fixes, plus this project's hardware-confirmed correction for v1.3 LDAC digital corruption. Exact hardware-tested TEST 2 bytes; no custom theme, launcher, cache/I/O tuning or custom player patch.
 
-The V3 Blaze runs HiBy OS under TempoTec's stock interface, which is the older HiBy look. This
-replaces it with the **current HiBy OS design** — the one that ships on the HiBy R3 Pro II 2025:
-larger artwork, edge-to-edge album covers, a dark launcher.
+**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: the same corrected v1.3 base, plus the complete current HiBy-style UI port and validated V3 Blaze customizations. Exact latest successful hardware-tested port, including its final launcher, play/pause and popup-text corrections.
 
-That design reached the V3 Blaze by way of the TempoTec V3 Analog, where **Kae0** had already
-brought it over. This project takes it the rest of the way and fixes what broke in transit.
+Download either edition from [v1.1.0 Releases](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Reproductions are validated separately and do not replace the tested release images.
 
-It is a **firmware image**, not a theme file. The skin is baked into the root filesystem, so it
-survives reboots and needs nothing installed on the device.
+| Feature | Stock + LDAC Fix | Full Mod |
+|---|---|---|
+| Official TempoTec v1.3 base | Yes | Yes |
+| Parametric EQ | Yes | Yes |
+| Real-time Bluetooth search | Yes | Yes |
+| v1.3 stability/reboot fixes | Yes | Yes |
+| LDAC v1.3 decoder regression fix | Yes | Yes |
+| Stock TempoTec UI | Yes | No |
+| Current HiBy-style UI | No | Yes |
+| Custom battery/UI fixes | No | Yes |
+| Brightness + volume controls | Stock behavior | Custom brightness; volume UI retained; pull-down volume hidden |
+| Cache/database optimizations | No | Yes |
+| Relocated custom player patch | No | Yes |
 
-## Before you start
+## What official v1.3 adds
 
-> [!WARNING]
-> This flashes firmware. A bad flash can leave the player unusable.
-> **Read [docs/RECOVERY.md](docs/RECOVERY.md) before you begin**, not after. Recovery is a key
-> combo the device already has — it does not depend on anything in this ROM — but you want to
-> know it in advance.
+TempoTec's changelog adds **Parametric EQ**, **real-time Bluetooth search**, fixes an aging/freezing/crash issue and other bugs. Both editions preserve these official features. Full Mod keeps the official PEQ/filter layouts unchanged alongside the custom interface.
 
-**This ROM is only for the TempoTec V3 Blaze**, whose firmware identifies itself as
-`V3_ANALOG_2025`. It is **not** for the older TempoTec V3 Analog, which is a different SoC.
-Flashing it on anything else will not work.
+Previously observed v1.2 freezes/reboots improved with the official v1.3 base. In a reproduced severe Bluetooth degradation case, deliberately losing connectivity no longer rebooted the player: it stayed powered on and recovered when connectivity returned. The previously observed artwork/cover-related instability was also reported resolved. The exact JPEG encoding condition, image dimensions and filesize of that historical trigger could not be established from the retained evidence; progressive versus non-progressive JPEG remains unknown.
 
-Check yours under *Settings → About*. Built against stock **v1.2, build `202601301221`**.
+These stability improvements belong to **official v1.3**, not the project's LDAC patch. Official v1.3 also introduced a separate decoder regression: electronic/digital LDAC corruption despite successful packet reception. TEST 1 isolated the decoder; TEST 2 bypasses only its problematic downstream coefficient-suppression gate. [Technical evidence](docs/LDAC-REGRESSION.md).
+
+## Full Mod customizations
+
+The HiBy design reached this project through **Kae0's V3 Analog port**, with the current HiBy-style launcher, category artwork, dark styling and edge-to-edge album covers. Full Mod selectively ports these changes onto v1.3 rather than overlaying an old system.
+
+| Customization | What was corrected or retained |
+|---|---|
+| Battery fill | The engine crops the percentage of the fill image rather than scaling it. The donor full-battery asset put its outline/cap inside the frame. Separate bare fill and frame correct this. |
+| Charging screen | The same fill/frame defect was corrected there. |
+| Three-state gain | The Blaze has three levels; missing middle-state artwork was restored. |
+| Brightness | Correct element name `pull_down_menu_pb` restores the binary's callback. |
+| Volume | Volume UI remains available. The tested pull-down retains volume objects hidden; the old README's claim of two visible sliders was inaccurate. |
+| Layouts | Missing binary-required name/type/parent elements restored, with v1.3 loading, date/clock, track-info and dialog compatibility. |
+| Final visual corrections | Custom launcher fallback colors, correct play/pause artwork states and restored popup message text. |
+| Tint/no-skin | Accent inclusion/exclusion corrected; colour swatches and QR artwork protected. |
+| Branding | Appropriate TempoTec artwork replaces donor branding/QR assets. |
+| About/developer and colour theme | About and accent-picker flags enabled; About provides the developer/ADB route. |
+| Cache/database | TF image/database caching and DAC-setting persistence enabled. |
+| Filesystem/I/O | Guarded MMC read-ahead `2048`, cache pressure `50`; UBIFS `sync → noatime`, which also removes synchronous writes. |
+| Player patch | Independently relocated for v1.3 to file offset `0x38240` (VA `0x438240`): `08 da 10 0c → 00 00 00 00`. Omits next-track metadata parsing into the shared current-track buffer, retaining output copy and delay slot. |
+
+The [complete manifest](build/v1.3/full-mod-manifest.json) lists 607 changed/added regular files and two added directories. The [migration notes](docs/HOW-IT-WORKS.md#migration-to-official-v13) explain patch validation. The kernel, Bluetooth/audio components and unrelated system files stay official v1.3. The user confirmed successful operation of this final image on physical hardware; that does not establish a measured benefit for every tuning option.
+
+## Known issues and limitations
+
+> **Known issue: Bluetooth range/interference remains under investigation. High-bandwidth LDAC modes are unreliable, and even lower LDAC rates can suffer in crowded RF environments. AAC remains stable in the same normal-use scenarios. This is separate from the fixed v1.3 LDAC decoder corruption.**
+
+[Bluetooth range investigation](docs/BLUETOOTH-RANGE.md): Wi-Fi range also appears poor; cause unknown. Antenna, RF path/configuration, coexistence, sensitivity and hardware/firmware problems remain hypotheses.
+
+Full Mod retains the static battery frame (no red low-battery frame), hidden heart/play-mode pull-down controls, and a brightness-only pull-down; play-mode controls remain in Now Playing. Both editions are hardware-tested, but neither solves every device problem.
 
 ## Install
 
-1. Download `v3_analog_2025.upt` from [Releases](../../releases) and verify the checksum:
+> [!WARNING]
+> Firmware flashing can leave the device unusable. Read [RECOVERY.md](docs/RECOVERY.md) first. **Only for TempoTec V3 Blaze (`V3_ANALOG_2025`), not the older V3 Analog.**
 
-   ```
-   md5sum v3_analog_2025.upt
-   07dd695255f398a6893f0708c770f0a2
-   ```
+1. Choose one edition and verify its SHA-256 against the table or `SHA256SUMS`.
+2. **Rename the selected download to exactly `v3_analog_2025.upt`.** Copy it to the root of a microSD card.
+3. Use *Settings → Firmware update → Update via micro SD card*. Let recovery flash and reboot; do not interrupt it.
 
-2. Copy it to the **root of a microSD card**, keeping the filename exactly
-   `v3_analog_2025.upt`. The player looks for that specific name — rename it and nothing happens.
+**Never keep a spare named `update.upt`**: recovery prioritizes it over `v3_analog_2025.upt`, including system-menu updates. Keep spares under `.upt.stock` or `.upt.bak`. Both editions use the same verified [installation](docs/INSTALL.md) and [recovery](docs/RECOVERY.md) mechanism.
 
-3. Put the card in the player.
+| Edition | SHA-256 | MD5 |
+|---|---|---|
+| Stock + LDAC Fix | `273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1` | `cd380b93df9a600a5d24cb64585aac88` |
+| Full Mod | `fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933` | `c09b37baa6fd6a5660e4bbc355bae33c` |
 
-4. *Settings → Firmware update → Update via micro SD card*.
+## Reproduce and inspect
 
-5. The player reboots into recovery, flashes, and reboots back. Don't touch it while it works.
+[BUILD.md](docs/BUILD.md) documents separate `stock-fix` and `full-mod` builds from checksum-verified official v1.3. Both verify exact binary patches, ownership/modes/links, filesystem diffs, kernel integrity and OTA checksums. A newly built image is a reproduction, not the already hardware-tested release artifact.
 
-That's it. No PC, no cable, no adb.
+[Changelog](CHANGELOG.md) · [LDAC regression](docs/LDAC-REGRESSION.md) · [Range issue](docs/BLUETOOTH-RANGE.md) · [Historical v1.2 README](docs/releases/v1.0.0-README.md)
 
-> [!TIP]
-> Keep your previous `.upt` on the card under another name (e.g. `v3_analog_2025.upt.bak`).
-> Rolling back is renaming it and running step 4 again.
->
-> **Never call a spare `update.upt`** — recovery picks that name over the one you copied, and
-> installs it instead. See [RECOVERY.md](docs/RECOVERY.md).
+## Credits and licence
 
-## What's different
+TempoTec firmware remains TempoTec's; HiBy visual assets remain HiBy's. Kae0, losber and tooling contributors retain attribution in [CREDITS.md](CREDITS.md). The existing MIT licence covers project tooling/documentation, not proprietary firmware, HiBy artwork or LDAC code. See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE).
 
-**The look** — the current HiBy OS design: larger launcher and category artwork, edge-to-edge
-album art on Now Playing, dark palette throughout.
-
-**Fixes on top of it.** The artwork was made for a different player binary, and a lot of it did
-not survive the move. Corrected here:
-
-| | |
-|---|---|
-| **Battery fill** | The engine crops a percentage of the fill image and pins it to the bottom. The original artwork was a whole battery, so its own outline reappeared mid-icon — a second battery inside the first. Rebuilt as a bare fill sized to the frame's opening. |
-| **Charging screen** | Same defect, visible when charging with the player off. |
-| **Gain indicator** | The Blaze cycles three gain levels; the artwork only had two, so the middle one showed nothing. Missing state drawn to match. |
-| **Brightness slider** | Present in the pull-down but dead — the binary only wires it under one exact element name. Renamed, and it works. |
-| **Volume slider** | Restored to the pull-down alongside brightness. |
-| **Playback quality** | A firmware bug degraded reported quality once the image cache was on. Fixed with a four-byte patch to the player binary. |
-| **Missing layout elements** | 14 layout files were short elements the binary looks up by name. Restored. |
-| **Branding** | The donor artwork carried another manufacturer's logos and QR codes. TempoTec's own restored. |
-
-**Also enabled**, because the firmware already supported them and only had them switched off:
-
-- *Settings → About*, which is the route to developer mode and adb
-- *Settings → Colour theme*, the built-in accent picker
-- Image and database caching, plus filesystem read-ahead tuning — the music database builds
-  noticeably faster
-
-## What you give up
-
-Honest list, not a marketing one:
-
-- **The low-battery red frame.** Fixing the battery fill meant the frame became a separate static
-  image, and the state swap went with it. The percentage still shows.
-- **Two pull-down controls** — the heart and the play-mode toggle — are hidden. The binary draws
-  them but never listens for the touch. They work in Now Playing.
-- **No PEQ yet.**
-
-## If it goes wrong
-
-[docs/RECOVERY.md](docs/RECOVERY.md) — the key combo, and the full path back if the player will
-not boot at all. Worth reading once before you flash.
-
-## Build it yourself
-
-You do not have to trust the binary. [docs/BUILD.md](docs/BUILD.md) reproduces it from TempoTec's
-official firmware and checks the result. The build refuses to run if the staged theme does not
-match its manifest, and verifies file-by-file that nothing outside the theme changed.
-
-## Credits
-
-This project is a port. The visual design is **HiBy's**, from the current HiBy OS; the assets
-reached this device through the V3 Analog build **Kae0** published; the firmware is TempoTec's.
-**[CREDITS.md](CREDITS.md) names everyone and what they contributed** — please read it before
-assuming any of this artwork is mine.
-
-## Licence
-
-MIT covers the tooling in `build/` — the scripts, the analysis utilities, the documentation.
-It does **not** cover the firmware or the artwork, which remain TempoTec's and HiBy's property.
-See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
-
-Not affiliated with, endorsed by, or supported by TempoTec or HiBy.
+Not affiliated with or endorsed by TempoTec or HiBy.

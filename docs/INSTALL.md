@@ -13,13 +13,7 @@ Confusingly, the Blaze's firmware calls itself `V3_ANALOG_2025`. That is this de
 **TempoTec V3 Analog** is a different player with a different chip — this image will not work on
 it, and you should not try.
 
-On the player: *Settings → About*. It should report `V3_ANALOG_2025`, version 1.2, build
-`202601301221`. Other builds will most likely work, but that is the one this was made and tested
-against.
-
-> [!NOTE]
-> If your player has no *About* entry, that is normal — the stock firmware hides it. This ROM
-> switches it back on.
+The device must be the V3 Blaze (`V3_ANALOG_2025`). Both current editions are based on official v1.3 and use the same updater. About is enabled by Full Mod; Stock Fix preserves stock menu behavior.
 
 ## 1. Know how to get out before you go in
 
@@ -52,22 +46,14 @@ Rolling back is exactly as easy as installing. That is worth setting up while ev
 
 ## 3. Download and verify
 
-Get `v3_analog_2025.upt` from [Releases](../../releases).
-
-Check it downloaded intact:
+Choose `V3-Blaze-v1.3-Stock-LDAC-Fix.upt` or `V3-Blaze-v1.3-Full-Mod.upt` from [Releases v1.1.0](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Check SHA-256 against the [README table](../README.md#install) or accompanying `SHA256SUMS`:
 
 ```bash
-md5sum v3_analog_2025.upt
+sha256sum V3-Blaze-v1.3-Stock-LDAC-Fix.upt
+sha256sum V3-Blaze-v1.3-Full-Mod.upt
 ```
 
-```
-07dd695255f398a6893f0708c770f0a2
-```
-
-On Windows: `certutil -hashfile v3_analog_2025.upt MD5`.
-
-**If it does not match, stop and download it again.** Flashing a truncated image is the one
-avoidable way to get into trouble here.
+On Windows use `certutil -hashfile <downloaded-file> SHA256`. If it does not match, stop. **Rename whichever edition you choose to exactly `v3_analog_2025.upt` before copying it to the card.** Renaming does not change firmware contents.
 
 ## 4. Copy it to the card
 
@@ -100,21 +86,11 @@ Confirm. From here it is automatic:
 **Do not power it off, unplug it, or press buttons while this runs.** It takes a couple of
 minutes.
 
-The first boot after flashing is slower than usual: the player rebuilds its music database, and
-this ROM turns on caching that makes every subsequent boot faster.
+Database/settings behavior can depend on existing persistent state; do not interrupt the initial boot.
 
 ## 6. Check it worked
 
-- The launcher and Now Playing look different — larger artwork, dark background.
-- *Settings → About* exists now.
-- *Settings → Colour theme* exists now.
-- Pull down from the top: brightness **and** volume sliders, both working.
-- Charge it with the player switched off: one battery on screen, filling from the bottom.
-
-## If something looks wrong
-
-Cosmetic problems are worth reporting — open an issue with a **photo**, the md5 you flashed, and
-the stock version you flashed over.
+Both editions should boot normally, preserve official v1.3 PEQ/search functionality and provide clean LDAC without the digital corruption. Full Mod additionally has the custom launcher/Now Playing, About/colour-theme access and a working brightness slider; its pull-down volume objects are hidden. Stock Fix retains stock UI behavior. Bluetooth range/interference is still [unresolved](BLUETOOTH-RANGE.md).
 
 If the player will not boot, go to [RECOVERY.md](RECOVERY.md).
 

@@ -2,6 +2,36 @@
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] — 2026-09-12 (TempoTec v1.3 generation)
+
+Two hardware-tested editions: Stock + LDAC Fix (exact TEST 2) and Full Mod (exact successful final UI-state port). Project tag `v1.1.0`.
+
+### Based on official TempoTec v1.3
+
+- Added Parametric EQ and real-time Bluetooth search.
+- Official stability fixes resolved previously observed freeze/reboot behavior, including the severe Bluetooth signal-loss case and reported artwork-related instability. The historical cover's exact JPEG encoding/dimensions/filesize are not established; no precise image condition is claimed.
+- Other upstream bug fixes, as stated in TempoTec's changelog.
+
+### Fixed by this project
+
+- Isolated the v1.3 digital LDAC corruption to the decoder with TEST 1.
+- Identified an additional downstream coefficient-suppression gate; author/purpose unknown.
+- TEST 2 bypasses only this condition, retains the v1.3 decoder and produces hardware-confirmed clean LDAC playback. This does not fix Bluetooth range or account for the official stability improvement.
+- Relocated the Full Mod player patch to file offset `0x38240`, independently validated against v1.3 bytes and surrounding logic.
+- Selectively ported Full Mod UI/visual fixes; corrected final launcher backgrounds, play/pause image mapping and popup text.
+
+### Added in Full Mod
+
+- HiBy-style launcher/categories/Now Playing, battery-fill and charging corrections, three-state gain artwork, correctly named working brightness control, missing layout elements, tint exclusions and TempoTec branding.
+- About/developer route and colour theme; TF image/database cache and DAC persistence; guarded read-ahead/cache-pressure tuning and UBIFS `sync → noatime` policy (also removes synchronous writes).
+- Complete final file list in `build/v1.3/full-mod-manifest.json`. Stock Fix has none of these additions.
+- Historical documentation below claims a restored pull-down volume slider. Artifact review establishes brightness-only in the shipped old theme and tested final port; volume objects are retained hidden in the final port. Historical entry preserved verbatim, not used as proof of shipped behavior.
+
+### Known issues
+
+- Bluetooth range/interference remains under investigation. Higher LDAC rates are unreliable; lower rates may also cut in crowded/interference-heavy environments. AAC is the reliable fallback in the observed normal-use scenarios.
+- Full Mod retains the static battery frame and hidden pull-down heart/play-mode/volume objects.
+
 ## [1.0.0] — 2026-08-15
 
 First public release. Built against TempoTec `V3_ANALOG_2025` v1.2, build `202601301221`.
