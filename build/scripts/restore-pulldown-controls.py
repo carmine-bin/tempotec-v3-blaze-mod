@@ -11,9 +11,6 @@
 # BRILLO: FUNCIONA (device 2026-08-07) con `--slider=brillo`. La clave fue el NOMBRE del elemento, no la
 # posición ni los assets (ver el bloque de nombres más abajo y PULLDOWN-BINARIO.md).
 #
-# Corazón y play_mode: el binario los bindea, pero en device NO responden (probado 2026-08-07 con reboot
-# limpio + 1 apply + 1 disparador) => se ocultan para no dejar botones muertos.
-#
 # Ícono del slider de volumen: menu\speaker.png es el asset del STOCK (20x20, tosco entre los V3A y se ve
 # pixelado) -> touch_set\vol.png (V3A, 24x24, mismo tamaño que el ícono de brillo del V3A).
 #
@@ -98,22 +95,3 @@ for nm in ("pull_down_menu_iv_vol", "pull_down_menu_vol_pb", "pull_down_menu_iv_
 i = t.index('\t\t"imageview":{')          # antes del primer imageview
 t = t[:i] + nuevo + t[i:]
 print(f"slider unico: {MODO} ({ICONO[0]} + {BARRA}) en y=220/225")
-
-# --- 2. corazon y play_mode: muertos en el pull-down -> ocultos
-for nm in ("pull_down_menu_iv_collect", "pull_down_menu_iv_play_mode"):
-    assert f'"{nm}"' in t, f"falta {nm}"
-    i = t.index(f'"name":"{nm}",')
-    j = t.index("imageview\":true", i)
-    if '"visible"' not in t[i:j]:
-        t = t[:i] + f'"name":"{nm}",{eol}\t\t\t"visible":"hide",' + t[i + len(f'"name":"{nm}",'):]
-        print(f"{nm}: oculto (no responde en device)")
-    else:
-        print(f"{nm}: ya oculto")
-
-open(f, "w", newline="").write(t)
-json.loads(t)   # gate de sintaxis (lo unico que puede colgar el boot)
-
-LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
-for ref in (ICONO[1].replace("\\\\", "/"), "menu/vol_bg.png", "menu/cursor.png", "menu/vol_progress.png"):
-    assert os.path.isfile(os.path.join(LG, ref)), f"falta el asset {ref}"
-print("JSON valido y assets del slider presentes")

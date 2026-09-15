@@ -13,15 +13,15 @@
 
 [Español](README.es.md) · [Install](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md) · [Technical notes](docs/HOW-IT-WORKS.md) · [Build](docs/BUILD.md)
 
-Current generation: official `V3_ANALOG_2025` **v1.3**. Project release/tag: **v1.1.0**. Project version and TempoTec base version are separate. Screenshots preserve the previous Full Mod's visual identity; they are not a new v1.3 screen-by-screen test record.
+Current generation: official `V3_ANALOG_2025` **v1.3**. Project release/tag: **v1.1.1**. Project version and TempoTec base version are separate. Screenshots preserve the previous Full Mod's visual identity; they are not a new v1.3 screen-by-screen test record.
 
 ## Two downloads
 
 **Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: official TempoTec v1.3 appearance and features, including PEQ and TempoTec's stability fixes, plus this project's hardware-confirmed correction for v1.3 LDAC digital corruption. Hardware-tested release image; no custom theme, launcher, cache/I/O tuning or custom player patch.
 
-**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: the same corrected v1.3 base, plus the complete current HiBy-style UI port and validated V3 Blaze customizations. The final hardware-tested Full Mod image, including its final launcher, play/pause and popup-text corrections.
+**Full Mod** — `V3-Blaze-v1.3-Full-Mod-v1.1.1.upt`: the same corrected v1.3 base, plus the complete current HiBy-style UI port and validated V3 Blaze customizations. The v1.1.1 Full Mod bug-fix image restores instant album opening, restores the Power-button shutdown countdown, and uses the corrected Balance Quick Settings artwork.
 
-Download either edition from [v1.1.0 Releases](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Reproductions are validated separately and do not replace the tested release images.
+Download either edition from [v1.1.1 Releases](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.1). Reproductions are validated separately and do not replace the tested release images.
 
 | Feature | Stock + LDAC Fix | Full Mod |
 |---|---|---|
@@ -65,15 +65,16 @@ The HiBy design reached this project through **Kae0's V3 Analog port**, with the
 | Filesystem/I/O | Guarded MMC read-ahead `2048`, cache pressure `50`; UBIFS `sync → noatime`, which also removes synchronous writes. |
 | Player patch | Independently relocated for v1.3 to file offset `0x38240` (VA `0x438240`): `08 da 10 0c → 00 00 00 00`. Omits next-track metadata parsing into the shared current-track buffer, retaining output copy and delay slot. |
 
-The [complete manifest](build/v1.3/full-mod-manifest.json) lists 607 changed/added regular files and two added directories. The [migration notes](docs/HOW-IT-WORKS.md#migration-to-official-v13) explain patch validation. The kernel, Bluetooth/audio components and unrelated system files stay official v1.3. The final Full Mod image was validated on physical V3 Blaze hardware; that does not establish a measured benefit for every tuning option.
+The [complete manifest](build/v1.3/full-mod-manifest.json) lists 609 changed/added regular files and two added directories. The [migration notes](docs/HOW-IT-WORKS.md#migration-to-official-v13) explain patch validation. The kernel, Bluetooth/audio components and unrelated system files stay official v1.3. The final Full Mod image was validated on physical V3 Blaze hardware; that does not establish a measured benefit for every tuning option.
 
-## Known issues and limitations
+## Upstream / device limitations
 
-> **Known issue: Bluetooth range/interference remains under investigation. High-bandwidth LDAC modes are unreliable, and even lower LDAC rates can suffer in crowded RF environments. AAC remains stable in the same normal-use scenarios. This is separate from the fixed v1.3 LDAC decoder corruption.**
+The following behaviors are also present in official firmware or appear to be device-level limitations; they are not introduced by Full Mod.
 
-[Bluetooth range investigation](docs/BLUETOOTH-RANGE.md): Wi-Fi range also appears poor; cause unknown. Antenna, RF path/configuration, coexistence, sensitivity and hardware/firmware problems remain hypotheses.
+- **Album-art screensaver update delay:** When the album-art screensaver is active, current-track information and artwork may take about 1.5 seconds to update after a track change. The same behavior was reproduced on official TempoTec v1.2 and v1.3 firmware, so it is not a Full Mod regression. Changing `tf_image_cache_enable` did not eliminate the delay.
+- **Bluetooth RF/link margin:** Bluetooth reception has limited link margin, particularly with sustained high-bitrate LDAC and in congested RF environments. Lower-rate LDAC can also become unstable under difficult conditions, while AAC has been substantially more reliable in the observed normal-use scenarios. This behavior is separate from the v1.3 LDAC decoder corruption corrected by this project. The exact RF-level cause has not been established.
 
-Full Mod retains the static battery frame (no red low-battery frame), hidden heart/play-mode pull-down controls, and a brightness-only pull-down; play-mode controls remain in Now Playing. Both editions are hardware-tested, but neither solves every device problem.
+[Bluetooth range investigation](docs/BLUETOOTH-RANGE.md) contains the detailed observations.
 
 ## Install
 
@@ -89,7 +90,7 @@ Full Mod retains the static battery frame (no red low-battery frame), hidden hea
 | Edition | SHA-256 | MD5 |
 |---|---|---|
 | Stock + LDAC Fix | `273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1` | `cd380b93df9a600a5d24cb64585aac88` |
-| Full Mod | `fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933` | `c09b37baa6fd6a5660e4bbc355bae33c` |
+| Full Mod | `c16796fe1bf24317678232bac1978df9410c62328f3327ff7ff3d1e5814adc3c` | `8cac8713dc613665c078eaa25e14aeb9` |
 
 ## Reproduce and inspect
 
