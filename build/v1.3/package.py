@@ -32,7 +32,7 @@ def package():
  args+=['-commit','-end']
  save(W/'xorriso-command.json',list(map(str,args)));run(args,W/'xorriso-build.log')
  header=Path(__file__).resolve().parents[2]/'build/v1.3/hardware-tested-iso-header.bin'
- if header.is_file():
+ if os.environ.get('V3_BUILD_EDITION')=='full-mod' and header.is_file():
   data=bytearray(out.read_bytes());patch=header.read_bytes();data[:len(patch)]=patch;out.write_bytes(data)
  print('One UPT generated; final verification starting',flush=True)
  verify_final()
@@ -68,7 +68,7 @@ def verify_final():
   else:assert name=='rootfs.squashfs' and data==(W/'rootfs.squashfs').read_bytes()
   checks.append({'image':name,'size':len(data),'chunks':len(chunks),'md5':whole,'sha256':hashlib.sha256(data).hexdigest(),'status':'PASS'})
  assert {x['image'] for x in checks}=={'xImage','rootfs.squashfs'}
- fs={'status':'PASS','rootfs_sha256':digest(W/'final-rootfs.squashfs'),'rootfs_md5':hashlib.md5((W/'final-rootfs.squashfs').read_bytes()).hexdigest(),'metadata':'hardware-tested rootfs byte-for-byte source'} if os.environ.get('V3_BUILD_ROOTFS_OVERRIDE') or (Path(__file__).resolve().parents[2]/'build/v1.3/hardware-tested-rootfs.squashfs').is_file() else verify(W/'final-rootfs.squashfs',W/'final-rootfs','final')
+ fs={'status':'PASS','rootfs_sha256':digest(W/'final-rootfs.squashfs'),'rootfs_md5':hashlib.md5((W/'final-rootfs.squashfs').read_bytes()).hexdigest(),'metadata':'hardware-tested rootfs byte-for-byte source'} if os.environ.get('V3_BUILD_EDITION')=='full-mod' and (os.environ.get('V3_BUILD_ROOTFS_OVERRIDE') or (Path(__file__).resolve().parents[2]/'build/v1.3/hardware-tested-rootfs.squashfs').is_file()) else verify(W/'final-rootfs.squashfs',W/'final-rootfs','final')
  assert digest(SRC)==SHA13
  run(['xorriso','-indev',out,'-pvd_info','-report_system_area','plain','-report_el_torito','plain'],W/'final-pvd.log')
  # Verify stable descriptor identities; physical extent/volume size changes are expected.

@@ -105,7 +105,7 @@ def build():
  args=['mksquashfs','-',W/'rootfs.squashfs','-tar','-numeric-owner','-comp','lzo','-Xalgorithm','lzo1x_999','-Xcompression-level','8','-b','131072','-exports','-no-tailends','-noappend','-processors','1','-mkfs-time',str(timestamp),'-root-time',str(epoch(old['.']['mtime'])),'-root-mode',oct(modebits(old['.']['mode']))[2:],'-root-uid',str(old['.']['uid']),'-root-gid',str(old['.']['gid'])]
  save(W/'mksquashfs-command.json',list(map(str,args)))
  override=Path(os.environ.get('V3_BUILD_ROOTFS_OVERRIDE', str(REPO/'build/v1.3/hardware-tested-rootfs.squashfs')))
- if override.is_file():
+ if os.environ.get('V3_BUILD_EDITION')=='full-mod' and override.is_file():
   shutil.copyfile(override,W/'rootfs.squashfs')
   size=(W/'rootfs.squashfs').stat().st_size;limit=SOURCE.stat().st_size;assert size==limit
  else:
@@ -114,7 +114,7 @@ def build():
   with (W/'rootfs.squashfs').open('ab') as f:f.write(bytes(limit-size))
  save(W/'padding.json',{'mksquashfs_output_bytes':size,'zero_padding_added':limit-size,'declared_size':limit,'reason':'Keep exact stock 1.3 rootfs write span; no increased partition-space requirement'})
 
- if override.is_file():
+ if os.environ.get('V3_BUILD_EDITION')=='full-mod' and override.is_file():
   save(W/'build-verification.json',{'status':'PASS','rootfs_sha256':digest(W/'rootfs.squashfs'),'rootfs_md5':hashlib.md5((W/'rootfs.squashfs').read_bytes()).hexdigest(),'metadata':'hardware-tested rootfs byte-for-byte source'})
  else:
   verify(W/'rootfs.squashfs',W/'verified-rootfs','build')
