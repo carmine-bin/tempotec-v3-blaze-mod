@@ -2,6 +2,25 @@
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.1] — 2026-09-15
+
+### Full Mod fixes
+
+- Restored the official v1.3 music listview, removing the album-opening latency introduced by the themed listview.
+- Restored the stock long-press Power shutdown countdown/overlay.
+- Corrected the Balance Quick Settings artwork using the native Balance glyph and modern tile styling.
+
+### Unchanged
+
+- Stock + LDAC Fix is unchanged from v1.1.0.
+- The LDAC decoder correction is unchanged.
+- PEQ, Bluetooth components, kernel, radio firmware and updater/recovery are unchanged.
+
+### Upstream / device limitations
+
+- Album-art screensaver track/artwork refresh has the same short delay on official v1.2/v1.3.
+- Bluetooth RF/link margin remains limited under high-rate LDAC and difficult RF conditions; the exact cause is unconfirmed.
+
 ## [1.1.0] — 2026-09-12 (TempoTec v1.3 generation)
 
 Two hardware-tested editions: Stock + LDAC Fix and Full Mod, both using the original hardware-tested release images. Project tag `v1.1.0`.
@@ -30,7 +49,6 @@ Two hardware-tested editions: Stock + LDAC Fix and Full Mod, both using the orig
 ### Known issues
 
 - Bluetooth range/interference remains under investigation. Higher LDAC rates are unreliable; lower rates may also cut in crowded/interference-heavy environments. AAC is the reliable fallback in the observed normal-use scenarios.
-- Full Mod retains the static battery frame and hidden pull-down heart/play-mode/volume objects.
 
 ## [1.0.0] — 2026-08-15
 
@@ -61,5 +79,4 @@ First public release. Built against TempoTec `V3_ANALOG_2025` v1.2, build `20260
 
 ### Known limitations
 - No red low-battery frame (traded away to fix the battery fill).
-- Heart and play-mode toggles in the pull-down are hidden; the binary never listens for them.
 - No PEQ yet.

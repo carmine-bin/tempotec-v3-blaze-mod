@@ -989,29 +989,6 @@
     }
   },
   {
-    "path": "/usr/resource/layout/theme1/dialog/shutdown_timer.dlg",
-    "operation": "modify",
-    "reason": "Port custom layout styling; Restore shutdown_timer_tv_msg to official parent vg_dialog_shutdown_timer; translate custom coordinates by (10,133); Restore shutdown_timer_tv_count to official parent vg_dialog_shutdown_timer; translate custom coordinates by (10,133)",
-    "before": {
-      "mode": "-rwxrwxr-x",
-      "uid": 0,
-      "gid": 0,
-      "size": 749,
-      "mtime": "2026-04-17 01:15:50",
-      "target": null,
-      "sha256": "102e2a0ae66202817b4b01437365a2384f2445b101bc4d6c01df5ffe70ac1743"
-    },
-    "after": {
-      "mode": "-rwxrwxr-x",
-      "uid": 0,
-      "gid": 0,
-      "size": 839,
-      "mtime": "2026-04-17 01:15:50",
-      "target": null,
-      "sha256": "5a6d118bd4af98fdba35aa6d6a8ffb975fcfb14d5b2cc2143d1969f4de392c89"
-    }
-  },
-  {
     "path": "/usr/resource/layout/theme1/dialog/song_nosupport.dlg",
     "operation": "modify",
     "reason": "Port custom layout styling; Restore tv_song_name to official parent vg_dialog_song_nosupport; translate custom coordinates by (30,115); Restore tv_song_nosupport to official parent vg_dialog_song_nosupport; translate custom coordinates by (30,115); Restore tv_song_try_to to official parent vg_dialog_song_nosupport; translate custom coordinates by (30,115)",
@@ -2573,29 +2550,6 @@
       "mtime": "2026-04-17 01:15:50",
       "target": null,
       "sha256": "394a2bff8bb59a12bf0f37efacffc4564ae26bf533c16c0420bbe68a6c2113f1"
-    }
-  },
-  {
-    "path": "/usr/resource/layout/theme1/listview/vg_listview_music.listview",
-    "operation": "modify",
-    "reason": "Port custom layout styling; all official 1.3 name/type/parent and indexed-image contracts retained",
-    "before": {
-      "mode": "-rwxrwxr-x",
-      "uid": 0,
-      "gid": 0,
-      "size": 4089,
-      "mtime": "2026-04-17 01:15:50",
-      "target": null,
-      "sha256": "dc49f4d79e1ea910bb348a9b673a1b36ef04d97f872f150006649991bc9139ce"
-    },
-    "after": {
-      "mode": "-rwxrwxr-x",
-      "uid": 0,
-      "gid": 0,
-      "size": 4179,
-      "mtime": "2026-04-17 01:15:50",
-      "target": null,
-      "sha256": "14459f5ad8bdbcc41051a7068c614203a50f1fb82ff6c2605303f15cf42d05cf"
     }
   },
   {
@@ -13610,6 +13564,52 @@
       "mtime": "2026-04-17 01:15:50",
       "target": null,
       "sha256": "114dac2a4b77be0086b69e172c3c7fdc4cc3290c2cde5c2c579823a8e04b1cfb"
+    }
+  },
+  {
+    "path": "/usr/resource/litegui/theme1/menu/bal.png",
+    "operation": "modify",
+    "reason": "Restore final clean Balance Quick Settings artwork",
+    "before": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "mtime": "2026-04-17 01:15:50",
+      "target": null,
+      "size": 6529,
+      "sha256": "b6b78e8ed82f28b221e0ae8e51c31f0952602f1bbc579006c44ca19c54ce9ac7"
+    },
+    "after": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "mtime": "2026-09-15 08:44:03",
+      "target": null,
+      "size": 3076,
+      "sha256": "6e0c360e814b890b2fa7d8dd1e8005812f9bfa9152ff03436e6910e52d91bfa6"
+    }
+  },
+  {
+    "path": "/usr/resource/litegui/theme1/menu/bal_s.png",
+    "operation": "modify",
+    "reason": "Restore final clean Balance Quick Settings artwork",
+    "before": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "mtime": "2026-04-17 01:15:50",
+      "target": null,
+      "size": 6503,
+      "sha256": "0c54a94fc72cb3c337c66529eae892013cc3875e5c53b9eb0f3d0f0693128763"
+    },
+    "after": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "mtime": "2026-09-15 08:44:03",
+      "target": null,
+      "size": 3217,
+      "sha256": "b992904372e22230732395255803865fc8e00176d1b3541aa4b1a5ea951f8292"
     }
   }
 ]

@@ -13,15 +13,15 @@
 
 [English](README.md) · [Instalación](docs/INSTALL.md) · [Recuperación](docs/RECOVERY.md) · [Notas técnicas](docs/HOW-IT-WORKS.md) · [Compilación](docs/BUILD.md)
 
-La generación actual parte del firmware oficial `V3_ANALOG_2025` **v1.3**. Versión/tag del proyecto: **v1.1.0**. La versión del proyecto es independiente de la base TempoTec. Las fotos conservan la identidad visual del Full Mod anterior; no son un registro nuevo de pruebas de cada pantalla en v1.3.
+La generación actual parte del firmware oficial `V3_ANALOG_2025` **v1.3**. Versión/tag del proyecto: **v1.1.1**. La versión del proyecto es independiente de la base TempoTec. Las fotos conservan la identidad visual del Full Mod anterior; no son un registro nuevo de pruebas de cada pantalla en v1.3.
 
 ## Dos descargas
 
 **Stock + LDAC Fix** — `V3-Blaze-v1.3-Stock-LDAC-Fix.upt`: aspecto y funciones oficiales de TempoTec v1.3, incluidos PEQ y sus mejoras de estabilidad, más la corrección de este proyecto para la corrupción digital LDAC de v1.3, confirmada en el dispositivo. Es la imagen de publicación probada en el V3 Blaze. Sin tema, launcher, ajustes de caché/E/S ni parche personalizado del reproductor.
 
-**Full Mod** — `V3-Blaze-v1.3-Full-Mod.upt`: la misma base v1.3 corregida, con el port completo de la interfaz de estilo HiBy y las personalizaciones validadas del Blaze. Es la imagen final de Full Mod validada en hardware, con las correcciones finales del launcher, los iconos play/pause y el texto de los avisos.
+**Full Mod** — `V3-Blaze-v1.3-Full-Mod-v1.1.1.upt`: la misma base v1.3 corregida, con el port completo de la interfaz de estilo HiBy y las personalizaciones validadas del Blaze. La versión v1.1.1 de Full Mod, validada en hardware, restaura la apertura instantánea de álbumes, la cuenta regresiva de apagado del botón Power y el arte corregido de Balance en Quick Settings.
 
-Descarga la edición elegida desde [Releases v1.1.0](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.0). Las compilaciones reproducidas se validan por separado y no sustituyen las imágenes ya probadas.
+Descarga la edición elegida desde [Releases v1.1.1](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases/tag/v1.1.1). Las compilaciones reproducidas se validan por separado y no sustituyen las imágenes ya probadas.
 
 | Función | Stock + LDAC Fix | Full Mod |
 |---|---|---|
@@ -65,15 +65,16 @@ El diseño de HiBy llegó a través del **port de Kae0 para el V3 Analog**: laun
 | Sistema de archivos/E/S | Read-ahead MMC `2048` y presión de caché `50`, con comprobaciones; UBIFS `sync → noatime`, que también elimina las escrituras síncronas. |
 | Parche del reproductor | Reubicado y validado para v1.3: offset `0x38240` (VA `0x438240`), `08 da 10 0c → 00 00 00 00`. Omite el parseo de metadatos de la pista siguiente sobre el buffer de la actual, manteniendo la copia de salida y el delay slot. |
 
-El [manifiesto completo](build/v1.3/full-mod-manifest.json) registra 607 archivos modificados/añadidos y dos directorios nuevos. Las [notas de migración](docs/HOW-IT-WORKS.md#migration-to-official-v13) explican la validación. El kernel, los componentes Bluetooth/audio y los demás archivos del sistema siguen siendo los oficiales de v1.3. La imagen final de Full Mod se validó en un V3 Blaze físico; esto no demuestra una mejora medida de cada ajuste de rendimiento.
+El [manifiesto completo](build/v1.3/full-mod-manifest.json) registra 609 archivos modificados/añadidos y dos directorios nuevos. Las [notas de migración](docs/HOW-IT-WORKS.md#migration-to-official-v13) explican la validación. El kernel, los componentes Bluetooth/audio y los demás archivos del sistema siguen siendo los oficiales de v1.3. La imagen final de Full Mod se validó en un V3 Blaze físico; esto no demuestra una mejora medida de cada ajuste de rendimiento.
 
-## Problemas conocidos y limitaciones
+## Limitaciones del firmware oficial / dispositivo
 
-> **Problema conocido: el alcance/estabilidad Bluetooth sigue bajo investigación. Los modos LDAC de mayor ancho de banda son poco fiables y, en ambientes con mucha interferencia/personas, incluso los modos LDAC de menor bitrate pueden presentar cortes. AAC se mantiene estable en las mismas condiciones de uso normal. Esto es independiente de la corrupción del decoder LDAC de la v1.3, que sí está corregida.**
+Los siguientes comportamientos también están presentes en el firmware oficial o parecen ser limitaciones del propio dispositivo; no fueron introducidos por Full Mod.
 
-[Investigación de alcance](docs/BLUETOOTH-RANGE.md): el alcance Wi-Fi también parece pobre; la causa se desconoce. Antena, ruta/configuración RF, coexistencia, sensibilidad y problemas de hardware/firmware son hipótesis.
+- **Actualización retardada del salvapantallas de carátula:** Con el salvapantallas de carátula activo, la información y la carátula de la canción actual pueden tardar aproximadamente 1.5 segundos en actualizarse después de cambiar de pista. El mismo comportamiento fue reproducido con los firmwares oficiales TempoTec v1.2 y v1.3, por lo que no es una regresión de Full Mod. Cambiar `tf_image_cache_enable` no eliminó el retraso.
+- **Margen de enlace/RF Bluetooth:** La recepción Bluetooth tiene un margen de enlace limitado, especialmente con LDAC sostenido a tasas altas y en entornos de RF congestionados. Las tasas menores de LDAC también pueden volverse inestables en condiciones difíciles, mientras que AAC ha sido considerablemente más fiable en los escenarios de uso normal observados. Este comportamiento es independiente de la corrupción digital LDAC de v1.3 corregida por este proyecto. La causa exacta a nivel de RF no ha sido establecida.
 
-Full Mod conserva el marco estático de batería (sin marco rojo de batería baja), los controles de corazón/modo de reproducción ocultos en el desplegable y un único slider de brillo allí; el modo de reproducción sigue disponible en Now Playing. Ambas ediciones se probaron en hardware, pero no solucionan todos los problemas del equipo.
+La [investigación del alcance Bluetooth](docs/BLUETOOTH-RANGE.md) contiene las observaciones detalladas.
 
 ## Instalación
 
@@ -89,7 +90,7 @@ Full Mod conserva el marco estático de batería (sin marco rojo de batería baj
 | Edición | SHA-256 | MD5 |
 |---|---|---|
 | Stock + LDAC Fix | `273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1` | `cd380b93df9a600a5d24cb64585aac88` |
-| Full Mod | `fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933` | `c09b37baa6fd6a5660e4bbc355bae33c` |
+| Full Mod | `c16796fe1bf24317678232bac1978df9410c62328f3327ff7ff3d1e5814adc3c` | `8cac8713dc613665c078eaa25e14aeb9` |
 
 ## Reproducir e inspeccionar
 

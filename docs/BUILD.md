@@ -55,3 +55,5 @@ The build imports only manifest-listed final resource/config/script bytes. Playe
 UPT/compressed layout hashes may differ despite identical filesystem content; report both comparisons explicitly. **Do not silently substitute a reproduction for a hardware-tested release image.** Rename the chosen image to `v3_analog_2025.upt` only when preparing to flash; see [INSTALL.md](INSTALL.md) and [RECOVERY.md](RECOVERY.md).
 
 The old `build/build-upt-v3.sh` is protected as historical v1.2 tooling; it requires explicit `BUILD_HISTORICAL_V12=1` and is not the current build interface.
+
+For the v1.1.1 hardware-tested Full Mod artifact, set `V3_BUILD_ISO_TIMESTAMP=1789461914` and `V3_BUILD_ISO_APPLICATION="XORRISO-1.5.8 2026.05.22.150001, LIBISOBURN-1.5.8, LIBISOFS-1.5.8, LIBBURN-1.5.8"` (the preserved ISO metadata) so the package bytes reproduce the tested image exactly; the filesystem and payload checks remain mandatory.
