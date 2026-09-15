@@ -158,6 +158,7 @@ def main():
     if sys.flags.optimize:
         raise SystemExit('Do not use Python -O: validation uses assertions')
     src, work = args.input.resolve(), args.output.resolve()
+    os.environ['V3_BUILD_EDITION'] = args.edition
     assert sha(src) == OFFICIAL, 'Official v1.3 checksum mismatch'
     assert not work.exists(), 'Output must not exist; no overwrite or deletion'
     for tool in ['bsdtar', 'unsquashfs', 'mksquashfs', 'xorriso', 'readelf']:
