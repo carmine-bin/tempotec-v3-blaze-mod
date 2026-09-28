@@ -1,17 +1,9 @@
-# Bluetooth range/interference
+# Bluetooth link stability
 
-**UNRESOLVED / UNDER INVESTIGATION** — neither edition claims to fix Bluetooth range.
+Bluetooth reception has limited link margin in the tested V3 Blaze, particularly with sustained high-bitrate LDAC and difficult RF conditions. Higher rates produced repeated dropouts; lower-rate LDAC also cut out in crowded wireless environments. AAC was more reliable in the tested normal-use scenarios.
 
-Hardware observations on this V3 Blaze show that higher-bandwidth Bluetooth codecs / LDAC modes are unreliable. Higher LDAC rates can produce repeated playback dropouts. Lower-rate LDAC can also have noticeable cuts in difficult real-world environments, especially around many people and wireless devices. Under the same normal-use conditions, AAC works effectively perfectly and is dramatically more reliable.
+The [v1.3 Bluetooth Receiver LDAC audio corruption](LDAC-RECEIVER-ARTIFACTS.md) occurred with continuous packet reception and was corrected by the decoder patch. Link dropouts are a separate symptom. The exact RF-level cause has not been established.
 
-The remaining symptom is strongly related to link margin/interference. This is a separate issue from the [v1.3 decoder corruption](LDAC-REGRESSION.md), which was audible even with continuous RTP reception and is corrected in both release editions. These observations are specific to the tested device and scenarios, not universal claims about codecs.
+Wi-Fi range also appeared poor in similar conditions. The Broadcom combo platform handles both radios, but these observations do not identify the underlying RF cause.
 
-Wi-Fi range also appears unusually poor under similar physical conditions. The Broadcom combo platform handles Wi-Fi and Bluetooth; they may share part of the RF path/configuration. This is relevant investigative context, **not an established cause**.
-
-Possible areas under investigation, all hypotheses:
-
-- Antenna or antenna contact; RF matching; shared Wi-Fi/Bluetooth RF path.
-- Receiver sensitivity; Broadcom RF/NVRAM configuration; Wi-Fi/Bluetooth coexistence.
-- Bluetooth link management; hardware degradation; another firmware/configuration problem.
-
-The underlying cause remains unknown. AAC is the reliable fallback in the observed normal-use scenarios. Evidence: observations on the physical V3 Blaze in the reported normal-use scenarios; no controlled RF diagnosis establishes the underlying cause.
+Neither edition includes an RF fix. These observations concern the tested unit and conditions.

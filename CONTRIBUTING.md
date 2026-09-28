@@ -1,45 +1,13 @@
 # Contributing
 
-Small project, few rules, but the ones here exist because ignoring them cost me time or a
-reboot loop.
+Include the device model, firmware version, reproduction steps and test method in an issue or pull request. Distinguish physical tests from static checks or simulated instruction execution.
 
-## Test without flashing where you can
+A bind-mount over `/usr/resource` can test some layouts without flashing; reboot removes it. PNG accent tinting happens when assets load, so assess color changes from a rebuilt image. Startup configuration, fonts and cache flags also require a fresh boot.
 
-Most theme work can be validated with a bind-mount over `/usr/resource` on a running device —
-no flashing, revert by rebooting. Two things it **cannot** tell you:
+Use one cycle per test: reboot → apply once → trigger once → inspect. Repeated live apply/revert/reparse cycles can wedge the player and leave stale render state or misleading audio symptoms.
 
-- **Anything about colour.** Accent tinting is applied when a PNG is loaded, and the bind lands
-  after the player has loaded its images. Colour must be judged from a baked image.
-- **Anything in the boot path.** Config files, fonts and cache flags are read once at startup.
+Preserve widget names, types, parents, indexed images and duplicate-key construction order. Missing assets can be cosmetic, but malformed layouts can prevent boot. Run the established [builder](docs/BUILD.md); intentionally update the reviewed edition manifest and metadata when payload changes are authorized. Historical v1.2 resources use `theme/manifest.sha256`.
 
-## Do not iterate on a hot player
+Avoid boot-time polling hooks. A previous SD-mount polling hook hung startup. Keep recovery independent of the modified system.
 
-The player wedges if you apply, revert and re-parse repeatedly while it runs: CPU spins, the
-render cache goes stale, audio dies, and you get diagnostics that are simply false. More than one
-wrong conclusion in this project came from that.
-
-**One cycle = reboot → one apply → one trigger → test.** Slower, and much faster overall.
-
-## Rebuild the manifest
-
-For current v1.3 editions, intentionally update the relevant `build/v1.3/*-manifest.json` hashes and reviewed delta before building. Historical v1.2 assets use `theme/manifest.sha256`.
-The build refuses to run on a manifest mismatch — that is the point, but it means a stale
-manifest looks like corruption.
-
-## Layout syntax is the dangerous part
-
-A missing PNG is cosmetic; the stock firmware already ships 38 dangling references. **Malformed
-layout JSON is what causes a boot loop.** The current build gates all 151 official v1.3 layouts, so let it.
-
-Renaming an element is never cosmetic — see [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
-
-## Boot hooks
-
-Don't add one. An earlier version shipped an init hook that polled for the SD card mount while
-the system was mounting it, and hung the boot. Recovery is a key combo that depends on nothing
-baked into the ROM; keep it that way.
-
-## Before opening a PR
-
-Say which device and firmware version you tested on, and whether you flashed or used a
-bind-mount. "Works on mine" without the version is not useful here.
+For binary changes, record input hashes, original bytes, offsets, exact deltas and validation limits. Hardware-validated hooks must retain their tested logic during build integration.

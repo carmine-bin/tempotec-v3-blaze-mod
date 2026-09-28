@@ -1,17 +1,9 @@
-# Notice on firmware and artwork
+# Firmware and artwork notice
 
-The two v1.3 release images are modified TempoTec firmware for the V3 Blaze. The firmware remains TempoTec's; HiBy OS, proprietary player/litegui code and visual assets retain their respective rights holders. LDAC code is not claimed as project-owned. The MIT licence applies to original project tooling/documentation, not proprietary firmware or imported artwork. [CREDITS.md](CREDITS.md) preserves TempoTec, HiBy, Kae0, previous contributors and tooling attribution.
+Modified TempoTec firmware and imported HiBy artwork retain their respective rights holders. Proprietary player, litegui and LDAC code are not claimed as original work. The MIT licence covers original project tooling and documentation, not those components. [Credits](CREDITS.md) identify the port and research contributors.
 
-Both editions keep the official v1.3 kernel byte-for-byte. Stock + LDAC Fix changes only one byte in `/usr/lib/libldacdec.so.1`. Full Mod adds the selective UI/resource/config/script changes and four-byte relocated player patch listed in its [complete manifest](build/v1.3/full-mod-manifest.json). No old v1.2 Bluetooth/audio/kernel components are overlaid. Internal code authorship is not inferred from who distributed the firmware; the downstream LDAC gate's author/purpose remain unknown.
+Both editions retain the official v1.3 kernel. Stock + LDAC Fix changes one decoder byte. Full Mod adds the resources, configuration, scripts and player changes in its [manifest](build/v1.3/full-mod-manifest.json). The [technical notes](docs/HOW-IT-WORKS.md) and [UI investigation](docs/UI-FIXES.md) describe their scope.
 
-The [technical documentation](docs/HOW-IT-WORKS.md), [LDAC investigation](docs/LDAC-REGRESSION.md) and [build instructions](docs/BUILD.md) describe the changes. Hardware-tested release artifacts and newly reproduced images are distinguished. Bluetooth range/interference remains unresolved.
+Firmware is supplied for personal use and research. Flashing is at your own risk and may affect warranty coverage. Not affiliated with, endorsed by or supported by TempoTec or HiBy.
 
-## Purpose and risk
-
-Distributed for personal use, research and the device-modding community. Flashing modified firmware is at your own risk and may void your warranty.
-
-Not affiliated with, endorsed by, or supported by TempoTec or HiBy.
-
-## Rights holders
-
-If you are TempoTec, HiBy or another rights holder and object to repository contents, open an issue or contact the maintainer directly for removal.
+Rights holders can contact the maintainer or open an issue to request removal of repository contents.

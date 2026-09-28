@@ -1,0 +1,32 @@
+{
+  "version": "v1.1.2",
+  "status": "release",
+  "base": "TempoTec V3 Blaze V3_ANALOG_2025 v1.3",
+  "official_sha256": "5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+  "editions": {
+    "stock-fix": {
+      "name": "V3 Blaze v1.3 Stock + LDAC Fix",
+      "filename": "V3-Blaze-v1.3-Stock-LDAC-Fix.upt",
+      "size": 44367872,
+      "sha256": "273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1",
+      "md5": "cd380b93df9a600a5d24cb64585aac88",
+      "rootfs_sha256": "aa3f317b7de8fa07c00f3ecf63bd51f1e3131a521a63daf1ff0a452c0fff2fac",
+      "rootfs_md5": "5326512483040b323ce5a15e13ec0dfd",
+      "reference_equivalence": "byte-identical",
+      "changed_regular_files_vs_official": 1,
+      "hardlink_groups": 208
+    },
+    "full-mod": {
+      "name": "V3 Blaze v1.3 Full Mod",
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.1.2.upt",
+      "size": 44367872,
+      "sha256": "6bd0c1bf1973241efe6985d6da63572197f502b190851883876d82e8255017e8",
+      "md5": "f85adf2d2f5bc684061f9c27fa6c5d56",
+      "rootfs_sha256": "85ac277d11eaf1d1de1f40faa6f9d744853f3dc89b4342651c4f580da2fd9c26",
+      "rootfs_md5": "fcfbb314e587a0f9cb7c23dfcb29f98e",
+      "reference_equivalence": "byte-identical",
+      "changed_regular_files_vs_official": 611,
+      "hardlink_groups": 0
+    }
+  }
+}

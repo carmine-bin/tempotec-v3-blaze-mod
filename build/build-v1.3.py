@@ -148,6 +148,37 @@ def validate_layouts(stock, final):
     return {'layouts': count, 'named_contracts': contracts, 'pngs': pngs, 'new_missing_images': missing, 'unchanged_stock_json_exceptions': stock_json_exceptions}
 
 
+def generate_ui(stock, work):
+    """Regenerate the six physically validated payload files from pinned inputs."""
+    from ui import patch, validate
+    root, overlay = work / 'ui-input', work / 'ui-generated'
+    player = bytearray((stock / 'usr/bin/hiby_player').read_bytes())
+    offset, before, after, original_hash, baseline_hash = PATCHES['usr/bin/hiby_player']
+    assert hashlib.sha256(player).hexdigest() == original_hash
+    assert player[offset:offset+4] == bytes.fromhex(before)
+    player[offset:offset+4] = bytes.fromhex(after)
+    assert hashlib.sha256(player).hexdigest() == baseline_hash
+    inputs = {'usr/bin/hiby_player': bytes(player)}
+    prefix = 'usr/resource/layout/theme1/'
+    inputs[prefix+'dialog/shutdown_timer.dlg'] = (stock / (prefix+'dialog/shutdown_timer.dlg')).read_bytes()
+    inputs[prefix+'dialog/playmenu_song_info.dlg'] = (REPO / 'build/v1.3/ui/inputs/playmenu_song_info.dlg').read_bytes()
+    for name in ['hiby_sub_back.view', 'hiby_set_sub_back.view', 'hiby_eq_title.view']:
+        inputs[prefix+name] = (REPO / 'theme/v1.3' / (prefix+name)).read_bytes()
+    for rel, data in inputs.items():
+        dest = root / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data)
+    paths, record = patch.generate(root, overlay)
+    assert record['after_sha256'] == '922d145931f71f4a46ea91a1bbc15263ad6d4f83db27452c6996891db11507c5'
+    for rel in paths:
+        if rel != 'usr/bin/hiby_player':
+            assert (overlay / rel).read_bytes() == (REPO / 'theme/v1.3' / rel).read_bytes(), rel
+    save(work / 'BINARY-PATCHES.json', record)
+    save(work / 'UI-PAYLOAD-MANIFEST.json', [{'path': p, 'bugs': b,
+         'sha256': sha(overlay/p)} for p,b in paths.items()])
+    validate.validate(root, overlay, work)
+    return overlay
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('edition', choices=['stock-fix', 'full-mod'])
@@ -173,7 +204,9 @@ def main():
     save(base / 'v13/inventory.json', old)
     save(base / 'v13/hardlinks.json', links)
     manifest = json.loads((REPO / f'build/v1.3/{args.edition}-manifest.json').read_text())
+    ui_overlay = generate_ui(base / 'v13/rootfs', work) if args.edition == 'full-mod' else None
     reasons = {}
+    binary_deltas = {}
     for row in manifest:
         rel = row['path'].lstrip('/')
         assert '..' not in Path(rel).parts and not Path(rel).is_absolute()
@@ -188,6 +221,11 @@ def main():
             data[offset:offset+4] = bytes.fromhex(changed)
             assert hashlib.sha256(data).hexdigest() == after_hash
             assert data[offset+4:offset+8] == (base / 'v13/rootfs' / rel).read_bytes()[offset+4:offset+8]
+            if rel == 'usr/bin/hiby_player':
+                data = (ui_overlay / rel).read_bytes()
+            original_data = (base / 'v13/rootfs' / rel).read_bytes()
+            assert len(data) == len(original_data)
+            binary_deltas[rel] = [i for i,(a,b) in enumerate(zip(original_data,data)) if a != b]
         else:
             data = (REPO / 'theme/v1.3' / rel).read_bytes()
         assert hashlib.sha256(data).hexdigest() == row['after']['sha256'], rel
@@ -198,7 +236,8 @@ def main():
     assert 'usr/lib/libldacdec.so.1' in reasons
     assert args.edition != 'stock-fix' or set(reasons) == {'usr/lib/libldacdec.so.1'}
     save(work / 'change-reasons.json', reasons)
-    # Validate before packing using a private content tree; metadata is supplied explicitly by TAR.
+    save(work / 'binary-deltas.json', binary_deltas)
+    # Validate before packing using a staging content tree; metadata is supplied explicitly by TAR.
     stage = work / 'stage'
     shutil.copytree(base / 'v13/rootfs', stage, symlinks=True)
     for rel in reasons:
@@ -206,20 +245,22 @@ def main():
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(work / 'changes' / rel, dest)
     checks = validate_layouts(base / 'v13/rootfs', stage)
-    for rel in PATCHES.keys() & reasons.keys():
+    for rel in {'usr/lib/libldacdec.so.1'} & reasons.keys():
         assert subprocess.check_output(['readelf', '-aW', str(stage / rel)]) == subprocess.check_output(['readelf', '-aW', str(base / 'v13/rootfs' / rel)])
     save(work / 'staging-validation.json', {'status': 'PASS', **checks})
     build_rootfs.build()
     import package
     package.package()
+    release = json.loads((REPO/'build/v1.3/release.json').read_text())
+    assert sha(work/package.NAME) == release['editions'][args.edition]['reference_sha256'], 'Package differs from the pinned validated edition'
     final = json.loads((work / 'final-inventory.json').read_text())
     assert set(final) == set(old) | {x['path'].lstrip('/') for x in manifest}
     for row in manifest:
         actual = final[row['path'].lstrip('/')]
         for k in ['mode', 'uid', 'gid', 'mtime', 'target', 'sha256']:
             assert actual.get(k) == row['after'].get(k), (row['path'], k)
-    report = {'status': 'PASS', 'edition': args.edition, 'official_sha256': sha(src),
-              'reproduced_sha256': sha(work / 'reproduced.upt'), 'layouts': checks,
+    report = {'status': 'PASS', 'version': json.loads((REPO/'build/v1.3/release.json').read_text())['version'], 'edition': args.edition, 'official_sha256': sha(src),
+              'reproduced_sha256': sha(work / package.NAME), 'layouts': checks,
               'release_artifact_replaced': False}
     if args.reference:
         from validate_v13 import compare_reference

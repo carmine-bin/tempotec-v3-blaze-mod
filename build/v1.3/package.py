@@ -2,7 +2,7 @@
 from build_rootfs import *
 from iso_reader import iso_tree
 import zlib
-SRC=Path(os.environ['V3_BUILD_INPUT']);NAME='reproduced.upt'
+SRC=Path(os.environ['V3_BUILD_INPUT']);NAME=json.loads((REPO/'build/v1.3/release.json').read_text())['editions'][os.environ['V3_BUILD_EDITION']]['filename']
 SHA13='5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95'
 
 def package():
@@ -20,7 +20,7 @@ def package():
  meta=iso_tree(SRC);save(W/'original-iso-tree.json',meta);timestamp=int(os.environ.get('V3_BUILD_ISO_TIMESTAMP', meta['ota_v0/ota_update.in']['mtime']));app=SRC.read_bytes()[32768+574:32768+702].decode().strip()
  application = os.environ.get('V3_BUILD_ISO_APPLICATION', app)
  volume_m = '0' if os.environ.get('V3_BUILD_ISO_TIMESTAMP') else str(timestamp)
- args=['xorriso','-abort_on','FAILURE','-indev',SRC,'-outdev',out,'-joliet','on','-rockridge','on','-compliance','iso_9660_level=1','-volset_id',application,'-application_id',application,'-preparer_id','','-system_id','LINUX','-volid','CDROM','-iso_nowtime','='+str(timestamp),'-volume_date','c','='+str(timestamp),'-volume_date','m','='+volume_m,'-volume_date','f','='+volume_m,'-volume_date','all_file_dates','set_to_mtime']
+ args=['xorriso','-abort_on','FAILURE','-indev',SRC,'-outdev',out,'-joliet','on','-rockridge','on','-compliance','iso_9660_level=1',*(['-volset_id',application] if os.environ['V3_BUILD_EDITION']=='full-mod' else []),'-application_id',application,'-preparer_id','','-system_id','LINUX','-volid','CDROM','-iso_nowtime','='+str(timestamp),'-volume_date','c','='+str(timestamp),'-volume_date','m','='+volume_m,'-volume_date','f','='+volume_m,'-volume_date','all_file_dates','set_to_mtime']
  old=sorted(x for x in src.iterdir() if x.name.startswith(('rootfs.squashfs.','ota_md5_rootfs.squashfs.')))
  args+=['-rm']+['/ota_v0/'+x.name for x in old]+['--']
  for f in sorted(new):
@@ -31,9 +31,6 @@ def package():
   args+=['-alter_date_r','b','='+str(timestamp),'/','--','-alter_date_r','c','='+str(timestamp),'/','--']
  args+=['-commit','-end']
  save(W/'xorriso-command.json',list(map(str,args)));run(args,W/'xorriso-build.log')
- header=Path(__file__).resolve().parents[2]/'build/v1.3/hardware-tested-iso-header.bin'
- if os.environ.get('V3_BUILD_EDITION')=='full-mod' and header.is_file():
-  data=bytearray(out.read_bytes());patch=header.read_bytes();data[:len(patch)]=patch;out.write_bytes(data)
  print('One UPT generated; final verification starting',flush=True)
  verify_final()
 
@@ -68,7 +65,7 @@ def verify_final():
   else:assert name=='rootfs.squashfs' and data==(W/'rootfs.squashfs').read_bytes()
   checks.append({'image':name,'size':len(data),'chunks':len(chunks),'md5':whole,'sha256':hashlib.sha256(data).hexdigest(),'status':'PASS'})
  assert {x['image'] for x in checks}=={'xImage','rootfs.squashfs'}
- fs={'status':'PASS','rootfs_sha256':digest(W/'final-rootfs.squashfs'),'rootfs_md5':hashlib.md5((W/'final-rootfs.squashfs').read_bytes()).hexdigest(),'metadata':'hardware-tested rootfs byte-for-byte source'} if os.environ.get('V3_BUILD_EDITION')=='full-mod' and (os.environ.get('V3_BUILD_ROOTFS_OVERRIDE') or (Path(__file__).resolve().parents[2]/'build/v1.3/hardware-tested-rootfs.squashfs').is_file()) else verify(W/'final-rootfs.squashfs',W/'final-rootfs','final')
+ fs=verify(W/'final-rootfs.squashfs',W/'final-rootfs','final')
  assert digest(SRC)==SHA13
  run(['xorriso','-indev',out,'-pvd_info','-report_system_area','plain','-report_el_torito','plain'],W/'final-pvd.log')
  # Verify stable descriptor identities; physical extent/volume size changes are expected.
@@ -76,6 +73,6 @@ def verify_final():
  for lo,hi in [(1,7),(8,40),(40,72),(318,446)]+([] if os.environ.get('V3_BUILD_ISO_TIMESTAMP') else [(574,702)]):assert a[lo:hi]==b[lo:hi],(lo,hi)
  sh=digest(out);(W/(NAME+'.sha256')).write_text(sh+'  '+NAME+'\n');save(W/'final-inventory.json',json.loads((W/'expected-inventory.json').read_text()))
  assert len(list(W.glob('*.upt')))==1
- report={'status':'PASS','firmware':NAME,'sha256':sh,'size':out.stat().st_size,'test_firmware_count':1,'iso':'ISO9660, Rock Ridge and Joliet independently verified; stock identifiers and OTA metadata retained','ota':checks,'uimage_header_crc32':'PASS','uimage_payload_crc32':'PASS','decompressed_kernel':'byte-identical to 1.3','squashfs':fs,'sources_unchanged':True,'existing_TEST2_unchanged':True,'hardware_test':'Reproduction only; tested release bytes are retained separately'}
+ report={'status':'PASS','firmware':NAME,'sha256':sh,'md5':hashlib.md5(out.read_bytes()).hexdigest(),'size':out.stat().st_size,'firmware_count':1,'iso':'ISO9660, Rock Ridge and Joliet independently verified; stock identifiers and OTA metadata retained','ota':checks,'uimage_header_crc32':'PASS','uimage_payload_crc32':'PASS','decompressed_kernel':'byte-identical to 1.3','squashfs':fs,'sources_unchanged':True,'hardware_test':'Physical validation belongs to the pinned reference; see REPRODUCTION-REPORT.json for byte equivalence'}
  save(W/'FINAL-VERIFICATION.json',report);print('FINAL VERIFICATION PASS',sh,flush=True)
 if __name__=='__main__':package()

@@ -1,0 +1,13 @@
+{
+  "version": "v1.1.2",
+  "editions": {
+    "stock-fix": {
+      "filename": "V3-Blaze-v1.3-Stock-LDAC-Fix.upt",
+      "reference_sha256": "273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1"
+    },
+    "full-mod": {
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.1.2.upt",
+      "reference_sha256": "6bd0c1bf1973241efe6985d6da63572197f502b190851883876d82e8255017e8"
+    }
+  }
+}

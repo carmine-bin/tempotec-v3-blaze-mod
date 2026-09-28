@@ -1,10 +1,9 @@
 """Re-extract an exact tested artifact and compare filesystem content and metadata."""
 import json
 
-REFERENCES = {
-    'stock-fix': '273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1',
-    'full-mod': 'fbb6f356cea7cae73b7af39ade9d32e0e4b0f9fc1eaab4a6ac401f6e92a4c933',
-}
+from pathlib import Path
+RELEASE = json.loads((Path(__file__).parent/'v1.3/release.json').read_text())
+REFERENCES = {k:v['reference_sha256'] for k,v in RELEASE['editions'].items()}
 
 
 def compare_reference(edition, reference, work):
@@ -24,6 +23,7 @@ def compare_reference(edition, reference, work):
             assert row['size'] == rebuilt[p]['size'], p
     assert links == json.loads((work / 'final-hardlinks.json').read_text())
     assert (images / 'xImage').read_bytes() == (work / 'final-xImage').read_bytes()
+    assert reference.read_bytes() == (work / RELEASE['editions'][edition]['filename']).read_bytes(), 'UPT must reproduce the pinned hardware-tested bytes'
     return {'sha256': cli.sha(reference), 'rootfs_sha256': cli.sha(images / 'rootfs.squashfs'),
             'paths': len(actual), 'filesystem_content_metadata_links': 'identical',
-            'kernel': 'identical', 'upt_bytes_equal': reference.read_bytes() == (work / 'reproduced.upt').read_bytes()}
+            'kernel': 'identical', 'upt_bytes_equal': reference.read_bytes() == (work / RELEASE['editions'][edition]['filename']).read_bytes()}

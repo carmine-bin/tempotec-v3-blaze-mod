@@ -1,189 +1,49 @@
-# How it works
+# Technical notes
 
-Notes from porting a theme between two players that look similar and are not. Written for the
-next person who opens a `.view` file and wonders why renaming something broke it.
+The player loads named widgets from `.view` and `.dlg` resources, with loose PNG artwork under `/usr/resource`. These files live in the read-only rootfs, so persistent changes require rebuilding the firmware.
 
-## The short version
+## Layout contracts
 
-HiBy OS draws its interface with an engine called litegui. Layouts are JSON files describing
-elements by name and position; artwork is loose PNGs. Both live in the read-only root filesystem,
-so "installing a theme" means rebuilding the firmware image.
+Widget names are part of the player API. The brightness callback expects `pull_down_menu_pb`; the donor name `pull_down_menu_bklight_pb` produced a draggable control without a working callback. Lookups also depend on widget type and parent. Some search only direct children.
 
-That part is mechanical. The interesting part is that **the layout is not data the binary reads
-generically — it is an interface the binary expects you to implement.**
+The USB DAC builder looks up six fixed names and dereferences them without a null check; a load in a MIPS call's delay slot exposed the missing-widget crash. Preserve names, types, parents and indexed `img_path_N` states. Blaze gain has three states, so two-state donor artwork omitted the middle level.
 
-## The element name is the API
+Repeated JSON keys represent sibling widgets. Property order relative to construction markers also matters. The [ordered-pair parser](../build/v1.3/layout.py) preserves both. Standard JSON dictionaries cannot safely round-trip these layouts. Missing PNGs can be cosmetic—38 dangling references were recorded in the historical stock audit—but malformed layout syntax can prevent boot. Current checks reject newly missing image references.
 
-The clearest example is the brightness slider.
+## Artwork and tinting
 
-The V3 Analog theme has a brightness control in its pull-down menu. Ported to the Blaze it
-rendered, it dragged, and it did absolutely nothing. The obvious conclusion — the Blaze's binary
-doesn't support it — was wrong, and cost a couple of days.
+Battery fill is cropped, not scaled: the engine takes the first `h × pct` rows and draws them at `y + h − h × pct`. A donor image containing the outline and terminal produced a second battery inside the frame and lost useful fill at low charge. Full Mod separates a bare fill, sized and positioned to the frame opening, from the static frame. The same correction applies to charging artwork. Offline composites at 100%, 59%, 25% and 10% reproduced and checked the crop behavior.
 
-Disassembling the pull-down builder shows the binary matching element names against string
-literals, installing a callback for each one it recognises. It matches `pull_down_menu_pb`. The
-donor theme called the element `pull_down_menu_bklight_pb`. Same widget, same geometry, one
-unrecognised name, so the callback was never installed and the slider was inert.
+Accent tinting happens when PNGs load. `litegui/theme1/no_skin_list.txt` controls opt-outs; protect color swatches and QR artwork while allowing intended controls to follow the accent. Preserve Windows-style paths and CRLF endings. A late bind-mount cannot reliably test already-loaded colors.
 
-Renamed to `pull_down_menu_pb`, brightness works.
+## Configuration and I/O
 
-The same lookup logic explains a crash. Opening the USB DAC screen froze the player and rebooted
-it. Its builder walks a fixed array of six element names and dereferences each lookup **without a
-null check** — and the load sits in the delay slot of the following `jal`, which is why a
-scripted scan for unguarded dereferences misses it and you have to decode the instruction by
-hand. Two of the six names were absent from the ported layout, so the fourth iteration
-dereferenced null before drawing anything.
+Full Mod enables About/color settings, DAC-setting persistence and TF image/database cache flags. The startup script applies MMC read-ahead `2048` and cache pressure `50` only where the relevant paths exist. UBIFS mounting changes `sync` to `noatime`, removing synchronous writes as well as access-time updates. These settings are retained from the tested Full Mod; no quantified speed or stability benefit is claimed for each flag.
 
-Practical rules that fell out of this:
+The pull-down retains brightness and hides its existing volume/decorative lookup objects. Other volume controls remain available. Official PEQ/filter layouts are preserved.
 
-- An element's **name** determines whether it is wired up. Renaming is not cosmetic.
-- Its **type** matters: the global lookup is by name *and* JSON type. An `imageview` where the
-  binary wants a `numview` fails silently.
-- Its **parent** matters. One lookup used here is non-recursive — it only searches direct
-  children — so an element under the wrong parent dies quietly, with no crash to tell you.
-- A missing PNG is harmless; the stock firmware already ships 38 dangling references and boots
-  fine. Malformed layout **syntax** is what causes boot loops.
+## Next-track metadata patch
 
-## The battery, or: read the engine before you redraw the art
+A next-track query copies its output structure, then parses the next file into a shared current-track buffer. The identified operation-`0x1f` callers use the returned path, while API operation 4 reads that shared buffer. Parsing can overwrite current title, artist, album and format fields; the parser also clears pointers without freeing their previous strings.
 
-The battery icon lost its fill below roughly 30% charge, and on the charging screen it showed a
-second battery inside the first.
+In v1.3, file offset `0x38240` / VA `0x438240` changes `08 da 10 0c` (`jal 0x436820`) to a NOP. Output copy (`0xa88` bytes), selection restoration, unlock/return and the `addiu a0,a0,4` delay slot remain. The shared buffer is at `0x988f90`. The historical v1.2 patch was at `0x36a00` / VA `0x436a00`; that offset is not reused in v1.3.
 
-Two device tests pinned the engine's behaviour: it takes the **first `h × pct` rows** of the fill
-image and draws them **pinned to the bottom** of the element, at `y + h - h×pct`. It does not
-scale, and it does not centre.
-
-That rule is fine if the fill image is exactly the fill. The donor artwork was a whole battery —
-outline, terminal cap and all — so cropping the top 59% of it and sliding it down put *its own
-cap* halfway up the frame. The result reads unmistakably as two batteries:
-
-```
-frame (static)        fill image, 59% cropped     what you see
-┌─▄─┐                 ┌─▄─┐                       ┌─▄─┐
-│   │        +        │███│  slid down     =      │   │
-│   │                 │███│                       │ ▄ │   ← the fill image's own cap
-└───┘                 └───┘                       │███│
-```
-
-The fix is to make the element the binary drives **exactly the opening in the frame**: a solid
-fill sized to the hole, positioned at the hole, with the frame drawn as a separate static image
-under a name the binary does not know. Then the percentage crop maps linearly and can never
-escape.
-
-This is not a defect introduced by porting. The same artwork produces the same misplaced battery
-on the V3 Analog it was made for — it is visible in the original thread's screenshots. The engine
-is the same on both devices; the defect travels with the asset.
-
-### Verifying it without the device
-
-The engine's rule is simple enough to reimplement in ten lines, which makes the fix testable on a
-laptop: crop the first `h × pct` rows, composite at `y + h - h×pct`, render at 100/59/25/10%.
-Doing that reproduced the reported photo exactly at 59%, then showed a clean fill afterwards.
-
-Worth the effort. Every device test on this player costs a reboot, and reboots are where mistakes
-compound.
-
-## Off-by-one states
-
-The Blaze cycles **three** gain levels. The donor player had two. Every ported gain control
-therefore lost its middle state — the pull-down icon, the settings switch — and showed nothing
-when gain was medium, because index 1 pointed at an image that did not exist.
-
-This same shape recurred three separate times (gain, the PEQ switch, and a settings toggle),
-always as an element indexed `img_path_N` where `N` runs over a state count the binary decides.
-When porting between HiBy devices, **count the states before trusting an indexed control.**
-
-## Four bytes (historical v1.2 patch)
-
-Enabling the image cache made the player report degraded playback quality — a bitrate readout
-that no longer matched the file.
-
-The cache is not the culprit; it is a trigger. Turning it on changes which code path runs when a
-track loads, and one of those paths calls a routine that parses metadata from *the next file in
-the list* into a shared struct — overwriting the current track's title, artist, album and format
-fields. It also leaks: the routine begins with a `memset` of the struct without freeing the
-string pointers already there.
-
-The only two callers of the relevant API read the path out of the returned struct and never touch
-the global afterwards, so the parse is dead work with a destructive side effect. Replacing the
-call with a no-op fixes the quality readout and removes a full open-and-parse per track change.
-
-```
-vaddr        0x00436a00      jal FUN_00435060   →   nop
-file offset  0x00036a00      (0x436a00 - 0x400000)
-```
-
-Four bytes. The build asserts that the shipped binary differs from stock in **exactly** those
-four and nothing else.
-
-## Tinting, and why the theme colours kept lying
-
-Assets do not necessarily render in the colours they are drawn in. The firmware's accent picker
-repaints PNGs at load time, and `litegui/theme1/no_skin_list.txt` is the opt-out list. Anything
-absent from that list gets tinted.
-
-That single file explains an entire family of "the colour is wrong" bugs, in both directions —
-the volume bar not following the accent (missing from the list), the colour picker's own swatches
-repainting themselves, QR codes getting tinted until they no longer scanned.
-
-Two traps worth knowing:
-
-- Tinting happens **when the PNG is loaded**, so it cannot be evaluated with a live bind-mount —
-  the mount lands after the player has already loaded its images. Only a baked image tells the
-  truth.
-- The list uses Windows-style paths and **CRLF** line endings. Preserve them.
-
-## How the historical v1.2 build kept itself honest
-
-Rebuilding a root filesystem by hand is easy to get subtly wrong, and the failure mode is a
-device that does not boot. The build runs four gates and refuses to produce an image if any fail:
-
-1. **Staging manifest** — every theme file checked against a recorded SHA-256 before anything is
-   packed. An accidental edit stops the build instead of shipping.
-2. **JSON syntax** on all 149 layout files. Malformed layout is the one thing that reliably
-   causes a boot loop.
-3. **Metadata diff** against the stock filesystem — modes, owners, sizes. The whole round-trip
-   runs under `fakeroot`, because unpacking as a normal user silently drops the setuid bit on
-   `busybox` and the image will not boot.
-4. **Content diff**, SHA-256 per file: 2677 files outside the theme must be byte-identical to
-   stock, and the five that differ must differ in exactly the expected way — including the
-   binary, byte-counted.
-
-The kernel is passed through untouched and its checksum compared against TempoTec's manifest.
-
-## Things that stayed broken
-
-- **PEQ is now included in official v1.3** and preserved in both editions. The earlier v1.2 investigation established 29 element names and a hardcoded 2×5 band grid, but did not have working processing.
-- **Two pull-down controls** the binary draws but never listens to. Hidden rather than left as
-  dead widgets.
-
-## Tools
-
-`xref.py` (cross-references including `lui`/`addiu` pairs, which a naive scan misses),
-`mipsdis.py`, `annotate.py` (disassembly annotated with string pointers), `lookup-audit.py`
-(finds unguarded dereferences after name lookups, delay slots included), and Ghidra headless for
-decompilation. All in [`../build/scripts`](../build/scripts).
+Six instruction-harness cases covered valid/null output, absent next track, absent lock callback and API 4 with/without output. External calls were mocked. These checks establish the isolated path, not every indirect caller or the complete audio pipeline. [Original player validation](evidence/full-mod-player-validation.json) records that work. Current Full Mod adds the separately documented [UI hooks](UI-FIXES.md).
 
 ## Migration to official v1.3
 
-The comparison firmware images are identified by their SHA-256 hashes, independently of local filenames:
-
 | Comparison input | SHA-256 |
 |---|---|
-| Official TempoTec v1.2 | `561797a3e1041e6cd38a909bef1cf2950eac97d589935bc86eec72ebab39d811` |
+| Official v1.2 | `561797a3e1041e6cd38a909bef1cf2950eac97d589935bc86eec72ebab39d811` |
 | Previous v1.2 Full Mod | `bb26dbf8fbd9ebb49972adee978154eb20d6f16bc4772a6d811ea3e452926e97` |
-| Official TempoTec v1.3 | `5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95` |
+| Official v1.3 | `5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95` |
 
-Official v1.3 is the complete base for both current editions, including PEQ, real-time Bluetooth search and TempoTec's stability fixes. It changes 208 non-timestamp paths from v1.2, including player/server, Bluetooth, kernel/modules, USB and supporting resources. Overlaying the old rootfs or replacing whole theme directories would risk rolling back functional fixes or dropping v1.3-only resources. No old Bluetooth/audio/kernel/system components were copied over.
+Official v1.3 supplies the complete current base, including PEQ, real-time Bluetooth search and stability fixes. The comparison found 208 non-timestamp path differences from v1.2 across the player/server, Bluetooth, kernel/modules, USB and resources. Full Mod ports an explicit resource/configuration allowlist rather than replacing whole directories or importing old system components. All 151 official layouts and their required named contracts remain.
 
-Full Mod ports an explicit allowlist of layouts/assets and exact configuration/script deltas. All 151 official layouts remain, including byte-identical PEQ/filter layouts. Duplicate JSON object keys are preserved with ordered pairs: repeated widget-type keys and construction-marker order are meaningful to this renderer. The final merge preserves 1,283 official named widget/type/parent contracts. The final launcher image fallback, play/pause state mapping and notice first-child text behavior were corrected after intermediate hardware tests exposed their defects. The final Full Mod image was validated on physical V3 Blaze hardware.
+The v1.3 base improved previously observed freezes/reboots. In a severe Bluetooth degradation test, connection loss no longer rebooted the player; it recovered when the link returned. Artwork-related instability was also reported resolved. The historical trigger's JPEG encoding, dimensions and file size were not retained, so progressive JPEG cannot be identified as its cause. These observations concern the official base, not the decoder patch.
 
-The old v1.2 player offset cannot be reused. In v1.3 the patch is at **file offset `0x38240`, VA `0x438240`**: `08 da 10 0c → 00 00 00 00`, removing `jal 0x436820`. The next-track API output structure (`0xa88` bytes) is copied first. The removed parse would write next-track metadata into the shared current-track buffer at `0x988f90`; API operation 4 reads that buffer. The identified operation-`0x1f` callers use the returned path at buffer+4. Output copy, selection restoration, unlock/return path and `addiu a0,a0,4` delay slot remain unchanged. The old `0x36a00` offset is not modified.
+Both editions use the same one-byte [LDAC correction](LDAC-RECEIVER-ARTIFACTS.md). It has no demonstrated dependency on PEQ, the theme or the next-track patch. The [Bluetooth link-margin issue](BLUETOOTH-RANGE.md) remains unresolved.
 
-Validation used actual v1.3 MIPS bytes, disassembly, callsite inspection, exact original/final hashes and bounded instruction execution with external calls mocked. Six cases passed: valid next-track output, null output, absent next track, absent lock callback and API 4 with/without output. This proves isolated logic, not every indirect caller or the complete player pipeline. The final binary differs in exactly four bytes; ELF layout/import/export/relocation output remains unchanged. See [player validation](evidence/full-mod-player-validation.json) and [complete file manifest](../build/v1.3/full-mod-manifest.json).
+The current [builder](BUILD.md) records metadata explicitly in TAR, re-extracts both rootfs stages and checks the final UPT against pinned bytes. It preserves Stock hardlinks and existing Full Mod metadata separately. Historical v1.2 builds used fakeroot; their checks and counts remain in [archived documentation](releases/v1.0.0-BUILD.md).
 
-Both editions independently apply the **same TEST 2 decoder correction**, a single changed byte in the v1.3 LDAC decoder. It has no demonstrated dependency on the theme, custom player patch or PEQ. Stock Fix changes no other filesystem content. See [LDAC-REGRESSION.md](LDAC-REGRESSION.md) for exact gate semantics and hardware isolation; [BLUETOOTH-RANGE.md](BLUETOOTH-RANGE.md) covers the separate unresolved RF symptom.
-
-The final pull-down intentionally preserves brightness only; official volume/decorative lookup objects are hidden. Earlier documentation claiming two visible sliders was inaccurate. Full Mod's exact cache/script settings are recorded in the manifest and README; the UBIFS substitution removes synchronous writes as well as adding noatime. Do not infer a quantified v1.3 speed or stability benefit from inclusion alone.
-
-The current builder supplies ownership, permissions, special bits, timestamps and links explicitly through a numeric-owner TAR rather than trusting unprivileged extraction. It validates the rebuilt and re-extracted filesystem against the manifest and optionally against the exact tested UPT. See [BUILD.md](BUILD.md). Historical v1.2 gates/counts above remain documentation of the earlier implementation.
+Reverse-engineering helpers in [build/scripts](../build/scripts) include `xref.py`, `mipsdis.py`, `annotate.py` and `lookup-audit.py`; Ghidra headless was also used. Cross-references must account for `lui`/`addiu` address pairs and MIPS delay slots.
