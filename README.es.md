@@ -13,7 +13,7 @@ Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con una corrección para los a
 | V3 Blaze v1.3 Stock + LDAC Fix | Aspecto y funciones oficiales, con solo la corrección del decoder LDAC | `V3-Blaze-v1.3-Stock-LDAC-Fix.upt` |
 | V3 Blaze v1.3 Full Mod | Base v1.3 corregida, interfaz personalizada de estilo HiBy y correcciones de UI probadas | `V3-Blaze-v1.3-Full-Mod-v1.1.2.upt` |
 
-Ambas conservan PEQ, búsqueda Bluetooth en tiempo real y mejoras de estabilidad de la v1.3 oficial. El kernel permanece intacto. La edición Stock no cambia respecto a la publicación anterior. Full Mod v1.1.2 es idéntico byte por byte al UI Fixes Test probado en hardware V3 Blaze real.
+Ambas ediciones usan el kernel oficial e incluyen PEQ, búsqueda Bluetooth en tiempo real y mejoras de estabilidad de v1.3. Stock + LDAC Fix no cambia respecto a la versión anterior. Full Mod v1.1.2 incluye las correcciones de UI probadas en un V3 Blaze real.
 
 Full Mod incluye:
 
@@ -23,15 +23,15 @@ Full Mod incluye:
 - Correcciones existentes de navegación por álbumes, cuenta regresiva de apagado con Power restaurada y gráficos finales de Balance en Quick Settings.
 - Cobertura completa del apagado, encabezados coherentes en las páginas del menú de Now Playing, regreso a la pantalla principal al cambiar el color y redibujado correcto de Ajustes al ocultarse la barra de desplazamiento.
 
-El desplegable ofrece brillo; sus objetos de volumen siguen ocultos. Los controles de volumen de otras pantallas se conservan. También mantiene los ajustes comprobados de read-ahead MMC y presión de caché, los cambios de montaje UBIFS y la corrección de metadatos de la pista siguiente descritos en las [notas técnicas](docs/HOW-IT-WORKS.md). Su inclusión no demuestra una mejora de rendimiento cuantificada.
+El desplegable tiene un control de brillo; sus controles de volumen están ocultos. Los controles de volumen siguen disponibles en otras pantallas. Full Mod también incluye los ajustes comprobados de read-ahead MMC y presión de caché, los cambios de montaje UBIFS y la corrección de metadatos de la pista siguiente descritos en las [notas técnicas](docs/HOW-IT-WORKS.md). Estos ajustes forman parte de Full Mod; su impacto en el rendimiento no se ha medido.
 
-La interfaz se adaptó a través del port de Kae0 para V3 Analog con gráficos de HiBy. Las fotos muestran ese diseño; no registran las pruebas de cada pantalla actual. Véanse [créditos](CREDITS.md), [changelog](CHANGELOG.md) y [detalles de las correcciones de UI](docs/UI-FIXES.md).
+La interfaz se adaptó a través del port de Kae0 para V3 Analog con gráficos de HiBy. Véanse [créditos](CREDITS.md), [changelog](CHANGELOG.md) y [detalles de las correcciones de UI](docs/UI-FIXES.md).
 
 ## Limitaciones conocidas
 
 Con el salvapantallas de carátula activo, la información y la carátula pueden tardar aproximadamente 1.5 segundos en actualizarse después de cambiar de canción. El mismo comportamiento fue reproducido en los firmwares oficiales TempoTec v1.2 y v1.3.
 
-La recepción Bluetooth tiene un margen de enlace limitado, especialmente con LDAC sostenido a tasas altas y en condiciones de RF difíciles. AAC ha sido más estable durante las pruebas. Este comportamiento es independiente de la corrupción de audio LDAC de v1.3 corregida por el proyecto. La causa exacta a nivel de RF no ha sido establecida. [Observaciones del enlace](docs/BLUETOOTH-RANGE.md).
+La recepción Bluetooth tiene un margen de enlace limitado, especialmente con LDAC sostenido a tasas altas y en condiciones de RF desfavorables. AAC ha sido más estable durante las pruebas. Este comportamiento es independiente de la corrupción de audio LDAC de v1.3 corregida por el proyecto. La causa del poco margen de señal sigue sin determinarse. [Observaciones del enlace](docs/BLUETOOTH-RANGE.md).
 
 El firmware v1.3 contiene una regla adicional downstream que suprime coeficientes y que no se encontró en las fuentes públicas examinadas. Evitar esa regla corrigió la corrupción de audio LDAC en modo Bluetooth Receiver en hardware V3 Blaze real. Su autor y finalidad son desconocidos. [Evidencia del decoder](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
@@ -54,7 +54,7 @@ Ambos paquetes tienen 44,367,872 bytes.
 
 ## Desarrollo y licencia
 
-Las [instrucciones de compilación](docs/BUILD.md) explican ambas ediciones, las comprobaciones binarias y la validación del contenedor/sistema de archivos. [CONTRIBUTING.md](CONTRIBUTING.md) describe las pruebas en el dispositivo.
+Las [instrucciones de compilación](docs/BUILD.md) explican cómo generar ambas ediciones y comprobar su contenido. [CONTRIBUTING.md](CONTRIBUTING.md) describe las pruebas en el dispositivo.
 
 El desarrollo y parte del trabajo de ingeniería inversa contó con asistencia de herramientas de IA. Los cambios publicados del firmware fueron revisados y probados en hardware V3 Blaze real.
 

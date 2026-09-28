@@ -13,7 +13,7 @@ Official TempoTec v1.3 (`V3_ANALOG_2025`) with a correction for Bluetooth Receiv
 | V3 Blaze v1.3 Stock + LDAC Fix | Official appearance and features, with only the LDAC decoder correction | `V3-Blaze-v1.3-Stock-LDAC-Fix.upt` |
 | V3 Blaze v1.3 Full Mod | Corrected v1.3 base, customized HiBy-style interface and tested UI fixes | `V3-Blaze-v1.3-Full-Mod-v1.1.2.upt` |
 
-Both preserve official v1.3 PEQ, real-time Bluetooth search and stability improvements. The kernel remains unchanged. The Stock edition is unchanged from the previous release. Full Mod v1.1.2 is byte-identical to the UI Fixes Test validated on physical V3 Blaze hardware.
+Both editions use the official kernel and include v1.3 PEQ, real-time Bluetooth search and stability improvements. Stock + LDAC Fix is unchanged from the previous release. Full Mod v1.1.2 includes the UI fixes tested on a physical V3 Blaze.
 
 Full Mod includes:
 
@@ -23,15 +23,15 @@ Full Mod includes:
 - Existing album browsing fixes, restored Power-button shutdown countdown and final Balance Quick Settings artwork.
 - Complete shutdown-screen coverage, consistent headers on Now Playing menu pages, theme-color changes returning to the main screen and correct Settings redraws when the scrollbar hides.
 
-The pull-down provides brightness; its volume objects remain hidden. Volume controls elsewhere are retained. Full Mod also retains the guarded MMC read-ahead and cache-pressure settings, UBIFS mount changes and next-track metadata correction documented in [technical notes](docs/HOW-IT-WORKS.md). Their inclusion is not a measured performance claim.
+The pull-down has a brightness slider; its volume controls are hidden. Volume controls remain available elsewhere. Full Mod also includes the guarded MMC read-ahead and cache-pressure settings, UBIFS mount changes and next-track metadata correction described in [technical notes](docs/HOW-IT-WORKS.md). These tweaks are kept from the Full Mod configuration; their performance impact has not been benchmarked.
 
-The interface was adapted through Kae0's V3 Analog port of HiBy artwork. The screenshots show that visual design; they are not a test record for every current screen. See [credits](CREDITS.md), [changelog](CHANGELOG.md) and [UI fix details](docs/UI-FIXES.md).
+The interface was adapted through Kae0's V3 Analog port of HiBy artwork. See [credits](CREDITS.md), [changelog](CHANGELOG.md) and [UI fix details](docs/UI-FIXES.md).
 
 ## Known limitations
 
 When the album-art screensaver is active, track information and artwork may take about 1.5 seconds to update after a track change. The same behavior was reproduced on official TempoTec v1.2 and v1.3 firmware.
 
-Bluetooth reception has limited link margin, particularly with sustained high-bitrate LDAC and in difficult RF conditions. AAC has been more reliable in testing. This is separate from the v1.3 LDAC audio corruption corrected by this project. The exact RF-level cause has not been established. [Link observations](docs/BLUETOOTH-RANGE.md).
+Bluetooth reception has limited link margin, particularly with sustained high-bitrate LDAC and in difficult RF conditions. AAC has been more reliable in testing. This is separate from the v1.3 LDAC audio corruption corrected by this project. The cause of the weak RF link is still unknown. [Link observations](docs/BLUETOOTH-RANGE.md).
 
 Firmware v1.3 contains an additional downstream coefficient-suppression rule that was not found in the public sources examined. Bypassing that rule corrected the Bluetooth Receiver LDAC audio corruption on physical V3 Blaze hardware. Its author and purpose are unknown. [Decoder evidence](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
@@ -54,7 +54,7 @@ Both packages are 44,367,872 bytes.
 
 ## Development and licence
 
-[Build instructions](docs/BUILD.md) cover both editions, exact binary assertions and container/filesystem validation. [CONTRIBUTING.md](CONTRIBUTING.md) covers device testing.
+See [build instructions](docs/BUILD.md) to build either edition and check its contents. [CONTRIBUTING.md](CONTRIBUTING.md) covers device testing.
 
 Development and reverse-engineering work was assisted by AI tools. All released firmware changes were reviewed and tested on physical V3 Blaze hardware.
 

@@ -9,7 +9,7 @@ Full Mod fixes, validated on physical V3 Blaze hardware:
 - Fixed theme-color changes returning to Music → Songs instead of the main screen.
 - Fixed Settings card corruption when the scrollbar disappeared after scrolling.
 
-Stock + LDAC Fix and the existing Full Mod audio/playback behavior remain unchanged. The build now generates the validated UI payload through the established builder.
+Stock + LDAC Fix and the existing Full Mod audio/playback behavior remain unchanged.
 
 Correcciones de Full Mod, probadas en hardware V3 Blaze real:
 
@@ -18,7 +18,7 @@ Correcciones de Full Mod, probadas en hardware V3 Blaze real:
 - Corregido el regreso a Música → Canciones después de cambiar el color del tema.
 - Corregida la corrupción visual de las tarjetas de Ajustes al desaparecer la barra de desplazamiento.
 
-Stock + LDAC Fix y el comportamiento existente de audio/reproducción de Full Mod se conservan. El builder habitual genera los cambios de UI validados.
+Stock + LDAC Fix y el comportamiento existente de audio/reproducción de Full Mod se conservan.
 
 ## [1.1.1] — 2026-09-15
 
