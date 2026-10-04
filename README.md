@@ -39,11 +39,14 @@ Firmware v1.3 contains an additional downstream coefficient-suppression rule tha
 
 Only for TempoTec V3 Blaze (`V3_ANALOG_2025`), not the older V3 Analog. Flashing carries risk; read [recovery instructions](docs/RECOVERY.md) first.
 
-1. Choose an edition and verify its SHA-256 against the [v1.1.2 manifest](docs/releases/v1.1.2-manifest.json).
-2. Rename it to `v3_analog_2025.upt` and copy it to the root of a microSD card.
-3. Select Settings → Firmware update → Update via micro SD card. Wait for flashing and reboot to finish.
+**A file named `update.upt` takes priority over `v3_analog_2025.upt`, even when updating from Settings. Remove or rename any `update.upt` before installing.**
 
-Keep backup firmware under `.upt.stock` or `.upt.bak`. A file named `update.upt` takes priority over `v3_analog_2025.upt`, even when updating from Settings.
+1. **If there is a `v3_analog_2025.upt` in the root of the microSD card (for example, the one left by the OTA update), rename it to `v3_analog_2025.upt.stock` before copying the mod. Otherwise the mod will overwrite it and you will lose your copy of the official firmware.**
+2. Choose an edition and verify its SHA-256 against the [v1.1.2 manifest](docs/releases/v1.1.2-manifest.json).
+3. Rename it to `v3_analog_2025.upt` and copy it to the root of a microSD card.
+4. Select Settings → Firmware update → Update via micro SD card. Wait for flashing and reboot to finish.
+
+Keep backup firmware under `.upt.stock` or `.upt.bak`. See [getting the official v1.3 firmware](docs/INSTALL.md#getting-the-official-v13-firmware) and [backup and restore](docs/INSTALL.md#backup-and-restore).
 
 Both packages are 44,367,872 bytes.
 

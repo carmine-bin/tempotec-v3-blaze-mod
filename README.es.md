@@ -39,11 +39,14 @@ El firmware v1.3 contiene una regla adicional downstream que suprime coeficiente
 
 Solo para TempoTec V3 Blaze (`V3_ANALOG_2025`), no para el V3 Analog antiguo. Flashear tiene riesgos; lee primero las [instrucciones de recuperación](docs/RECOVERY.md).
 
-1. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.1.2](docs/releases/v1.1.2-manifest.json).
-2. Renómbrala a `v3_analog_2025.upt` y cópiala a la raíz de una microSD.
-3. Selecciona Ajustes → Actualización de firmware → Actualizar mediante microSD. Espera a que termine y reinicie.
+**Un archivo llamado `update.upt` tiene prioridad sobre `v3_analog_2025.upt`, incluso al actualizar desde Ajustes. Elimina o renombra cualquier `update.upt` antes de instalar.**
 
-Guarda las copias con `.upt.stock` o `.upt.bak`. Un archivo llamado `update.upt` tiene prioridad sobre `v3_analog_2025.upt`, incluso al actualizar desde Ajustes.
+1. **Si hay un `v3_analog_2025.upt` en la raíz de la microSD (por ejemplo, el que dejó la actualización OTA), renómbralo a `v3_analog_2025.upt.stock` antes de copiar el mod. Si no, el mod lo sobrescribirá y perderás tu copia del firmware oficial.**
+2. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.1.2](docs/releases/v1.1.2-manifest.json).
+3. Renómbrala a `v3_analog_2025.upt` y cópiala a la raíz de una microSD.
+4. Selecciona Ajustes → Actualización de firmware → Actualizar mediante microSD. Espera a que termine y reinicie.
+
+Guarda las copias con `.upt.stock` o `.upt.bak`. Consulta [cómo obtener el firmware oficial v1.3](docs/INSTALL.md#getting-the-official-v13-firmware) y [respaldo y restauración](docs/INSTALL.md#backup-and-restore).
 
 Ambos paquetes tienen 44,367,872 bytes.
 

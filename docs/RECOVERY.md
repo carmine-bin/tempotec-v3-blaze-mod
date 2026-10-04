@@ -4,7 +4,9 @@ With the player off, hold **Power + Previous track**. Keep holding past the Temp
 
 A valid `v3_analog_2025.upt` in the microSD root is flashed automatically. Without a usable card/file, recovery waits about 10 seconds and exits without writing. This key combination was tested on the V3 Blaze.
 
-Keep backups as `.upt.stock` or `.upt.bak`. The updater tries the configured filename, then `update.upt`, then `v3_analog_2025.upt`; a leftover `update.upt` therefore overrides the standard device filename, even for an update initiated from Settings.
+> **Warning:** recovery flashes any valid `v3_analog_2025.upt` it finds in the microSD root without asking, including the official UPT left there by an OTA update. Check which file is in the root before entering recovery. See [Installation](INSTALL.md#getting-the-official-v13-firmware).
+
+Keep backups as `.upt.stock` or `.upt.bak` ([Backup and restore](INSTALL.md#backup-and-restore)). The updater tries the configured filename, then `update.upt`, then `v3_analog_2025.upt`; a leftover `update.upt` therefore overrides the standard device filename, even for an update initiated from Settings.
 
 If the system cannot boot:
 

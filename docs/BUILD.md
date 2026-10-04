@@ -6,6 +6,10 @@ Run commands from the repository root. Supply the official TempoTec V3 Blaze v1.
 5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95
 ```
 
+TempoTec distributes v1.3 only over the air. Obtain the official UPT as described in [Getting the official v1.3 firmware](INSTALL.md#getting-the-official-v13-firmware). The official firmware is not included in this repository.
+
+`--input` accepts any filename: the builder identifies the official firmware by its SHA-256, not its name. A backup such as `v3_analog_2025.upt.stock` works as-is.
+
 Required: Linux, Python 3 without `-O`, squashfs-tools with LZO and TAR input, xorriso, bsdtar/libarchive, binutils/readelf and clang with a MIPS32 target. The recorded v1.1.2 build used squashfs-tools 4.7.5, xorriso 1.5.8.pl02 and clang 22.1.8. No root is required: numeric-owner TAR records supply filesystem metadata explicitly.
 
 ## Commands
@@ -13,8 +17,8 @@ Required: Linux, Python 3 without `-O`, squashfs-tools with LZO and TAR input, x
 Use a new output directory for each build:
 
 ```bash
-python3 build/build-v1.3.py stock-fix --input inputs/official-v1.3.upt --output build/reproductions/stock-fix --reference downloads/V3-Blaze-v1.3-Stock-LDAC-Fix.upt
-python3 build/build-v1.3.py full-mod --input inputs/official-v1.3.upt --output build/reproductions/full-mod --reference downloads/V3-Blaze-v1.3-Full-Mod-v1.1.2.upt
+python3 build/build-v1.3.py stock-fix --input ~/v3_analog_2025.upt.stock --output build/reproductions/stock-fix --reference downloads/V3-Blaze-v1.3-Stock-LDAC-Fix.upt
+python3 build/build-v1.3.py full-mod --input ~/v3_analog_2025.upt.stock --output build/reproductions/full-mod --reference downloads/V3-Blaze-v1.3-Full-Mod-v1.1.2.upt
 ```
 
 `--reference` is optional. Every build must match its pinned UPT SHA-256 in [release.json](../build/v1.3/release.json). With a reference, the builder also independently extracts and compares all files, metadata, hardlink groups and kernel bytes. An equivalent reference can have a different local filename.
