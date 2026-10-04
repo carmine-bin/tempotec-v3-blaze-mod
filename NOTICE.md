@@ -1,6 +1,18 @@
 # Firmware and artwork notice
 
-Modified TempoTec firmware and imported HiBy artwork retain their respective rights holders. Proprietary player, litegui and LDAC code are not claimed as original work. The MIT licence covers original project tooling and documentation, not those components. [Credits](CREDITS.md) identify the port and research contributors.
+## Licence scope
+
+The MIT [licence](LICENSE) covers only the original work in this repository: the build scripts, the binary-analysis and validation utilities, and the documentation.
+
+It does not cover:
+
+- The firmware images distributed in Releases, or the official TempoTec firmware they are built from.
+- The graphical assets contained in those images or in `theme/`, including imported HiBy artwork and TempoTec stock assets.
+- Proprietary player, litegui and LDAC code. These are not claimed as original work.
+
+Modified TempoTec firmware and imported HiBy artwork retain their respective rights holders. [Credits](CREDITS.md) identify the port and research contributors.
+
+## Firmware contents
 
 Both editions retain the official v1.3 kernel. Stock + LDAC Fix changes one decoder byte. Full Mod adds the resources, configuration, scripts and player changes in its [manifest](build/v1.3/full-mod-manifest.json). The [technical notes](docs/HOW-IT-WORKS.md) and [UI investigation](docs/UI-FIXES.md) describe their scope.
 

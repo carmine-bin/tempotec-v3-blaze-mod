@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This licence covers ONLY the original tooling in this repository: the build
-scripts, the binary-analysis utilities, and the documentation.
-
-It does NOT cover the firmware image distributed in Releases, nor the graphical
-assets it contains. See NOTICE.md.
