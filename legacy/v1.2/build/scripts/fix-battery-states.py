@@ -1,64 +1,64 @@
 #!/usr/bin/env python3
-# Devuelve los estados CARGANDO y BATERÍA BAJA al ícono de batería, sin romper el relleno alineado.
+# Restores the CHARGING and LOW BATTERY states to the battery icon without breaking the aligned fill.
 #
-# POR QUÉ NO SE PUEDE VOLVER AL ELEMENTO ÚNICO (demostrado, no supuesto): el motor dibuja el relleno
-# tomando las PRIMERAS `H*pct` filas de `img_focus_path` y pegándolas en `y + H - H*pct` (ver
-# fix-battery-fill.py). Con el marco entero como elemento, el verde queda dentro del hueco SOLO al 100%
-# y se va corriendo hacia abajo al bajar el %. La única solución con relleno correcto es que el elemento
-# que maneja el binario SEA el hueco (eso ya lo hizo fix-battery-fill.py) — pero entonces el marco es un
-# imageview estático y `img_path_1/2` (carga/baja) dejaron de verse.
+# WHY A SINGLE ELEMENT CANNOT COME BACK (demonstrated, not assumed): the engine draws the fill by taking
+# the FIRST `H*pct` rows of `img_focus_path` and placing them at `y + H - H*pct` (see
+# fix-battery-fill.py). With the whole frame as the element, the green sits inside the hole ONLY at 100%
+# and slides downwards as the % drops. The only solution with a correct fill is for the element the
+# binary drives to BE the hole (fix-battery-fill.py already did that) — but then the frame is a static
+# imageview and `img_path_1/2` (charging/low) are no longer shown.
 #
-# ARREGLO: los estados se mueven ADENTRO del hueco, que es el elemento que el binario sí maneja.
-#   img_path_0 = hueco transparente        (normal)
-#   img_path_1 = rayo de carga             (recortado del battery_charge_bg.png del V3A)
-#   img_path_2 = hueco rojo macizo         (batería baja)
-# El marco sigue siendo blanco siempre; la señal de carga/baja va en el interior del ícono.
-# Funciona con cualquier z-order entre img_path_N y img_focus_path: si el relleno va encima, con batería
-# baja el verde es mínimo y el rojo se ve igual; si va debajo, el rojo tapa el verde.
+# FIX: the states move INSIDE the hole, which is the element the binary does drive.
+#   img_path_0 = transparent hole          (normal)
+#   img_path_1 = charging bolt             (cropped from the V3A battery_charge_bg.png)
+#   img_path_2 = solid red hole            (low battery)
+# The frame stays white at all times; the charging/low signal is shown inside the icon.
+# Works with any z-order between img_path_N and img_focus_path: if the fill is on top, at low battery
+# the green is minimal and the red still shows; if it is below, the red covers the green.
 #
-# Idempotente. La geometría del hueco se redetecta del marco, igual que en fix-battery-fill.py.
+# Idempotent. The hole geometry is re-detected from the frame, as in fix-battery-fill.py.
 import json, os
 from PIL import Image
 
 WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LG = os.path.join(WS, "theme/theme_port/litegui/theme1")
 LY = os.path.join(WS, "theme/theme_port/layout/theme1")
-ROJO = (255, 0, 0, 255)          # el mismo rojo del battery_low_bg.png del V3A
+RED = (255, 0, 0, 255)          # the same red as the V3A battery_low_bg.png
 
-# --- 1. geometría del hueco (idéntica a fix-battery-fill.py)
+# --- 1. hole geometry (identical to fix-battery-fill.py)
 bg = Image.open(os.path.join(LG, "topbar/battery_bg.png")).convert("RGBA")
 W, H = bg.size
 px = bg.load()
-filas = [y for y in range(H) if px[0, y][3] > 60 and any(px[x, y][3] <= 60 for x in range(1, W - 1))]
-cols = [x for x in range(W) if all(px[x, y][3] <= 60 for y in filas)]
-hx0, hy0, hw, hh = min(cols), min(filas), len(cols), len(filas)
-caja = (hx0, hy0, hx0 + hw, hy0 + hh)
+rows = [y for y in range(H) if px[0, y][3] > 60 and any(px[x, y][3] <= 60 for x in range(1, W - 1))]
+cols = [x for x in range(W) if all(px[x, y][3] <= 60 for y in rows)]
+hx0, hy0, hw, hh = min(cols), min(rows), len(cols), len(rows)
+box = (hx0, hy0, hx0 + hw, hy0 + hh)
 
-Image.new("RGBA", (hw, hh), ROJO).save(os.path.join(LG, "topbar/battery_low.png"))
-rayo = Image.open(os.path.join(LG, "topbar/battery_charge_bg.png")).convert("RGBA").crop(caja)
-assert rayo.getbbox(), "el recorte del rayo salió vacío: revisá battery_charge_bg.png"
-rayo.save(os.path.join(LG, "topbar/battery_charge.png"))
-print(f"hueco +{hx0},+{hy0} de {hw}x{hh} -> battery_low.png (rojo) / battery_charge.png (rayo)")
+Image.new("RGBA", (hw, hh), RED).save(os.path.join(LG, "topbar/battery_low.png"))
+bolt = Image.open(os.path.join(LG, "topbar/battery_charge_bg.png")).convert("RGBA").crop(box)
+assert bolt.getbbox(), "the bolt crop came out empty: check battery_charge_bg.png"
+bolt.save(os.path.join(LG, "topbar/battery_charge.png"))
+print(f"hole +{hx0},+{hy0} of {hw}x{hh} -> battery_low.png (red) / battery_charge.png (bolt)")
 
-# --- 2. layout: apuntar img_path_1 / img_path_2 del hueco a los nuevos estados
-for rel, nombre in [("topbar/topbar.view", "topbar_iv_battery"),
-                    ("hiby_pull_down_menu.view", "pull_down_menu_iv_battery")]:
+# --- 2. layout: point the hole's img_path_1 / img_path_2 at the new states
+for rel, name in [("topbar/topbar.view", "topbar_iv_battery"),
+                  ("hiby_pull_down_menu.view", "pull_down_menu_iv_battery")]:
     f = os.path.join(LY, rel)
     t = open(f, newline="").read()
-    i = t.index(f'"name":"{nombre}"')
-    fin = t.index("\n", t.index("},", i)) + 1
-    bloque = t[i:fin]
-    assert "battery_empty.png" in bloque, f"{rel}: {nombre} no está partido; corré antes fix-battery-fill.py"
-    nuevo = (bloque.replace('"img_path_1":"topbar\\\\battery_empty.png"',
-                            '"img_path_1":"topbar\\\\battery_charge.png"')
-                   .replace('"img_path_2":"topbar\\\\battery_empty.png"',
-                            '"img_path_2":"topbar\\\\battery_low.png"'))
-    t = t[:i] + nuevo + t[fin:]
+    i = t.index(f'"name":"{name}"')
+    end = t.index("\n", t.index("},", i)) + 1
+    block = t[i:end]
+    assert "battery_empty.png" in block, f"{rel}: {name} is not split; run fix-battery-fill.py first"
+    new = (block.replace('"img_path_1":"topbar\\\\battery_empty.png"',
+                         '"img_path_1":"topbar\\\\battery_charge.png"')
+                .replace('"img_path_2":"topbar\\\\battery_empty.png"',
+                         '"img_path_2":"topbar\\\\battery_low.png"'))
+    t = t[:i] + new + t[end:]
     open(f, "w", newline="").write(t)
-    json.loads(t)      # gate de sintaxis
-    print(f"{rel}: {nombre} -> carga=battery_charge.png, baja=battery_low.png")
+    json.loads(t)      # syntax gate
+    print(f"{rel}: {name} -> charging=battery_charge.png, low=battery_low.png")
 
-# --- 3. los dos estados NO se tiñen (si el rojo se vuelve azul no señala nada)
+# --- 3. the two states are NOT tinted (if the red turns blue it signals nothing)
 nsl = os.path.join(LG, "no_skin_list.txt")
 d = open(nsl, "rb").read()
 for e in (b"topbar\\battery_low.png", b"topbar\\battery_charge.png"):

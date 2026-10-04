@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Xref scan MIPS32 LE: cuenta referencias lui/addiu|ori a direcciones de strings dadas."""
+"""MIPS32 LE xref scan: count lui/addiu|ori references to the addresses of the given strings."""
 import struct, sys, subprocess, re
 
 def sections(p):
@@ -10,7 +10,7 @@ def sections(p):
     return S
 
 def strtab(p, S, names):
-    """devuelve {name: [vaddr,...]} buscando el string NUL-terminado en el archivo"""
+    """return {name: [vaddr,...]} by searching the file for the NUL-terminated string"""
     data=open(p,'rb').read()
     res={n:[] for n in names}
     for n in names:
@@ -19,7 +19,7 @@ def strtab(p, S, names):
         while True:
             i=data.find(pat,i)
             if i<0: break
-            # mapear file offset -> vaddr
+            # map file offset -> vaddr
             for sn,(addr,off,size) in S.items():
                 if off<=i<off+size and addr:
                     res[n].append((sn,addr+(i-off)))

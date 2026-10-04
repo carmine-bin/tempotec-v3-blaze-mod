@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-# Devuelve al stock del Blaze los assets que llevan IDENTIDAD del equipo. El reskin los pisó con los del
-# V3 Analog, que a su vez venían con la marca de HiBy:
-#   - `certificate/certificate.png` del V3A dice "Model: HiBy R3II" (y en tinta oscura, ilegible sobre el
-#     fondo negro del tema). El del stock dice "TempoTec V3" y ya viene en blanco.
-#   - `about_dev/logo.png` del V3A es el logo de HiBy; el del stock es el de TempoTec.
-#   - los `*_qrcode.png` son las cuentas oficiales de la marca.
-# Regla: el look se porta, la identidad NO.
+# Restores the Blaze stock assets that carry the device's IDENTITY. The reskin overwrote them with the
+# V3 Analog ones, which in turn carried HiBy branding:
+#   - the V3A `certificate/certificate.png` says "Model: HiBy R3II" (in dark ink, unreadable on the
+#     theme's black background). The stock one says "TempoTec V3" and is already white.
+#   - the V3A `about_dev/logo.png` is the HiBy logo; the stock one is TempoTec's.
+#   - the `*_qrcode.png` files are the brand's official accounts.
+# Rule: the look is ported, the identity is NOT.
 #
-# Los íconos de plataforma (facebook/wechat/weibo) NO son identidad: se quedan los del V3A porque el layout
-# V3A los ubica con sus medidas (54x54); los del stock son 63x63 y quedan chuecos/apretados contra el borde.
+# The platform icons (facebook/wechat/weibo) are NOT identity: the V3A ones stay because the V3A layout
+# places them at their size (54x54); the stock ones are 63x63 and end up crooked/cramped against the edge.
 #
-# Además recentra `about_dev_iv_icon`: el logo del stock es 44x37 y el del V3A 96x26, así que la x del
-# layout V3A (112) lo dejaba corrido a la izquierda.
-# Idempotente.
+# Also recentres `about_dev_iv_icon`: the stock logo is 44x37 and the V3A one 96x26, so the V3A layout's
+# x (112) left it shifted to the left.
+# Idempotent.
 import json, os, shutil, filecmp
 
 WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -24,41 +24,41 @@ STOCK = os.path.join(STOCK_ROOTFS, "usr/resource/litegui/theme1")
 V3A = os.path.join(DONOR_ROOTFS, "usr/resource/litegui/theme1")
 STAGE = os.path.join(WS, "theme/theme_port/litegui/theme1")
 
-IDENTIDAD = ["certificate/certificate.png", "about_dev/logo.png",
-             "about_dev/facebook_qrcode.png", "about_dev/wechat_qrcode.png", "about_dev/weibo_qrcode.png"]
+IDENTITY = ["certificate/certificate.png", "about_dev/logo.png",
+            "about_dev/facebook_qrcode.png", "about_dev/wechat_qrcode.png", "about_dev/weibo_qrcode.png"]
 LOOK = ["about_dev/facebook.png", "about_dev/wechat.png", "about_dev/weibo.png",
         "about_dev/microblog.png", "about_dev/microblog_s.png",
         "about_dev/post_bar.png", "about_dev/post_bar_s.png"]
 
 n = 0
-for origen, lista, que in ((STOCK, IDENTIDAD, "stock"), (V3A, LOOK, "V3A")):
-    for rel in lista:
-        src, dst = os.path.join(origen, rel), os.path.join(STAGE, rel)
+for source, files, label in ((STOCK, IDENTITY, "stock"), (V3A, LOOK, "V3A")):
+    for rel in files:
+        src, dst = os.path.join(source, rel), os.path.join(STAGE, rel)
         if not os.path.isfile(src):
             continue
         if os.path.isfile(dst) and filecmp.cmp(src, dst, shallow=False):
             continue
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
-        print(f"  {rel} <- {que}")
+        print(f"  {rel} <- {label}")
         n += 1
-print(f"identidad/look: {n} archivos ajustados")
+print(f"identity/look: {n} files adjusted")
 
-# --- recentrar el logo del About (44x37 del stock en pantalla de 320)
+# --- recentre the About logo (stock 44x37 on a 320-pixel screen)
 f = os.path.join(WS, "theme/theme_port/layout/theme1/hiby_about_dev.view")
 t = open(f, newline="").read()
 i = t.index('"name":"about_dev_iv_icon"')
-fin = t.index("},", i)
-bloque = t[i:fin]
-x, y = 138, 67          # (320-44)/2 ; misma altura visual que el logo V3A (72 + (26-37)/2)
-nuevo = bloque
+end = t.index("},", i)
+block = t[i:end]
+x, y = 138, 67          # (320-44)/2 ; same visual height as the V3A logo (72 + (26-37)/2)
+new = block
 for k, v in (("x", x), ("y", y)):
-    viejo = f'"{k}":' + bloque.split(f'"{k}":')[1].split(",")[0]
-    nuevo = nuevo.replace(viejo, f'"{k}":{v}')
-if nuevo != bloque:
-    t = t[:i] + nuevo + t[fin:]
+    old = f'"{k}":' + block.split(f'"{k}":')[1].split(",")[0]
+    new = new.replace(old, f'"{k}":{v}')
+if new != block:
+    t = t[:i] + new + t[end:]
     open(f, "w", newline="").write(t)
     json.loads(t)
-    print(f"about_dev_iv_icon recentrado en ({x},{y})")
+    print(f"about_dev_iv_icon recentred at ({x},{y})")
 else:
-    print("about_dev_iv_icon: ya estaba centrado")
+    print("about_dev_iv_icon: already centred")

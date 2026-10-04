@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Audita un rango de .text: cada llamada a un lookup de elemento por nombre
-(0x46d340 find_element, 0x49c3a0 / 0x49b900 lookup global) e informa
+"""Audit a .text range: every call to an element lookup by name
+(0x46d340 find_element, 0x49c3a0 / 0x49b900 global lookup), reporting
 
-  - el nombre buscado (resuelto del puntero a string en a1/a2)
-  - si el resultado se guardea (beq/bne v0,zero) ANTES del primer deref de v0
+  - the name looked up (resolved from the string pointer in a1/a2)
+  - whether the result is guarded (beq/bne v0,zero) BEFORE the first dereference of v0
 
-Un deref sin guard = SIGSEGV si el .view no trae el elemento (el crash del PEQ
-en device 2026-08-08 fue exactamente eso, escondido en un delay slot).
+An unguarded dereference = SIGSEGV if the .view lacks the element (the PEQ crash
+on the device on 2026-08-08 was exactly that, hidden in a delay slot).
 
-Uso: lookup-audit.py <elf> <start_hex> <end_hex>
+Usage: lookup-audit.py <elf> <start_hex> <end_hex>
 """
 import struct, sys, subprocess, re
 
-LOOKUPS = {0x46d340: "find_element(padre,nombre)",
-           0x49c3a0: "lookup_global(nombre,tipo)",
-           0x49b900: "lookup_global2(nombre,tipo)"}
-WINDOW = 16  # instrucciones a mirar tras el jal
+LOOKUPS = {0x46d340: "find_element(parent,name)",
+           0x49c3a0: "lookup_global(name,type)",
+           0x49b900: "lookup_global2(name,type)"}
+WINDOW = 16  # instructions to inspect after the jal
 
 
 def sections(p):
@@ -53,7 +53,7 @@ def main(p, start, end):
         tgt = ((pc + 4) & 0xf0000000) | ((w & 0x3ffffff) << 2)
         if tgt not in LOOKUPS:
             continue
-        # nombre: reconstruir lui+addiu/ori de los ~10 anteriores y del delay slot
+        # name: rebuild lui+addiu/ori from the ~10 previous instructions and the delay slot
         names, hi = [], {}
         for q in range(pc - 40, pc + 8, 4):
             v = word(q); op = v >> 26; rs = (v >> 21) & 31; rt = (v >> 16) & 31
@@ -65,29 +65,29 @@ def main(p, start, end):
                 t = cstr(data, S, va)
                 if t:
                     names.append(t)
-        # guard vs deref: recorrer hasta encontrar branch sobre v0(=2) o lw off v0
-        verdict = "SIN-GUARD-NI-DEREF"
+        # guard vs deref: walk until a branch on v0 (=2) or a load from v0
+        verdict = "NO-GUARD-NO-DEREF"
         q = pc + 8
         stop = pc + 8 + WINDOW * 4
         while q < stop:
             v = word(q); op = v >> 26; rs = (v >> 21) & 31; rt = (v >> 16) & 31
             is_call = op == 3 or (op == 0 and (v & 63) == 9)
-            if is_call:  # el delay slot del jal siguiente cuenta (ahí se escondía el crash)
+            if is_call:  # the next jal's delay slot counts (that is where the crash was hiding)
                 d = word(q + 4)
                 if (d >> 26) in (0x20, 0x21, 0x23, 0x24, 0x25) and ((d >> 21) & 31) == 2:
-                    verdict = f"*** DEREF SIN GUARD @0x{q+4:08x} (delay slot) ***"
+                    verdict = f"*** UNGUARDED DEREF @0x{q+4:08x} (delay slot) ***"
                     bad += 1
                 break
             if op in (4, 5) and (rs == 2 or rt == 2) and (rs == 0 or rt == 0):
                 verdict = f"guard @0x{q:08x}"
                 break
             if op in (0x20, 0x21, 0x23, 0x24, 0x25) and rs == 2:
-                verdict = f"*** DEREF SIN GUARD @0x{q:08x} ***"
+                verdict = f"*** UNGUARDED DEREF @0x{q:08x} ***"
                 bad += 1
                 break
             q += 4
         print(f"0x{pc:08x}  {LOOKUPS[tgt]:28s} {str(names[-2:]):46s} {verdict}")
-    print(f"\n{bad} deref(s) sin guard")
+    print(f"\n{bad} unguarded deref(s)")
     return bad
 
 

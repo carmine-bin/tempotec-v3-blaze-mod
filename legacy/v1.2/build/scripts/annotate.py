@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Desensambla un rango y anota los punteros a string (lui+addiu/ori) con su texto.
-Uso: annotate.py <elf> <start_hex> <n_instr>
-Sirve para leer el contrato de un builder de layout: qué nombres busca y si guardea el NULL.
+"""Disassemble a range and annotate string pointers (lui+addiu/ori) with their text.
+Usage: annotate.py <elf> <start_hex> <n_instr>
+Used to read a layout builder's contract: which names it looks up and whether it guards against NULL.
 """
 import struct, sys, subprocess, re
 

@@ -1,4 +1,4 @@
-# artefactos de build (se generan, no se versionan)
+# Build artifacts (generated, not versioned)
 build/out-v*/
 build/work-v*/
 build/rootfs/
@@ -6,7 +6,7 @@ build/stockfs/
 build/*.squashfs
 build/xImage*
 
-# firmware: ni el stock ni el construido van al repo (van a Releases)
+# Firmware: neither official nor built images belong in the repository (built images go to Releases)
 *.upt
 *.ingenic
 *.zip
