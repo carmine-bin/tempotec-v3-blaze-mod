@@ -6,7 +6,7 @@ A bind-mount over `/usr/resource` can test some layouts without flashing; reboot
 
 Use one cycle per test: reboot → apply once → trigger once → inspect. Repeated live apply/revert/reparse cycles can wedge the player and leave stale render state or misleading audio symptoms.
 
-Preserve widget names, types, parents, indexed images and duplicate-key construction order. Missing assets can be cosmetic, but malformed layouts can prevent boot. Run the established [builder](docs/BUILD.md); intentionally update the reviewed edition manifest and metadata when payload changes are authorized. Historical v1.2 resources use `theme/manifest.sha256`.
+Preserve widget names, types, parents, indexed images and duplicate-key construction order. Missing assets can be cosmetic, but malformed layouts can prevent boot. Run the established [builder](docs/BUILD.md); intentionally update the reviewed edition manifest and metadata when payload changes are authorized. Historical v1.2 resources live in [legacy/v1.2](legacy/v1.2/README.md) and use `legacy/v1.2/theme/manifest.sha256`.
 
 Avoid boot-time polling hooks. A previous SD-mount polling hook hung startup. Keep recovery independent of the modified system.
 

@@ -23,8 +23,8 @@ set -euo pipefail
 # re-exec bajo fakeroot para preservar owners/modos del squashfs
 if [ -z "${FAKEROOTKEY:-}" ]; then exec fakeroot "$0" "$@"; fi
 
-HERE=$(cd "$(dirname "$0")" && pwd)          # <repo>/build
-ROOT=$(dirname "$HERE")                      # <repo>
+HERE=$(cd "$(dirname "$0")" && pwd)          # <repo>/legacy/v1.2/build
+ROOT=$(dirname "$HERE")                      # <repo>/legacy/v1.2
 
 # Entradas. Los dos archivos stock NO se versionan (son firmware de TempoTec): se extraen del
 # paquete oficial a <repo>/build/stock/. Ver docs/BUILD.md. Todo overrideable por entorno.

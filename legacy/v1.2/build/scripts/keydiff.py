@@ -3,7 +3,7 @@
    OJO: estos JSON repiten claves ("imageview" varias veces en el mismo objeto) -> hay que
    preservar duplicados (object_pairs_hook), si no json.loads se queda solo con el ultimo."""
 import json, os, sys
-WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))          # repository root
+WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))          # legacy/v1.2 root
 STOCK_ROOTFS = os.environ.get("BLAZE_STOCK_ROOTFS")
 if not STOCK_ROOTFS:
     raise SystemExit("Set BLAZE_STOCK_ROOTFS to an extracted official V3 Blaze rootfs")

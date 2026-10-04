@@ -46,4 +46,4 @@ Both editions use the same one-byte [LDAC correction](LDAC-RECEIVER-ARTIFACTS.md
 
 The current [builder](BUILD.md) records metadata explicitly in TAR, re-extracts both rootfs stages and checks the final UPT against pinned bytes. It preserves Stock hardlinks and existing Full Mod metadata separately. Historical v1.2 builds used fakeroot; their checks and counts remain in [archived documentation](releases/v1.0.0-BUILD.md).
 
-Reverse-engineering helpers in [build/scripts](../build/scripts) include `xref.py`, `mipsdis.py`, `annotate.py` and `lookup-audit.py`; Ghidra headless was also used. Cross-references must account for `lui`/`addiu` address pairs and MIPS delay slots.
+Reverse-engineering helpers in [legacy/v1.2/build/scripts](../legacy/v1.2/build/scripts) include `xref.py`, `mipsdis.py`, `annotate.py` and `lookup-audit.py`; Ghidra headless was also used. Cross-references must account for `lui`/`addiu` address pairs and MIPS delay slots.

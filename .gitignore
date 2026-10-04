@@ -18,3 +18,9 @@ build/stock/
 # Generated build and packaging outputs
 build/reproductions/
 *-staging/
+
+# Legacy v1.2 builder inputs and outputs (legacy/v1.2/build/build-upt-v3.sh)
+legacy/v1.2/build/stock/
+legacy/v1.2/build/out-v*/
+legacy/v1.2/build/work-v*/
+legacy/v1.2/theme/new-missing-refs.txt

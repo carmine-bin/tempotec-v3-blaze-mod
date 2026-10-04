@@ -9,7 +9,7 @@
 #   (default): compara el set actual contra el baseline; falla (exit 1) si hay NUEVAS.
 set -uo pipefail
 export LC_ALL=C
-WS="$(cd "$(dirname "$0")/../.." && pwd)"        # <repo>
+WS="$(cd "$(dirname "$0")/../.." && pwd)"        # <repo>/legacy/v1.2
 LG="$WS/theme/theme_port/litegui/theme1"
 LY="$WS/theme/theme_port/layout/theme1"
 BASE="$WS/theme/baseline-missing-refs.txt"
