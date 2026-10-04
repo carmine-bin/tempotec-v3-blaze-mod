@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in the ROM behaves wrong
+description: Something in the firmware behaves wrong
 labels: ["bug"]
 body:
   - type: markdown
@@ -7,23 +7,33 @@ body:
       value: |
         Before filing: if the player will not boot, go to
         [docs/RECOVERY.md](../../blob/main/docs/RECOVERY.md) first. Recovery is a key combo and
-        does not depend on anything in this ROM.
+        does not depend on anything in this firmware.
+
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Edition
+      options:
+        - Stock + LDAC Fix
+        - Full Mod
+    validations:
+      required: true
 
   - type: input
-    id: rom
+    id: version
     attributes:
-      label: ROM version
-      description: The md5 of the .upt you flashed, or the release tag.
-      placeholder: "07dd6952… / v1.0.0"
+      label: Release version
+      description: The release tag you flashed, plus the SHA-256 of the .upt if you have it.
+      placeholder: "v1.1.2"
     validations:
       required: true
 
   - type: input
     id: stock
     attributes:
-      label: Stock firmware it was flashed over
+      label: Official firmware it was flashed over
       description: Settings → About, before you flashed. Say "don't know" if you don't.
-      placeholder: "V3_ANALOG_2025 v1.2, build 202601301221"
+      placeholder: "V3_ANALOG_2025 v1.3"
     validations:
       required: true
 
@@ -33,7 +43,7 @@ body:
       label: Device
       options:
         - TempoTec V3 Blaze
-        - Other (this ROM is only for the Blaze)
+        - Other (this firmware is only for the Blaze)
     validations:
       required: true
 
@@ -54,6 +64,62 @@ body:
     validations:
       required: true
 
+  - type: markdown
+    attributes:
+      value: |
+        ### Bluetooth (optional)
+        Fill in the fields below only if the problem involves Bluetooth.
+
+  - type: dropdown
+    id: bt-mode
+    attributes:
+      label: Bluetooth mode
+      options:
+        - Receiver
+        - Transmitter
+    validations:
+      required: false
+
+  - type: dropdown
+    id: bt-codec
+    attributes:
+      label: Codec
+      options:
+        - LDAC
+        - AAC
+        - SBC
+        - aptX
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: bt-ldac-bitrate
+    attributes:
+      label: LDAC bitrate (if LDAC)
+      placeholder: "990 / 660 / 330 kbps, or adaptive"
+    validations:
+      required: false
+
+  - type: input
+    id: bt-peer
+    attributes:
+      label: Source or sink device
+      description: The phone, computer, headphones or speaker on the other end of the link.
+      placeholder: "e.g. Pixel 8 (Android 15)"
+    validations:
+      required: false
+
+  - type: textarea
+    id: bt-symptoms
+    attributes:
+      label: Dropouts or audio artifacts
+      description: |
+        Are there dropouts (silence, stutter, disconnections) or artifacts (crackles, distortion, metallic sound)?
+        Say how often, and how far apart the devices were.
+    validations:
+      required: false
+
   - type: textarea
     id: photo
     attributes:
@@ -69,5 +135,5 @@ body:
     attributes:
       label: Checks
       options:
-        - label: I verified the md5 of the .upt before flashing
+        - label: I verified the SHA-256 of the .upt before flashing
         - label: This is the stock theme's behaviour too (if you tested it)

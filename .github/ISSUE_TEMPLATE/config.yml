@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Player does not boot
+    url: https://github.com/carmine-bin/tempotec-v3-blaze-mod/blob/main/docs/RECOVERY.md
+    about: Follow the recovery instructions first. Recovery is a key combo and does not depend on this firmware.
