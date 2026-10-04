@@ -11,7 +11,7 @@ Read [Recovery](RECOVERY.md) before flashing.
 Keep a copy of the official v1.3 firmware before installing either edition. It is the only way back to 100% official firmware, and it is the required input for [building](BUILD.md) the editions yourself. TempoTec's website does not offer the v1.3 UPT yet; v1.3 is only distributed over the air (OTA). The OTA update leaves the official UPT in the microSD root as `v3_analog_2025.upt`, the same name and location these instructions use for the mod.
 
 1. **If you already updated to v1.3 over the air:** the official UPT is probably still in the root of your microSD as `v3_analog_2025.upt`. Rename it to `v3_analog_2025.upt.stock` and also copy it to your computer.
-2. **Starting from scratch:** download the official v1.2 firmware from TempoTec's page (TODO_OFFICIAL_V12_URL), rename it to `v3_analog_2025.upt`, copy it to the microSD root and install it from Settings → Firmware update → Update via micro SD card. Then update to v1.3 over the air and do the same as in step 1.
+2. **Starting from scratch:** download the official v1.2 firmware from [TempoTec's firmware download page](https://www.tempotec.net/pages/firmware-download). Choose the entry **"TempoTec V3 Blaze Firmware V1.2"**. Do **not** use "TempoTec V3 Firmware V1.0": it is for the older V3, not the Blaze. Rename the UPT to `v3_analog_2025.upt`, copy it to the microSD root and install it from Settings → Firmware update → Update via micro SD card. Then update to v1.3 over the air and do the same as in step 1. At the time of writing, the page only offers v1.2; v1.3 is distributed over the air only (see [Getting the official v1.3 firmware](#getting-the-official-v13-firmware)).
 3. **In both cases**, check that its SHA-256 matches the official v1.3 hash listed in [Build](BUILD.md):
 
    ```text
@@ -44,8 +44,6 @@ sha256sum V3-Blaze-v1.3-Full-Mod-v1.1.2.upt
 Windows: `certutil -hashfile <downloaded-file> SHA256`. Stop if the checksum differs. Renaming a file leaves its checksum unchanged.
 
 Both editions should boot with official v1.3 PEQ and Bluetooth search, with the LDAC audio corruption corrected. Full Mod adds the custom interface, About/developer access, theme colors and brightness control. Its pull-down volume objects remain hidden.
-
-<!-- TODO: describe concrete first-boot symptoms caused by persistent database/settings state (NAND user data or the TF card) and what to do about them, such as updating or rescanning the music library. The repository has no recorded observations that support specific instructions yet. -->
 
 ## Backup and restore
 
