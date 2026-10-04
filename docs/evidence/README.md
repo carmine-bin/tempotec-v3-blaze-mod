@@ -13,6 +13,7 @@ Firmware and component hashes identify the audited artifacts. Published v1.1.0 r
 - [Final UI correction record](full-mod-CORRECTION-MANIFEST.json): scoped resource corrections and their technical justification.
 - [BlueALSA instruction comparison](bluealsa-ldac-function-comparison.json) and [public LDAC source inventory](ldac-public-source-manifest.json): portable caller-comparison and source revision/fork evidence.
 - [Repository validation](repository-validation.json): lasting artifact, source-resource, documentation and syntax check results; not a publication checkpoint.
+- [Changelog and credits provenance](CHANGELOG-PROVENANCE.md): audit notes on historical changelog and credits claims (pull-down volume slider, artwork instability, asset counts).
 
 Canonical edition filesystem manifests live in [build/v1.3](../../build/v1.3/): [Stock Fix](../../build/v1.3/stock-fix-manifest.json) and [Full Mod](../../build/v1.3/full-mod-manifest.json). Redundant evidence copies and the TSV rendering are omitted; the canonical JSON preserves paths, hashes, permissions, owners and reasons.
 
