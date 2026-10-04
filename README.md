@@ -19,7 +19,7 @@ Full Mod includes:
 
 - HiBy-style launcher, category artwork, dark interface and fullscreen Now Playing.
 - Corrected battery fill and charging artwork, three-state gain icons, brightness control and accent tinting.
-- About/developer access, theme colors, TF image/database caching and DAC-setting persistence.
+- About entry in Settings, theme colors, TF image/database caching and DAC-setting persistence.
 - Existing album browsing fixes, restored Power-button shutdown countdown and final Balance Quick Settings artwork.
 - Complete shutdown-screen coverage, consistent headers on Now Playing menu pages, theme-color changes returning to the main screen and correct Settings redraws when the scrollbar hides.
 
@@ -47,6 +47,8 @@ Only for TempoTec V3 Blaze (`V3_ANALOG_2025`), not the older V3 Analog. Flashing
 4. Select Settings → Firmware update → Update via micro SD card. Wait for flashing and reboot to finish.
 
 Keep backup firmware under `.upt.stock` or `.upt.bak`. See [getting the official v1.3 firmware](docs/INSTALL.md#getting-the-official-v13-firmware) and [backup and restore](docs/INSTALL.md#backup-and-restore).
+
+Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + LDAC Fix, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
 
 Both packages are 44,367,872 bytes.
 

@@ -85,6 +85,6 @@ A shared SDK integration change could have bundled the different decoder and PEQ
 - [LDAC investigation](../LDAC-RECEIVER-ARTIFACTS.md): exact gate semantics, controlled capture conclusions and hardware decoder isolation.
 - [BlueALSA instruction comparison](bluealsa-ldac-function-comparison.json): aligned receiver-thread code differences.
 - [Public source revision inventory](ldac-public-source-manifest.json): inspected revisions/history, fork snapshot hashes and original decoder hashes.
-- [Decoder patch verification](stock-fix-decoder-patch.json) and [release manifest](../releases/release-manifest.json): exact correction and reference artifact hashes.
+- [Decoder patch verification](stock-fix-decoder-patch.json) and [v1.1.0 release manifest](../releases/v1.1.0-release-manifest.json): exact correction and reference artifact hashes.
 
 The upstream commit links above identify the public noise/silence and initialization changes. Determining the downstream gate's actual rationale would require a vendor/SDK source diff or the original author's explanation; its purpose and author remain unknown.

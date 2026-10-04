@@ -17,7 +17,7 @@ If the system cannot boot:
 
 These packages write the main kernel/rootfs and retain the official kernel. They leave the bootloader and recovery partitions untouched. Recovery can therefore reinstall the main system after a bad UI build, provided recovery and the storage remain usable.
 
-If recovery cannot start, the last resort is Ingenic USB boot with Power + Next track and [Ingenic-community/Cloner](https://github.com/Ingenic-community/Cloner). It needs the factory `.ingenic` image from TempoTec's firmware archive. That recovery procedure has not been exercised on this device; seek help before attempting a whole-flash rewrite.
+If recovery cannot start, the last resort is Ingenic USB boot with Power + Next track and [Ingenic-community/Cloner](https://github.com/Ingenic-community/Cloner). It needs the factory `.ingenic` image included in the official v1.2 zip from TempoTec's firmware download page; see [Getting the official v1.3 firmware](INSTALL.md#getting-the-official-v13-firmware). That recovery procedure has not been exercised on this device; seek help before attempting a whole-flash rewrite.
 
 ## Flash layout
 

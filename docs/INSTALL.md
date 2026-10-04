@@ -11,7 +11,7 @@ Read [Recovery](RECOVERY.md) before flashing.
 Keep a copy of the official v1.3 firmware before installing either edition. It is the only way back to 100% official firmware, and it is the required input for [building](BUILD.md) the editions yourself. TempoTec's website does not offer the v1.3 UPT yet; v1.3 is only distributed over the air (OTA). The OTA update leaves the official UPT in the microSD root as `v3_analog_2025.upt`, the same name and location these instructions use for the mod.
 
 1. **If you already updated to v1.3 over the air:** the official UPT is probably still in the root of your microSD as `v3_analog_2025.upt`. Rename it to `v3_analog_2025.upt.stock` and also copy it to your computer.
-2. **Starting from scratch:** download the official v1.2 firmware from [TempoTec's firmware download page](https://www.tempotec.net/pages/firmware-download). Choose the entry **"TempoTec V3 Blaze Firmware V1.2"**. Do **not** use "TempoTec V3 Firmware V1.0": it is for the older V3, not the Blaze. Rename the UPT to `v3_analog_2025.upt`, copy it to the microSD root and install it from Settings → Firmware update → Update via micro SD card. Then update to v1.3 over the air and do the same as in step 1. At the time of writing, the page only offers v1.2; v1.3 is distributed over the air only (see [Getting the official v1.3 firmware](#getting-the-official-v13-firmware)).
+2. **Starting from scratch:** download the official v1.2 firmware from [TempoTec's firmware download page](https://www.tempotec.net/pages/firmware-download). Choose the entry **"TempoTec V3 Blaze Firmware V1.2"**. Do **not** use "TempoTec V3 Firmware V1.0": it is for the older V3, not the Blaze. The download is a `.zip`: extract it and use the `.upt` file inside. The zip also contains a factory image for Ingenic USB boot; keep it, because it is what the last-resort procedure in [Recovery](RECOVERY.md) needs. Rename the UPT to `v3_analog_2025.upt`, copy it to the microSD root and install it from Settings → Firmware update → Update via micro SD card. Then update to v1.3 over the air and do the same as in step 1. Going from v1.3 to v1.2 via microSD and back to v1.3 over the air was tested on a physical V3 Blaze. At the time of writing, the page only offers v1.2; v1.3 is distributed over the air only.
 3. **In both cases**, check that its SHA-256 matches the official v1.3 hash listed in [Build](BUILD.md):
 
    ```text
@@ -43,7 +43,9 @@ sha256sum V3-Blaze-v1.3-Full-Mod-v1.1.2.upt
 
 Windows: `certutil -hashfile <downloaded-file> SHA256`. Stop if the checksum differs. Renaming a file leaves its checksum unchanged.
 
-Both editions should boot with official v1.3 PEQ and Bluetooth search, with the LDAC audio corruption corrected. Full Mod adds the custom interface, About/developer access, theme colors and brightness control. Its pull-down volume objects remain hidden.
+Both editions should boot with official v1.3 PEQ and Bluetooth search, with the LDAC audio corruption corrected. Full Mod adds the custom interface, an About entry in Settings, theme colors and brightness control. Its pull-down volume objects remain hidden.
+
+Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + LDAC Fix, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
 
 ## Backup and restore
 

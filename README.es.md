@@ -19,7 +19,7 @@ Full Mod incluye:
 
 - Launcher y categorías de estilo HiBy, interfaz oscura y Now Playing a pantalla completa.
 - Relleno de batería y gráficos de carga corregidos, iconos de ganancia de tres estados, control de brillo y tintado del tema.
-- Acceso a Acerca de/desarrollador, colores del tema, caché de imágenes/base de datos en TF y persistencia del ajuste DAC.
+- Entrada About en Ajustes, colores del tema, caché de imágenes/base de datos en TF y persistencia del ajuste DAC.
 - Correcciones existentes de navegación por álbumes, cuenta regresiva de apagado con Power restaurada y gráficos finales de Balance en Quick Settings.
 - Cobertura completa del apagado, encabezados coherentes en las páginas del menú de Now Playing, regreso a la pantalla principal al cambiar el color y redibujado correcto de Ajustes al ocultarse la barra de desplazamiento.
 
@@ -47,6 +47,8 @@ Solo para TempoTec V3 Blaze (`V3_ANALOG_2025`), no para el V3 Analog antiguo. Fl
 4. Selecciona Ajustes → Actualización de firmware → Actualizar mediante microSD. Espera a que termine y reinicie.
 
 Guarda las copias con `.upt.stock` o `.upt.bak`. Consulta [cómo obtener el firmware oficial v1.3](docs/INSTALL.md#getting-the-official-v13-firmware) y [respaldo y restauración](docs/INSTALL.md#backup-and-restore).
+
+El modo desarrollador y ADB vienen desactivados por defecto en ambas ediciones y funcionan igual que en el firmware oficial: toca About 10 veces para activarlos. En la interfaz oficial y en Stock + LDAC Fix, About está en el menú de inicio. El launcher estilo HiBy de Full Mod no tiene esa entrada, así que Full Mod muestra About en Ajustes (la configuración oficial de Ajustes oculta esa entrada porque el menú de inicio ya la tiene). Este proyecto no activa ADB ni cambia cómo funciona el modo desarrollador.
 
 Ambos paquetes tienen 44,367,872 bytes.
 
