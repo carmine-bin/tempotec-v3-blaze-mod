@@ -33,7 +33,7 @@ Full Mod imports only [manifest-listed](../build/v1.3/full-mod-manifest.json) re
 
 [Full Mod metadata](../build/v1.3/full-mod-metadata.json) preserves the physically tested image's modes, numeric owners, timestamps and symlink targets, including its existing lack of hardlinks. It is never applied to Stock. Metadata is not normalized during release integration.
 
-Both rootfs images are built from source through TAR and mksquashfs. The old `hardware-tested-rootfs.squashfs` and `hardware-tested-iso-header.bin` remain historical audit snapshots; the production builder does not read them or substitute them for generated output.
+Both rootfs images are built from source through TAR and mksquashfs. The repository contains no firmware images: the builder reads only the official UPT given with `--input` and writes everything else to the output directory.
 
 Validation covers:
 

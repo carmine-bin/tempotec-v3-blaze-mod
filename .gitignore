@@ -24,3 +24,9 @@ legacy/v1.2/build/stock/
 legacy/v1.2/build/out-v*/
 legacy/v1.2/build/work-v*/
 legacy/v1.2/theme/new-missing-refs.txt
+
+# Firmware images and backups: rootfs/header extracts and renamed official UPTs
+# (v3_analog_2025.upt.stock, v3_analog_2025.upt.bak, ...)
+build/v1.3/*.squashfs
+build/v1.3/*.bin
+*.upt.*

@@ -17,4 +17,4 @@ Firmware and component hashes identify the audited artifacts. Published v1.1.0 r
 
 Canonical edition filesystem manifests live in [build/v1.3](../../build/v1.3/): [Stock Fix](../../build/v1.3/stock-fix-manifest.json) and [Full Mod](../../build/v1.3/full-mod-manifest.json). Redundant evidence copies and the TSV rendering are omitted; the canonical JSON preserves paths, hashes, permissions, owners and reasons.
 
-Physical hardware validation does not resolve the separate [Bluetooth range/interference issue](../BLUETOOTH-RANGE.md). Historical rootfs/header snapshots remain in the repository for audit; the current builder does not use them. Firmware and visual assets retain their original rights holders.
+Physical hardware validation does not resolve the separate [Bluetooth range/interference issue](../BLUETOOTH-RANGE.md). Firmware and visual assets retain their original rights holders.
