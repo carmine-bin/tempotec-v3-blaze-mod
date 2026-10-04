@@ -2,7 +2,7 @@
 
 Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con una corrección para los artefactos de audio LDAC en modo Bluetooth Receiver. Versión del proyecto: v1.1.2.
 
-<p align="center"><img src="docs/img/launcher.jpg" alt="Launcher de Full Mod" width="45%"> <img src="docs/img/nowplaying.jpg" alt="Now Playing de Full Mod" width="45%"></p>
+<p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze con Full Mod" width="70%"></p>
 
 [English](README.md) · [Descargas](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Instalación](docs/INSTALL.md) · [Recuperación](docs/RECOVERY.md) · [Compilación](docs/BUILD.md)
 

@@ -2,7 +2,7 @@
 
 Official TempoTec v1.3 (`V3_ANALOG_2025`) with a correction for Bluetooth Receiver LDAC audio artifacts. Project version: v1.1.2.
 
-<p align="center"><img src="docs/img/launcher.jpg" alt="Full Mod launcher" width="45%"> <img src="docs/img/nowplaying.jpg" alt="Full Mod Now Playing" width="45%"></p>
+<p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze running Full Mod" width="70%"></p>
 
 [Español](README.es.md) · [Downloads](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Install](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md) · [Build](docs/BUILD.md)
 
