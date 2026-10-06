@@ -20,15 +20,45 @@ Both editions use the official kernel and include v1.3 PEQ, real-time Bluetooth 
 
 Stock + LDAC Fix is now called Stock + Fixes. Stock + Fixes is unchanged in v1.2.1.
 
-Full Mod includes:
+Full Mod includes everything in Stock + Fixes, plus:
 
-- HiBy-style launcher, category artwork, dark interface and fullscreen Now Playing.
-- Corrected battery fill and charging artwork, a red battery frame at low charge with the level still shown, three-state gain icons, brightness control and accent tinting.
-- About entry in Settings, theme colors, TF image/database caching and DAC-setting persistence.
-- Existing album browsing fixes, restored Power-button shutdown countdown and final Balance Quick Settings artwork.
-- Complete shutdown-screen coverage, consistent headers on Now Playing menu pages, theme-color changes returning to the main screen and correct Settings redraws when the scrollbar hides.
+**Interface**
 
-The pull-down has a brightness slider; its volume controls are hidden. Volume controls remain available elsewhere. Full Mod also includes the guarded MMC read-ahead and cache-pressure settings, UBIFS mount changes and next-track metadata correction described in [technical notes](docs/HOW-IT-WORKS.md). These tweaks are kept from the Full Mod configuration; their performance impact has not been benchmarked.
+- HiBy OS-style launcher, categories, dark interface and fullscreen Now Playing.
+- Battery icon: the fill no longer vanishes below about 30 % and there is no doubled battery while charging; below 16 % the frame turns red and the level stays visible in the theme color; solid frame corners.
+- Low-battery notice shows its message instead of an empty grey card.
+- Gain icons with all three levels.
+- Working brightness slider in the pull-down. Its volume controls are hidden; volume remains available elsewhere.
+- Accent tinting corrected: colour swatches and QR codes are left alone.
+- TempoTec logos and branding restored; missing interface elements restored.
+- Launcher backgrounds, play/pause images and popup text corrected; native Balance icon in Quick Settings with the modern tile style.
+
+**Navigation and screens**
+
+- Opening an album is fast again: the official v1.3 music list is used.
+- Long-press Power shutdown countdown restored.
+- The shutdown screen covers the whole display when opened from Now Playing.
+- Correct headers on pages opened from the Now Playing menu.
+- Changing the theme color returns to the main screen instead of Music → Songs.
+- Settings cards no longer corrupt when the scrollbar disappears.
+- Now Playing no longer shows the next track's audio quality instead of the current one.
+
+**Settings**
+
+- Settings → About (the route to developer mode and ADB) and Settings → Theme color.
+- TF-card image and database cache.
+- The DAC setting is remembered across restarts.
+
+**System**
+
+- MMC read-ahead of 2048 and VFS cache pressure of 50, applied only where the paths exist.
+- Internal storage mounted with `noatime` instead of `sync`.
+
+These tweaks are described in the [technical notes](docs/HOW-IT-WORKS.md); their performance impact has not been benchmarked.
+
+**Kept from official v1.3:** PEQ, real-time Bluetooth search, TempoTec's stability fixes, the official kernel and the same microSD installation.
+
+**Known limitation:** the pull-down menu's battery icon keeps its white frame at low charge.
 
 The interface was adapted through Kae0's V3 Analog port of HiBy artwork. See [credits](CREDITS.md), [changelog](CHANGELOG.md) and [UI fix details](docs/UI-FIXES.md).
 

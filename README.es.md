@@ -20,15 +20,45 @@ Ambas ediciones usan el kernel oficial e incluyen PEQ, búsqueda Bluetooth en ti
 
 Stock + LDAC Fix ahora se llama Stock + Fixes. Stock + Fixes no cambia en v1.2.1.
 
-Full Mod incluye:
+Full Mod incluye todo lo de Stock + Fixes, además de:
 
-- Launcher y categorías de estilo HiBy, interfaz oscura y Now Playing a pantalla completa.
-- Relleno de batería y gráficos de carga corregidos, marco de batería rojo con carga baja sin perder el nivel, iconos de ganancia de tres estados, control de brillo y tintado del tema.
-- Entrada About en Ajustes, colores del tema, caché de imágenes/base de datos en TF y persistencia del ajuste DAC.
-- Correcciones existentes de navegación por álbumes, cuenta regresiva de apagado con Power restaurada y gráficos finales de Balance en Quick Settings.
-- Cobertura completa del apagado, encabezados coherentes en las páginas del menú de Now Playing, regreso a la pantalla principal al cambiar el color y redibujado correcto de Ajustes al ocultarse la barra de desplazamiento.
+**Interfaz**
 
-El desplegable tiene un control de brillo; sus controles de volumen están ocultos. Los controles de volumen siguen disponibles en otras pantallas. Full Mod también incluye los ajustes comprobados de read-ahead MMC y presión de caché, los cambios de montaje UBIFS y la corrección de metadatos de la pista siguiente descritos en las [notas técnicas](docs/HOW-IT-WORKS.md). Estos ajustes forman parte de Full Mod; su impacto en el rendimiento no se ha medido.
+- Launcher, categorías, interfaz oscura y Now Playing a pantalla completa con estilo HiBy OS.
+- Ícono de batería: el relleno ya no desaparece por debajo de ~30 % y no hay batería doble al cargar; por debajo del 16 % el marco se pone rojo y el nivel sigue visible en el color del tema; esquinas del marco nítidas.
+- El aviso de batería baja muestra su mensaje en vez de una tarjeta gris vacía.
+- Íconos de ganancia con los tres niveles.
+- Control de brillo funcional en el desplegable. Sus controles de volumen están ocultos; el volumen sigue disponible en otras pantallas.
+- Tintado del color de acento corregido: no tiñe las muestras de color ni los códigos QR.
+- Logos e identidad de TempoTec restaurados; elementos de interfaz faltantes restaurados.
+- Fondos del launcher, imágenes de play/pausa y textos emergentes corregidos; ícono nativo de Balance en Ajustes rápidos con el estilo moderno.
+
+**Navegación y pantallas**
+
+- Abrir un álbum vuelve a ser rápido: se usa la lista de música oficial de v1.3.
+- Cuenta regresiva de apagado al mantener Power, restaurada.
+- La pantalla de apagado cubre toda la pantalla al abrirla desde Now Playing.
+- Encabezados correctos en las páginas abiertas desde el menú de Now Playing.
+- Al cambiar el color del tema vuelve a la pantalla principal en vez de a Música → Canciones.
+- Las tarjetas de Ajustes ya no se corrompen cuando desaparece la barra de desplazamiento.
+- Now Playing ya no muestra la calidad de audio de la siguiente canción en vez de la actual.
+
+**Ajustes**
+
+- Ajustes → Acerca de (acceso al modo desarrollador y ADB) y Ajustes → Color del tema.
+- Caché de imágenes y de base de datos en la microSD.
+- El ajuste del DAC se recuerda entre reinicios.
+
+**Sistema**
+
+- Read-ahead de la microSD en 2048 y presión de caché VFS en 50, aplicados solo donde existen las rutas.
+- Memoria interna montada con `noatime` en vez de `sync`.
+
+Estos ajustes se describen en las [notas técnicas](docs/HOW-IT-WORKS.md); su impacto en el rendimiento no se ha medido.
+
+**Se conserva de la v1.3 oficial:** PEQ, búsqueda Bluetooth en tiempo real, los arreglos de estabilidad de TempoTec, el kernel oficial y la misma instalación por microSD.
+
+**Limitación conocida:** el ícono de batería del menú desplegable mantiene el marco blanco con batería baja.
 
 La interfaz se adaptó a través del port de Kae0 para V3 Analog con gráficos de HiBy. Véanse [créditos](CREDITS.md), [changelog](CHANGELOG.md) y [detalles de las correcciones de UI](docs/UI-FIXES.md).
 
