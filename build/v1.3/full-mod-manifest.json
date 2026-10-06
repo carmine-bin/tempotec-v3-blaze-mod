@@ -1,5 +1,28 @@
 [
   {
+    "path": "/etc/bluetooth/main.conf",
+    "operation": "modify",
+    "reason": "Bluetooth receiver airtime fix: ControllerMode dual -> bredr (stops LE background scanning during A2DP reception) and FastConnectable true -> false (standard page scan); all other official lines retained",
+    "before": {
+      "mode": "-rwxrwxr-x",
+      "uid": 0,
+      "gid": 0,
+      "size": 4818,
+      "mtime": "2026-04-17 01:15:45",
+      "target": null,
+      "sha256": "0ea56014cf967b2e88165ccf2ef2c6076b64123f22c36b0f1ea0007f243308d4"
+    },
+    "after": {
+      "mode": "-rwxr-xr-x",
+      "uid": 1000,
+      "gid": 1000,
+      "size": 4820,
+      "mtime": "2026-04-17 01:15:45",
+      "target": null,
+      "sha256": "a29ec0f8754b9e618d4e944e9060c7461f631281b668baccf184133a7587708a"
+    }
+  },
+  {
     "path": "/usr/bin/hiby_player",
     "operation": "modify",
     "reason": "Physically validated UI correction: [2, 3, 4]",

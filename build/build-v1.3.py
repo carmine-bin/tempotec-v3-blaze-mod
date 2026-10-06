@@ -23,6 +23,28 @@ PATCHES = {
         '143c926f3b767fd7cbc63dcae0e0e3988a4b3a7e1a324afc0212eec7f90e0001',
         'ab7623fb8ea21e410068a12b484fcb848eff829eaa190774c58f7d371d2913b4'),
 }
+# Whole-line configuration edits; every other byte stays official.
+CONFIG_EDITS = {
+    'etc/bluetooth/main.conf': (
+        [('ControllerMode = dual', 'ControllerMode = bredr'),
+         ('FastConnectable = true', 'FastConnectable = false')],
+        '0ea56014cf967b2e88165ccf2ef2c6076b64123f22c36b0f1ea0007f243308d4',
+        'a29ec0f8754b9e618d4e944e9060c7461f631281b668baccf184133a7587708a'),
+}
+EDITION_FIXES = {'usr/lib/libldacdec.so.1', 'etc/bluetooth/main.conf'}
+
+
+def edit_config(rel, data):
+    edits, before_hash, after_hash = CONFIG_EDITS[rel]
+    assert hashlib.sha256(data).hexdigest() == before_hash, rel
+    lines = data.split(b'\n')
+    for old, new in edits:
+        hits = [i for i, line in enumerate(lines) if line == old.encode()]
+        assert len(hits) == 1, (rel, old)
+        lines[hits[0]] = new.encode()
+    data = b'\n'.join(lines)
+    assert hashlib.sha256(data).hexdigest() == after_hash, rel
+    return data
 
 
 def sha(p):
@@ -226,6 +248,9 @@ def main():
             original_data = (base / 'v13/rootfs' / rel).read_bytes()
             assert len(data) == len(original_data)
             binary_deltas[rel] = [i for i,(a,b) in enumerate(zip(original_data,data)) if a != b]
+        elif rel in CONFIG_EDITS:
+            data = edit_config(rel, (base / 'v13/rootfs' / rel).read_bytes())
+            assert data == (REPO / 'theme/v1.3' / rel).read_bytes(), rel
         else:
             data = (REPO / 'theme/v1.3' / rel).read_bytes()
         assert hashlib.sha256(data).hexdigest() == row['after']['sha256'], rel
@@ -233,8 +258,8 @@ def main():
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
         reasons[rel] = row['reason']
-    assert 'usr/lib/libldacdec.so.1' in reasons
-    assert args.edition != 'stock-fix' or set(reasons) == {'usr/lib/libldacdec.so.1'}
+    assert EDITION_FIXES <= reasons.keys()
+    assert args.edition != 'stock-fix' or set(reasons) == EDITION_FIXES
     save(work / 'change-reasons.json', reasons)
     save(work / 'binary-deltas.json', binary_deltas)
     # Validate before packing using a staging content tree; metadata is supplied explicitly by TAR.

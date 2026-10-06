@@ -14,7 +14,7 @@ Modified TempoTec firmware and imported HiBy artwork retain their respective rig
 
 ## Firmware contents
 
-Both editions retain the official v1.3 kernel. Stock + LDAC Fix changes one decoder byte. Full Mod adds the resources, configuration, scripts and player changes in its [manifest](build/v1.3/full-mod-manifest.json). The [technical notes](docs/HOW-IT-WORKS.md) and [UI investigation](docs/UI-FIXES.md) describe their scope.
+Both editions retain the official v1.3 kernel. Stock + Fixes changes one decoder byte and two lines of the Bluetooth configuration. Full Mod adds the resources, configuration, scripts and player changes in its [manifest](build/v1.3/full-mod-manifest.json). The [technical notes](docs/HOW-IT-WORKS.md) and [UI investigation](docs/UI-FIXES.md) describe their scope.
 
 Firmware is supplied for personal use and research. Flashing is at your own risk and may affect warranty coverage. Not affiliated with, endorsed by or supported by TempoTec or HiBy.
 

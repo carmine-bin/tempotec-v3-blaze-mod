@@ -1,6 +1,6 @@
 # Firmware para TempoTec V3 Blaze
 
-Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con una corrección para los artefactos de audio LDAC en modo Bluetooth Receiver. Versión del proyecto: v1.1.2.
+Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con correcciones para los cortes y los artefactos de audio LDAC en modo Bluetooth Receiver. Versión del proyecto: v1.2.0.
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze con Full Mod" width="70%"></p>
 
@@ -10,10 +10,15 @@ Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con una corrección para los a
 
 | Edición | Contenido | Archivo |
 |---|---|---|
-| V3 Blaze v1.3 Stock + LDAC Fix | Aspecto y funciones oficiales, con solo la corrección del decoder LDAC | `V3-Blaze-v1.3-Stock-LDAC-Fix.upt` |
-| V3 Blaze v1.3 Full Mod | Base v1.3 corregida, interfaz personalizada de estilo HiBy y correcciones de UI probadas | `V3-Blaze-v1.3-Full-Mod-v1.1.2.upt` |
+| V3 Blaze v1.3 Stock + Fixes | Aspecto y funciones oficiales, con solo las correcciones de Bluetooth Receiver | `V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt` |
+| V3 Blaze v1.3 Full Mod | Base v1.3 corregida, interfaz personalizada de estilo HiBy y correcciones de UI probadas | `V3-Blaze-v1.3-Full-Mod-v1.2.0.upt` |
 
-Ambas ediciones usan el kernel oficial e incluyen PEQ, búsqueda Bluetooth en tiempo real y mejoras de estabilidad de v1.3. Stock + LDAC Fix no cambia respecto a la versión anterior. Full Mod v1.1.2 incluye las correcciones de UI probadas en un V3 Blaze real.
+Ambas ediciones usan el kernel oficial e incluyen PEQ, búsqueda Bluetooth en tiempo real y mejoras de estabilidad de v1.3. Ambas incluyen las mismas dos correcciones de Bluetooth Receiver:
+
+- **Cortes:** BlueZ mantenía la radio escaneando mientras recibía audio, así que el emisor no podía sostener LDAC 990 kb/s ni a corta distancia. Dos líneas de `/etc/bluetooth/main.conf` detienen esos escaneos; 990 kb/s ahora suena sin audio perdido a distancias que antes fallaban. [Detalles y mediciones](docs/BLUETOOTH-RANGE.md).
+- **Artefactos LDAC:** una corrección de un byte en el decoder elimina los artefactos digitales introducidos por la v1.3 oficial. [Evidencia del decoder](docs/LDAC-RECEIVER-ARTIFACTS.md).
+
+Stock + LDAC Fix ahora se llama Stock + Fixes.
 
 Full Mod incluye:
 
@@ -31,7 +36,7 @@ La interfaz se adaptó a través del port de Kae0 para V3 Analog con gráficos d
 
 Con el salvapantallas de carátula activo, la información y la carátula pueden tardar aproximadamente 1.5 segundos en actualizarse después de cambiar de canción. El mismo comportamiento fue reproducido en los firmwares oficiales TempoTec v1.2 y v1.3.
 
-La recepción Bluetooth tiene un margen de enlace limitado, especialmente con LDAC sostenido a tasas altas y en condiciones de RF desfavorables. AAC ha sido más estable durante las pruebas. Este comportamiento es independiente de la corrupción de audio LDAC de v1.3 corregida por el proyecto. La causa del poco margen de señal sigue sin determinarse. [Observaciones del enlace](docs/BLUETOOTH-RANGE.md).
+El Blaze ya no usa Bluetooth LE. No se encontró ninguna función del reproductor que lo necesite; A2DP, AVRCP y HiBy Link usan Bluetooth clásico. A más de unos 12 m con paredes de por medio, LDAC 990 kb/s todavía se corta y el emisor baja la tasa; es el límite físico del enlace. [Detalles de Bluetooth Receiver](docs/BLUETOOTH-RANGE.md).
 
 El firmware v1.3 contiene una regla adicional downstream que suprime coeficientes y que no se encontró en las fuentes públicas examinadas. Evitar esa regla corrigió la corrupción de audio LDAC en modo Bluetooth Receiver en hardware V3 Blaze real. Su autor y finalidad son desconocidos. [Evidencia del decoder](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
@@ -42,20 +47,20 @@ Solo para TempoTec V3 Blaze (`V3_ANALOG_2025`), no para el V3 Analog antiguo. Fl
 **Un archivo llamado `update.upt` tiene prioridad sobre `v3_analog_2025.upt`, incluso al actualizar desde Ajustes. Elimina o renombra cualquier `update.upt` antes de instalar.**
 
 1. **Si hay un `v3_analog_2025.upt` en la raíz de la microSD (por ejemplo, el que dejó la actualización OTA), renómbralo a `v3_analog_2025.upt.stock` antes de copiar el mod. Si no, el mod lo sobrescribirá y perderás tu copia del firmware oficial.**
-2. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.1.2](docs/releases/v1.1.2-manifest.json).
+2. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.2.0](docs/releases/v1.2.0-manifest.json).
 3. Renómbrala a `v3_analog_2025.upt` y cópiala a la raíz de una microSD.
 4. Selecciona Ajustes → Actualización de firmware → Actualizar mediante microSD. Espera a que termine y reinicie.
 
 Guarda las copias con `.upt.stock` o `.upt.bak`. Consulta [cómo obtener el firmware oficial v1.3](docs/INSTALL.md#getting-the-official-v13-firmware) y [respaldo y restauración](docs/INSTALL.md#backup-and-restore).
 
-El modo desarrollador y ADB vienen desactivados por defecto en ambas ediciones y funcionan igual que en el firmware oficial: toca About 10 veces para activarlos. En la interfaz oficial y en Stock + LDAC Fix, About está en el menú de inicio. El launcher estilo HiBy de Full Mod no tiene esa entrada, así que Full Mod muestra About en Ajustes (la configuración oficial de Ajustes oculta esa entrada porque el menú de inicio ya la tiene). Este proyecto no activa ADB ni cambia cómo funciona el modo desarrollador.
+El modo desarrollador y ADB vienen desactivados por defecto en ambas ediciones y funcionan igual que en el firmware oficial: toca About 10 veces para activarlos. En la interfaz oficial y en Stock + Fixes, About está en el menú de inicio. El launcher estilo HiBy de Full Mod no tiene esa entrada, así que Full Mod muestra About en Ajustes (la configuración oficial de Ajustes oculta esa entrada porque el menú de inicio ya la tiene). Este proyecto no activa ADB ni cambia cómo funciona el modo desarrollador.
 
 Ambos paquetes tienen 44,367,872 bytes.
 
 | Edición | SHA-256 | MD5 |
 |---|---|---|
-| Stock + LDAC Fix | `273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1` | `cd380b93df9a600a5d24cb64585aac88` |
-| Full Mod | `6bd0c1bf1973241efe6985d6da63572197f502b190851883876d82e8255017e8` | `f85adf2d2f5bc684061f9c27fa6c5d56` |
+| Stock + Fixes | `5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af` | `4e9408a7415b66fdad7d0ad560103194` |
+| Full Mod | `a918bf26817bd5ad806546d573a57a127570337a613f826cad2dd1f12cf75c5c` | `ea2509a069003d00f7f9aae1186de9c7` |
 
 ## Desarrollo y licencia
 

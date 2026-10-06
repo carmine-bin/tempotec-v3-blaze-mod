@@ -1,6 +1,6 @@
 # TempoTec V3 Blaze firmware
 
-Official TempoTec v1.3 (`V3_ANALOG_2025`) with a correction for Bluetooth Receiver LDAC audio artifacts. Project version: v1.1.2.
+Official TempoTec v1.3 (`V3_ANALOG_2025`) with corrections for Bluetooth Receiver dropouts and LDAC audio artifacts. Project version: v1.2.0.
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze running Full Mod" width="70%"></p>
 
@@ -10,10 +10,15 @@ Official TempoTec v1.3 (`V3_ANALOG_2025`) with a correction for Bluetooth Receiv
 
 | Edition | Contents | Filename |
 |---|---|---|
-| V3 Blaze v1.3 Stock + LDAC Fix | Official appearance and features, with only the LDAC decoder correction | `V3-Blaze-v1.3-Stock-LDAC-Fix.upt` |
-| V3 Blaze v1.3 Full Mod | Corrected v1.3 base, customized HiBy-style interface and tested UI fixes | `V3-Blaze-v1.3-Full-Mod-v1.1.2.upt` |
+| V3 Blaze v1.3 Stock + Fixes | Official appearance and features, with only the Bluetooth Receiver corrections | `V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt` |
+| V3 Blaze v1.3 Full Mod | Corrected v1.3 base, customized HiBy-style interface and tested UI fixes | `V3-Blaze-v1.3-Full-Mod-v1.2.0.upt` |
 
-Both editions use the official kernel and include v1.3 PEQ, real-time Bluetooth search and stability improvements. Stock + LDAC Fix is unchanged from the previous release. Full Mod v1.1.2 includes the UI fixes tested on a physical V3 Blaze.
+Both editions use the official kernel and include v1.3 PEQ, real-time Bluetooth search and stability improvements. Both include the same two Bluetooth Receiver corrections:
+
+- **Dropouts:** BlueZ kept the radio scanning while receiving audio, so the source could not sustain LDAC 990 kb/s even at close range. Two lines of `/etc/bluetooth/main.conf` stop the scanning; 990 kb/s now plays without dropped audio at distances that previously failed. [Details and measurements](docs/BLUETOOTH-RANGE.md).
+- **LDAC artifacts:** a one-byte decoder correction removes the digital artifacts introduced by official v1.3. [Decoder evidence](docs/LDAC-RECEIVER-ARTIFACTS.md).
+
+Stock + LDAC Fix is now called Stock + Fixes.
 
 Full Mod includes:
 
@@ -31,7 +36,7 @@ The interface was adapted through Kae0's V3 Analog port of HiBy artwork. See [cr
 
 When the album-art screensaver is active, track information and artwork may take about 1.5 seconds to update after a track change. The same behavior was reproduced on official TempoTec v1.2 and v1.3 firmware.
 
-Bluetooth reception has limited link margin, particularly with sustained high-bitrate LDAC and in difficult RF conditions. AAC has been more reliable in testing. This is separate from the v1.3 LDAC audio corruption corrected by this project. The cause of the weak RF link is still unknown. [Link observations](docs/BLUETOOTH-RANGE.md).
+The Blaze no longer uses Bluetooth LE. No player feature that needs it was found; A2DP, AVRCP and HiBy Link use classic Bluetooth. Beyond about 12 m with walls in between, LDAC 990 kb/s still drops out and the source lowers its rate; this is the physical limit of the link. [Bluetooth Receiver details](docs/BLUETOOTH-RANGE.md).
 
 Firmware v1.3 contains an additional downstream coefficient-suppression rule that was not found in the public sources examined. Bypassing that rule corrected the Bluetooth Receiver LDAC audio corruption on physical V3 Blaze hardware. Its author and purpose are unknown. [Decoder evidence](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
@@ -42,20 +47,20 @@ Only for TempoTec V3 Blaze (`V3_ANALOG_2025`), not the older V3 Analog. Flashing
 **A file named `update.upt` takes priority over `v3_analog_2025.upt`, even when updating from Settings. Remove or rename any `update.upt` before installing.**
 
 1. **If there is a `v3_analog_2025.upt` in the root of the microSD card (for example, the one left by the OTA update), rename it to `v3_analog_2025.upt.stock` before copying the mod. Otherwise the mod will overwrite it and you will lose your copy of the official firmware.**
-2. Choose an edition and verify its SHA-256 against the [v1.1.2 manifest](docs/releases/v1.1.2-manifest.json).
+2. Choose an edition and verify its SHA-256 against the [v1.2.0 manifest](docs/releases/v1.2.0-manifest.json).
 3. Rename it to `v3_analog_2025.upt` and copy it to the root of a microSD card.
 4. Select Settings → Firmware update → Update via micro SD card. Wait for flashing and reboot to finish.
 
 Keep backup firmware under `.upt.stock` or `.upt.bak`. See [getting the official v1.3 firmware](docs/INSTALL.md#getting-the-official-v13-firmware) and [backup and restore](docs/INSTALL.md#backup-and-restore).
 
-Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + LDAC Fix, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
+Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + Fixes, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
 
 Both packages are 44,367,872 bytes.
 
 | Edition | SHA-256 | MD5 |
 |---|---|---|
-| Stock + LDAC Fix | `273f56607d477d44bd071c1a3e2097361610c2e403cfddc7ccf51b98a56210d1` | `cd380b93df9a600a5d24cb64585aac88` |
-| Full Mod | `6bd0c1bf1973241efe6985d6da63572197f502b190851883876d82e8255017e8` | `f85adf2d2f5bc684061f9c27fa6c5d56` |
+| Stock + Fixes | `5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af` | `4e9408a7415b66fdad7d0ad560103194` |
+| Full Mod | `a918bf26817bd5ad806546d573a57a127570337a613f826cad2dd1f12cf75c5c` | `ea2509a069003d00f7f9aae1186de9c7` |
 
 ## Development and licence
 

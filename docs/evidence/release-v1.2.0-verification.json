@@ -1,0 +1,104 @@
+{
+  "version": "v1.2.0",
+  "date": "2026-10-05",
+  "official_sha256": "5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+  "tools": {
+    "squashfs-tools": "4.7.5",
+    "xorriso": "1.5.8.pl02",
+    "python": "3"
+  },
+  "editions": {
+    "stock-fix": {
+      "filename": "V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt",
+      "sha256": "5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af",
+      "final_verification": "PASS",
+      "reproduction": "PASS",
+      "deterministic_rebuild": "two independent builds from the official UPT produced identical bytes",
+      "ota": [
+        {
+          "image": "xImage",
+          "size": 3731520,
+          "chunks": 8,
+          "md5": "490bfb2569ff3fbb6b4e1dcf7b46a146",
+          "sha256": "5fd39bd5a3e26cc2fb97681058ad0fb1211d9a57f41bd76eb6944b18f2fb6c3b",
+          "status": "PASS"
+        },
+        {
+          "image": "rootfs.squashfs",
+          "size": 40108032,
+          "chunks": 77,
+          "md5": "9749c8e3ac200a61726b775084ce9de3",
+          "sha256": "d2651bfb2496a52366c9417d25b5a38ce3313dd82e9f15f5683ba37fb22c3911",
+          "status": "PASS"
+        }
+      ],
+      "kernel": "byte-identical to 1.3",
+      "changed_regular_files_vs_official": 2,
+      "hardlink_groups": 208,
+      "filesystem_difference_vs_v1.1.2": {
+        "paths": [
+          "etc/bluetooth/main.conf"
+        ],
+        "detail": {
+          "etc/bluetooth/main.conf": {
+            "size": [
+              4818,
+              4820
+            ],
+            "sha256": [
+              "0ea56014cf967b2e88165ccf2ef2c6076b64123f22c36b0f1ea0007f243308d4",
+              "a29ec0f8754b9e618d4e944e9060c7461f631281b668baccf184133a7587708a"
+            ]
+          }
+        }
+      },
+      "protected_components": "kernel, modules, libraries, libexec and /etc byte-identical to official v1.3 except libldacdec.so.1 and etc/bluetooth/main.conf"
+    },
+    "full-mod": {
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.0.upt",
+      "sha256": "a918bf26817bd5ad806546d573a57a127570337a613f826cad2dd1f12cf75c5c",
+      "final_verification": "PASS",
+      "reproduction": "PASS",
+      "deterministic_rebuild": "two independent builds from the official UPT produced identical bytes",
+      "ota": [
+        {
+          "image": "xImage",
+          "size": 3731520,
+          "chunks": 8,
+          "md5": "490bfb2569ff3fbb6b4e1dcf7b46a146",
+          "sha256": "5fd39bd5a3e26cc2fb97681058ad0fb1211d9a57f41bd76eb6944b18f2fb6c3b",
+          "status": "PASS"
+        },
+        {
+          "image": "rootfs.squashfs",
+          "size": 40108032,
+          "chunks": 77,
+          "md5": "9e369d184d1fa5a16ae563e143d5b17c",
+          "sha256": "6ed534211a65ab28b7bf8ec240122ae91b3c1edb3541daf7575768fab1cf9db3",
+          "status": "PASS"
+        }
+      ],
+      "kernel": "byte-identical to 1.3",
+      "changed_regular_files_vs_official": 612,
+      "hardlink_groups": 0,
+      "filesystem_difference_vs_v1.1.2": {
+        "paths": [
+          "etc/bluetooth/main.conf"
+        ],
+        "detail": {
+          "etc/bluetooth/main.conf": {
+            "size": [
+              4818,
+              4820
+            ],
+            "sha256": [
+              "0ea56014cf967b2e88165ccf2ef2c6076b64123f22c36b0f1ea0007f243308d4",
+              "a29ec0f8754b9e618d4e944e9060c7461f631281b668baccf184133a7587708a"
+            ]
+          }
+        }
+      },
+      "protected_components": "kernel, modules, libraries, libexec and /etc byte-identical to official v1.3 except libldacdec.so.1 and etc/bluetooth/main.conf"
+    }
+  }
+}

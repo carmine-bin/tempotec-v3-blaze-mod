@@ -37,21 +37,21 @@ Windows: `certutil -hashfile v3_analog_2025.upt.stock SHA256`.
 Linux verification:
 
 ```bash
-sha256sum V3-Blaze-v1.3-Stock-LDAC-Fix.upt
-sha256sum V3-Blaze-v1.3-Full-Mod-v1.1.2.upt
+sha256sum V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt
+sha256sum V3-Blaze-v1.3-Full-Mod-v1.2.0.upt
 ```
 
 Windows: `certutil -hashfile <downloaded-file> SHA256`. Stop if the checksum differs. Renaming a file leaves its checksum unchanged.
 
-Both editions should boot with official v1.3 PEQ and Bluetooth search, with the LDAC audio corruption corrected. Full Mod adds the custom interface, an About entry in Settings, theme colors and brightness control. Its pull-down volume objects remain hidden.
+Both editions should boot with official v1.3 PEQ and Bluetooth search, with the Bluetooth Receiver dropouts and LDAC audio corruption corrected. Full Mod adds the custom interface, an About entry in Settings, theme colors and brightness control. Its pull-down volume objects remain hidden.
 
-Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + LDAC Fix, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
+Developer mode and ADB are off by default in both editions and work as in the official firmware: tap About 10 times to enable them. In the official interface and in Stock + Fixes, About is in the home menu. Full Mod's HiBy-style launcher has no About entry, so Full Mod shows About in Settings instead (the official settings configuration hides that entry because the home menu already has it). This project does not enable ADB or change how developer mode works.
 
 ## Backup and restore
 
 Keep backups on the card as `v3_analog_2025.upt.stock` or `v3_analog_2025.upt.bak`; the updater ignores those names.
 
-- **Closest to official v1.3:** flash the Stock + LDAC Fix edition. It is the official v1.3 firmware with a single byte changed in the LDAC decoder; see [LDAC receiver artifacts](LDAC-RECEIVER-ARTIFACTS.md).
+- **Closest to official v1.3:** flash the Stock + Fixes edition. It is the official v1.3 firmware with one byte changed in the LDAC decoder and two lines changed in the Bluetooth configuration; see [LDAC receiver artifacts](LDAC-RECEIVER-ARTIFACTS.md) and [Bluetooth Receiver dropouts](BLUETOOTH-RANGE.md).
 - **100% official firmware:** rename your `v3_analog_2025.upt.stock` to `v3_analog_2025.upt` and update from the microSD card as in the install steps.
 
 If the system cannot boot, use [Recovery](RECOVERY.md).

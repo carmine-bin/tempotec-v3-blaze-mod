@@ -64,7 +64,7 @@ def verify(img,out,tag):
   x=(ROOT/p).read_bytes();y=(out/p).read_bytes();assert len(x)==len(y);assert [i for i,(v,w) in enumerate(zip(x,y)) if v!=w]==offs
  assert actual['bin/busybox']['mode']==expected['bin/busybox']['mode']
  for p,m in original.items():
-  if p.startswith(('module_driver/','lib/','usr/lib/','usr/libexec/','etc/')) and 'sha256' in m and p!='usr/lib/libldacdec.so.1':assert actual[p]['sha256']==m['sha256'],p
+  if p.startswith(('module_driver/','lib/','usr/lib/','usr/libexec/','etc/')) and 'sha256' in m and p not in ('usr/lib/libldacdec.so.1','etc/bluetooth/main.conf'):assert actual[p]['sha256']==m['sha256'],p
  save(W/(tag+'-inventory.json'),actual);save(W/(tag+'-hardlinks.json'),hardlinks)
  r={'status':'PASS','path_count':len(actual),'regular_files':files,'changed_regular_files':len(changed),'new_paths':sorted(actual.keys()-original.keys()),'removed_paths':[],'metadata':'all modes/numeric UID/GID/timestamps/symlink targets match edition manifest','hardlink_groups':len(hardlinks),'source_superblock':a,'rebuilt_superblock':b,'rootfs_sha256':digest(img),'rootfs_md5':hashlib.md5(img.read_bytes()).hexdigest(),'padded_size':img.stat().st_size,'binary_deltas':sorted(reasons.keys() & {'usr/bin/hiby_player','usr/lib/libldacdec.so.1'}),'protected_13_components':'all outside manifest byte-identical'}
  save(W/(tag+'-verification.json'),r);print(tag,'verification PASS',files,'files',flush=True);return r

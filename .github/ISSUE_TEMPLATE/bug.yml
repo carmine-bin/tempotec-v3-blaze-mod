@@ -14,7 +14,7 @@ body:
     attributes:
       label: Edition
       options:
-        - Stock + LDAC Fix
+        - Stock + Fixes
         - Full Mod
     validations:
       required: true
@@ -24,7 +24,7 @@ body:
     attributes:
       label: Release version
       description: The release tag you flashed, plus the SHA-256 of the .upt if you have it.
-      placeholder: "v1.1.2"
+      placeholder: "v1.2.0"
     validations:
       required: true
 

@@ -1,6 +1,6 @@
 # Bluetooth Receiver LDAC audio corruption in v1.3
 
-Official TempoTec v1.3 produced digital audio artifacts in Bluetooth Receiver mode even while the LDAC stream stayed connected. Both editions correct that decoder behavior. [Link dropouts](BLUETOOTH-RANGE.md) are investigated separately.
+Official TempoTec v1.3 produced digital audio artifacts in Bluetooth Receiver mode even while the LDAC stream stayed connected. Both editions correct that decoder behavior. [Link dropouts](BLUETOOTH-RANGE.md) had a different cause, corrected separately in v1.2.0.
 
 ## Hardware isolation
 

@@ -1,0 +1,190 @@
+{
+  "subject": "V3 Blaze Bluetooth Receiver (A2DP sink) dropouts on official v1.3",
+  "date": "2026-10-05",
+  "device": {
+    "model": "TempoTec V3 Blaze (V3_ANALOG_2025)",
+    "firmware": "official v1.3, SHA-256 5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+    "controller": "Broadcom/Cypress BCM43438A1 over UART, AP6212A1 HCD 001.002.009.1010.1030 (HCI/LMP 5.2, build 1030)",
+    "host_stack": "BlueZ 5.54 bluetoothd -E -C, BlueALSA a2dp-sink, Linux 4.4.94"
+  },
+  "source": "Android phone (Redmi K70E / Poco F6), LDAC fixed at 990 kb/s unless noted",
+  "official_configuration_observed_in_hci": {
+    "main_conf": {
+      "ControllerMode": "dual",
+      "FastConnectable": "true",
+      "DiscoverableTimeout": "0"
+    },
+    "le_background_scan": {
+      "type": "passive",
+      "interval_ms": 60,
+      "window_ms": 30,
+      "filter_policy": "accept list only",
+      "active_during_a2dp_reception": true,
+      "trigger": "bonded devices stored with LE keys (all three bonded phones/laptop had SupportedTechnologies=BR/EDR;LE)"
+    },
+    "page_scan": {
+      "interval_ms": 160,
+      "window_ms": 11.25,
+      "type": "interlaced",
+      "source": "FastConnectable = true"
+    },
+    "scan_enable_during_reception": "inquiry scan + page scan",
+    "connection_role": "BlueZ accepts incoming ACL with role switch to central (AVDTP and AVCTP listeners request master)",
+    "wifi": "wlan0 down; SDIO interrupt count static during tests"
+  },
+  "change": {
+    "file": "/etc/bluetooth/main.conf",
+    "lines": {
+      "52": "ControllerMode = dual -> bredr",
+      "66": "FastConnectable = true -> false"
+    },
+    "sha256_before": "0ea56014cf967b2e88165ccf2ef2c6076b64123f22c36b0f1ea0007f243308d4",
+    "sha256_after": "a29ec0f8754b9e618d4e944e9060c7461f631281b668baccf184133a7587708a",
+    "verified_effect": "HCI Read LE Host Support returns LE Supported Host = 0; no LE scan commands while streaming"
+  },
+  "method": {
+    "test_application": "configuration bind-mounted over the official file in RAM, bluetoothd and bt-agent restarted, Receiver mode entered; reboot between runs",
+    "capture": "btmon HCI capture on the Blaze written to microSD; HCI Read Link Quality and link role logged once per second",
+    "metrics": "dropped audio = RTP timestamp advance beyond the previous packet's duration (LDAC frames x 256 / 96 kHz); missing RTP = sequence gaps",
+    "tools": {
+      "analyze.py": "f8bd6d4d237947c4320bac7f5753d970a58952bc260a54072400ccff130f61a8",
+      "measure.sh": "65b13b1a2ca0cff08dccde2d5262406b11dd1c939a59ab1fd712299361bb5df6",
+      "lqlog.sh": "18f7d51b399d8d0c1d2f79874f8d7ee3b7a3204eb327b406bb8861cd3fd8d02c",
+      "airtime-test.sh": "a4adfcebc691e049210fe0701d195c542ef3253a23576ae2018f8070ba09d27d"
+    },
+    "spots": {
+      "A": "near, then a moderate indoor distance; the official configuration already dropped audio near the source",
+      "B": "about 12 m straight line through a melamine interior door, an aluminium exterior door and the tester's body; with the official configuration dropouts started before reaching the first door",
+      "range walk": "walked away until dropouts began"
+    },
+    "limits": "one V3 Blaze unit, one source phone, indoor residential environment; spot B runs vary with body/phone position, so differences of about 10 s between B runs are within run-to-run variation. Captures contain Bluetooth addresses and audio and are not published."
+  },
+  "runs": [
+    {
+      "id": "T0",
+      "configuration": "official v1.3 configuration",
+      "spot": "A",
+      "seconds": 100,
+      "media_packets": 7438,
+      "dropped_audio_s": 60.3,
+      "dropped_audio_pct": 60.3,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 215,
+      "rate_kbps_at_link_quality_255_median": 397
+    },
+    {
+      "id": "T2",
+      "configuration": "official main.conf + bluetoothd role patch (diagnostic only)",
+      "spot": "A",
+      "seconds": 98,
+      "media_packets": 7903,
+      "dropped_audio_s": 56.0,
+      "dropped_audio_pct": 57.1,
+      "missing_rtp_packets": 0,
+      "blaze_role": "slave",
+      "link_quality_min": 165,
+      "rate_kbps_at_link_quality_255_median": 417
+    },
+    {
+      "id": "T1",
+      "configuration": "v1.2.0 main.conf",
+      "spot": "A",
+      "seconds": 211,
+      "media_packets": 31629,
+      "dropped_audio_s": 0.2,
+      "dropped_audio_pct": 0.1,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 145,
+      "rate_kbps_at_link_quality_255_median": 660,
+      "note": "capture includes a reconnection that started at 330/660 kb/s before the source was set back to 990"
+    },
+    {
+      "id": "T3",
+      "configuration": "v1.2.0 main.conf + bluetoothd role patch",
+      "spot": "A",
+      "seconds": 110,
+      "media_packets": 20609,
+      "dropped_audio_s": 0.0,
+      "dropped_audio_pct": 0.0,
+      "missing_rtp_packets": 0,
+      "blaze_role": "slave",
+      "link_quality_min": 184,
+      "rate_kbps_at_link_quality_255_median": 988
+    },
+    {
+      "id": "T6",
+      "configuration": "v1.2.0 main.conf",
+      "spot": "range walk",
+      "seconds": 132,
+      "media_packets": 9223,
+      "dropped_audio_s": 21.3,
+      "dropped_audio_pct": 16.1,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 17,
+      "rate_kbps_at_link_quality_255_median": 660,
+      "note": "source in LDAC adaptive mode (Android reset after reconnection); walked away until dropouts began"
+    },
+    {
+      "id": "T7",
+      "configuration": "v1.2.0 main.conf",
+      "spot": "B",
+      "seconds": 108,
+      "media_packets": 15578,
+      "dropped_audio_s": 24.5,
+      "dropped_audio_pct": 22.7,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 49,
+      "rate_kbps_at_link_quality_255_median": 990
+    },
+    {
+      "id": "T8",
+      "configuration": "v1.2.0 main.conf + bluetoothd role patch",
+      "spot": "B",
+      "seconds": 99,
+      "media_packets": 12291,
+      "dropped_audio_s": 33.0,
+      "dropped_audio_pct": 33.3,
+      "missing_rtp_packets": 0,
+      "blaze_role": "slave",
+      "link_quality_min": 37,
+      "rate_kbps_at_link_quality_255_median": 989
+    },
+    {
+      "id": "T9",
+      "configuration": "v1.2.0 main.conf + controller sleep mode disabled (HCI 0xfc27 all zero)",
+      "spot": "B",
+      "seconds": 99,
+      "media_packets": 12416,
+      "dropped_audio_s": 32.7,
+      "dropped_audio_pct": 33.0,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 15,
+      "rate_kbps_at_link_quality_255_median": 992
+    },
+    {
+      "id": "T10",
+      "configuration": "v1.2.0 main.conf + AzureWave HCD 0122.0538 instead of AP6212A1 1010.1030",
+      "spot": "B",
+      "seconds": 114,
+      "media_packets": 15481,
+      "dropped_audio_s": 31.2,
+      "dropped_audio_pct": 27.4,
+      "missing_rtp_packets": 0,
+      "blaze_role": "master",
+      "link_quality_min": 22,
+      "rate_kbps_at_link_quality_255_median": 991
+    }
+  ],
+  "conclusions": [
+    "Official configuration: the source sustained only about 400 kb/s even at link quality 255 and discarded about 60 % of the audio; no RTP packets were lost on the air.",
+    "Disabling LE (ControllerMode = bredr) and fast connectable page scan restores sustained 990 kb/s with no dropped audio at spot A.",
+    "The bluetoothd role patch alone does not help (57 % dropped) and adds nothing on top of the main.conf change at spot B.",
+    "Disabling controller sleep mode and swapping to the AzureWave HCD produced no improvement beyond run-to-run variation at spot B; neither is shipped.",
+    "Remaining dropouts at spot B occur at link quality below about 60 and are attributed to the physical link limit."
+  ]
+}

@@ -1,6 +1,26 @@
 # Changelog
 
-User-facing changes in each release. "Full Mod" and "Stock + LDAC Fix" are the two editions published since 1.1.0. Notes on where historical claims came from are kept in [changelog provenance](docs/evidence/CHANGELOG-PROVENANCE.md).
+User-facing changes in each release. "Full Mod" and "Stock + Fixes" (named "Stock + LDAC Fix" before 1.2.0) are the two editions published since 1.1.0. Notes on where historical claims came from are kept in [changelog provenance](docs/evidence/CHANGELOG-PROVENANCE.md).
+
+## [1.2.0] — 2026-10-05
+
+Based on official TempoTec firmware v1.3.
+
+### Fixed
+
+- Both editions: Bluetooth Receiver dropouts. BlueZ kept the radio busy with LE background scanning and fast-connectable page scanning while receiving audio, so the source could not sustain LDAC 990 kb/s even at close range and discarded audio. `/etc/bluetooth/main.conf` now sets `ControllerMode = bredr` and `FastConnectable = false`. In testing, LDAC 990 kb/s went from about 60 % dropped audio next to the phone to none, and now holds up to about 12 m through two doors. See [Bluetooth Receiver dropouts](docs/BLUETOOTH-RANGE.md).
+
+### Changed
+
+- Stock + LDAC Fix is renamed Stock + Fixes (`V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt`). It changes two files from official v1.3: the LDAC decoder byte and `main.conf`.
+- The Blaze no longer uses Bluetooth LE. No feature that needs it was found.
+- Incoming Bluetooth connections can take up to about a second longer to start (standard page scan).
+- Full Mod interface, audio and playback are unchanged from 1.1.2.
+
+### Known issues
+
+- With the album-art screensaver active, track information and artwork can take about 1.5 seconds to update after a track change. Official TempoTec v1.2 and v1.3 behave the same.
+- Beyond about 12 m with walls in between, LDAC 990 kb/s still drops out and the source lowers its rate. This is the physical limit of the link.
 
 ## [1.1.2] — 2026-09-28
 

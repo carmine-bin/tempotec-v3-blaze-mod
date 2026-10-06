@@ -42,7 +42,7 @@ Official v1.3 supplies the complete current base, including PEQ, real-time Bluet
 
 The v1.3 base improved previously observed freezes/reboots. In a severe Bluetooth degradation test, connection loss no longer rebooted the player; it recovered when the link returned. Artwork-related instability was also reported resolved. The historical trigger's JPEG encoding, dimensions and file size were not retained, so progressive JPEG cannot be identified as its cause. These observations concern the official base, not the decoder patch.
 
-Both editions use the same one-byte [LDAC correction](LDAC-RECEIVER-ARTIFACTS.md). It has no demonstrated dependency on PEQ, the theme or the next-track patch. The [Bluetooth link-margin issue](BLUETOOTH-RANGE.md) remains unresolved.
+Both editions use the same one-byte [LDAC correction](LDAC-RECEIVER-ARTIFACTS.md). It has no demonstrated dependency on PEQ, the theme or the next-track patch. Both also use the same [Bluetooth Receiver configuration](BLUETOOTH-RANGE.md): `ControllerMode = bredr` and `FastConnectable = false` stop the radio scanning while audio is received.
 
 The current [builder](BUILD.md) records metadata explicitly in TAR, re-extracts both rootfs stages and checks the final UPT against pinned bytes. It preserves Stock hardlinks and existing Full Mod metadata separately. Historical v1.2 builds used fakeroot; their checks and counts remain in [archived documentation](releases/v1.0.0-BUILD.md).
 

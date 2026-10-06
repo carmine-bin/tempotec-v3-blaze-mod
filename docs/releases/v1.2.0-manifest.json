@@ -1,0 +1,30 @@
+{
+  "version": "v1.2.0",
+  "status": "release",
+  "base": "TempoTec V3 Blaze V3_ANALOG_2025 v1.3",
+  "official_sha256": "5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+  "editions": {
+    "stock-fix": {
+      "name": "V3 Blaze v1.3 Stock + Fixes",
+      "filename": "V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt",
+      "size": 44367872,
+      "sha256": "5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af",
+      "md5": "4e9408a7415b66fdad7d0ad560103194",
+      "rootfs_sha256": "d2651bfb2496a52366c9417d25b5a38ce3313dd82e9f15f5683ba37fb22c3911",
+      "rootfs_md5": "9749c8e3ac200a61726b775084ce9de3",
+      "changed_regular_files_vs_official": 2,
+      "hardlink_groups": 208
+    },
+    "full-mod": {
+      "name": "V3 Blaze v1.3 Full Mod",
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.0.upt",
+      "size": 44367872,
+      "sha256": "a918bf26817bd5ad806546d573a57a127570337a613f826cad2dd1f12cf75c5c",
+      "md5": "ea2509a069003d00f7f9aae1186de9c7",
+      "rootfs_sha256": "6ed534211a65ab28b7bf8ec240122ae91b3c1edb3541daf7575768fab1cf9db3",
+      "rootfs_md5": "9e369d184d1fa5a16ae563e143d5b17c",
+      "changed_regular_files_vs_official": 612,
+      "hardlink_groups": 0
+    }
+  }
+}
