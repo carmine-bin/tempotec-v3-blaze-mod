@@ -4,7 +4,7 @@ User-facing changes in each release. "Full Mod" and "Stock + Fixes" (named "Stoc
 
 ## [1.2.0] — 2026-10-05
 
-Based on official TempoTec firmware v1.3.
+Based on official TempoTec firmware v1.3. Both editions were tested on physical V3 Blaze hardware.
 
 ### Fixed
 

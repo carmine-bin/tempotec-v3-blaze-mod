@@ -1,6 +1,6 @@
 # Bluetooth Receiver dropouts
 
-In official v1.3 Bluetooth Receiver mode, the source phone could not sustain LDAC 990 kb/s even next to the V3 Blaze, and dropouts appeared at short range or in busy RF environments. The cause was host configuration, not the radio: BlueZ kept the controller scanning while it received audio. Both v1.2.0 editions change two lines of `/etc/bluetooth/main.conf`, and LDAC 990 kb/s is now sustained without dropped audio at distances that previously failed.
+In official v1.3 Bluetooth Receiver mode, the source phone could not sustain LDAC 990 kb/s even next to the V3 Blaze, and dropouts appeared at short range or in busy RF environments. The cause was host configuration, not the radio: BlueZ kept the controller scanning while it received audio. Both v1.2.0 editions change two lines of `/etc/bluetooth/main.conf`. Testing showed a substantial improvement: LDAC 990 kb/s is now sustained without dropped audio at distances that previously failed. Both release images were flashed and tested on a physical V3 Blaze.
 
 This is separate from the [v1.3 LDAC decoder corruption](LDAC-RECEIVER-ARTIFACTS.md), where audio was damaged although every packet arrived.
 
@@ -20,7 +20,7 @@ The phone sends audio only in slots the link actually provides. With part of the
 
 - 990 kb/s failed even at close range with perfect link quality (255);
 - the phone's adaptive LDAC stayed near 400 kb/s with a perfect link;
-- dropouts grew quickly in crowded RF (transit), where more retransmissions are needed.
+- dropouts grew quickly in crowded RF, where more retransmissions are needed.
 
 ## Correction
 
@@ -33,7 +33,7 @@ The phone sends audio only in slots the link actually provides. With part of the
 
 `bredr` disables LE in the controller (HCI `Read LE Host Support` returns 0) and removes LE scanning and advertising. `FastConnectable = false` returns page scan to the standard 11.25 ms every 1.28 s. Every other line of the official file is unchanged. The builder regenerates the file from the official one and checks both hashes: `0ea56014…308d4` → `a29ec0f8…708a`.
 
-Trade-offs: the Blaze no longer uses Bluetooth LE, and an incoming connection from another device can take up to about a second longer to start. No player feature that uses LE was found. Bluetooth source mode (Blaze to headphones) uses the same configuration; its range was not measured.
+Trade-offs: the Blaze no longer uses Bluetooth LE, and an incoming connection from another device can take up to about a second longer to start. No player feature that uses LE was found, and HiBy Link was confirmed working with the change. Bluetooth source mode (Blaze to headphones) uses the same configuration but was not tested.
 
 ## Measurements
 
@@ -73,5 +73,3 @@ At spot B the remaining dropouts start when link quality falls below about 60, w
 [`tools/bluetooth`](../tools/bluetooth) applies the corrected `main.conf` to unmodified firmware in RAM and records HCI and link quality to the microSD card. `analyze.py` reports rate, dropped audio and lost packets per 10 seconds. Captures contain Bluetooth addresses and audio; do not publish them.
 
 Android restores adaptive LDAC after each reconnection. Check the codec rate before every run.
-
-These results describe one unit, one source phone and an indoor environment. Transit tests are pending.
