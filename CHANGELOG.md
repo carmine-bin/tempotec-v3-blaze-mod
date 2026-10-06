@@ -2,6 +2,25 @@
 
 User-facing changes in each release. "Full Mod" and "Stock + Fixes" (named "Stock + LDAC Fix" before 1.2.0) are the two editions published since 1.1.0. Notes on where historical claims came from are kept in [changelog provenance](docs/evidence/CHANGELOG-PROVENANCE.md).
 
+## [1.2.1] — 2026-10-06
+
+Based on official TempoTec firmware v1.3. Full Mod was tested on physical V3 Blaze hardware.
+
+### Fixed
+
+- Full Mod: below 16 % the battery icon turned solid red and hid the remaining level. The level now keeps the theme color and the battery frame turns red instead, as on the official firmware. See [UI fixes](docs/UI-FIXES.md#low-battery-indicator-v121).
+- Full Mod: the low-battery notice showed an empty grey card. It now shows its message.
+- Full Mod: the battery frame's corners and cap are drawn solid.
+
+### Changed
+
+- Stock + Fixes is unchanged from 1.2.0.
+
+### Known issues
+
+- Full Mod: the pull-down menu's battery icon keeps its white frame at low charge.
+- With the album-art screensaver active, track information and artwork can take about 1.5 seconds to update after a track change. Official TempoTec v1.2 and v1.3 behave the same.
+
 ## [1.2.0] — 2026-10-05
 
 Based on official TempoTec firmware v1.3. Both editions were tested on physical V3 Blaze hardware.

@@ -7,7 +7,7 @@ class Machine:
     def __init__(self, code, labels, player):
         self.labels=labels;self.mem={patch.BASE+i:v for i,v in enumerate(code)};self.player=player
         self.r=[0]+[0x11000000+i*256 for i in range(1,32)];self.r[29]=0x300000;self.r[31]=0xff0000
-        self.calls=[];self.writes=[];self.hidden=False;self.resolve_status=0;self.pc=0
+        self.calls=[];self.writes=[];self.hidden=False;self.resolve_status=0;self.pc=0;self.frame_entry=0
     def byte(self,a):
         if a in self.mem:return self.mem[a]
         off=a-0x400000
@@ -35,6 +35,10 @@ class Machine:
             value=self.string(args[1]);self.putstr(args[0],value);v=args[0]
         elif a in (0x4e1d80,0x4e7040,0x50e480):v=self.resolve_status
         elif a in (0x430e60,0x44d360,0x514ec0,0x46f320):v=123
+        elif a==0x4a1b80:
+            assert self.string(args[1])==b'topbar_iv_battery_frame' and self.string(args[2])==b'imageview'
+            v=self.frame_entry
+        elif a in (0x260000,0x270000):pass
         else:raise AssertionError(hex(a))
         # Model permitted ABI clobbers so wrappers cannot depend on scratch values.
         for i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,24,25]:self.r[i]=0xdead0000+i
@@ -46,6 +50,9 @@ class Machine:
         elif op==0:
             f=w&63
             if f==0x25:self.r[rd]=self.r[rs]|self.r[rt]
+            elif f==0x21:self.r[rd]=(self.r[rs]+self.r[rt])&0xffffffff
+            elif f==0:self.r[rd]=(self.r[rt]<<((w>>6)&31))&0xffffffff
+            elif f==9:target=self.r[rs];self.r[rd]=a+8
             elif f==0x2a:self.r[rd]=int(self.signed(self.r[rs])<self.signed(self.r[rt]))
             elif f==8:target=self.r[rs]
             else:raise AssertionError(hex(w))
@@ -160,6 +167,25 @@ def validate(root,overlay,out):
         assert m.calls[0]==(0x46f320,[0x240000,0,0,before[7]] if ident==39 else [0x210000,0x220000,0,before[7]])
         assert all(0x2fff00<=a<0x300000 for a in m.writes)
     checks.append('Settings full-surface invalidate; all 122 other types use original arguments; no geometry/scroll-state writes')
+    def battery_machine(entry=0x230000,view=0x210000,obj=0x240000,fn=0x260000,images=(0x250000,0x250001,0x250002)):
+        m=new();m.r[16]=0x200000;m.put(0x200048,view);m.put(0x210024,0x220000)
+        m.frame_entry=entry;m.put(0x230024,obj);m.put(0x240180,fn)
+        for i,img in enumerate(images):m.put(0x230050+4*i,img)
+        return m
+    for label,state in [('battery_state',1),('battery_state',2),('battery_normal',0)]:
+        m=battery_machine();m.r[19]=state;m.r[25]=0x270000;m.r[4]=0x280000;m.r[5]=0x290000
+        before,_=m.run(label);m.abi(before)
+        assert [a for a,_ in m.calls]==[0x270000,0x4a1b80,0x260000]
+        assert m.calls[0][1][:2]==[0x280000,0x290000] and m.calls[1][1][0]==0x220000
+        assert m.calls[2][1][:2]==[0x240000,0x250000+state]
+        assert all(0x2fff00<=a<0x300000 for a in m.writes)
+    checks.append('Battery state/normal: original setter call unchanged, frame given the image of the same index')
+    for case in ('view','entry','image','obj','fn'):
+        kw={'view':dict(view=0),'entry':dict(entry=0),'image':dict(images=(0,0,0)),'obj':dict(obj=0),'fn':dict(fn=0)}[case]
+        m=battery_machine(**kw);m.r[19]=2;m.r[25]=0x270000
+        before,_=m.run('battery_state');m.abi(before)
+        assert [a for a,_ in m.calls if a==0x260000]==[] and m.calls[0][0]==0x270000
+    checks.append('Battery frame: missing view, widget, image, object or setter leaves only the original call')
     # Full binary reversal catches overlapping patches or accidental unrelated changes.
     modified,record=patch.patch_player(player);rev=bytearray(modified)
     for item in reversed(record['patches']):

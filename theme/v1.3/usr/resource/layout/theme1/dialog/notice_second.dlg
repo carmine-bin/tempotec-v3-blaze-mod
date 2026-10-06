@@ -1,14 +1,5 @@
 {
 	"viewgroup":{
-		"viewgroup":{
-			"name":"vg_notice_second",
-			"type":"lg_view",
-			"x":0,
-			"y":0,
-			"w":280,
-			"h":160,
-			"viewgroup":true
-		},
 		"textview":{
 			"name":"tv_notice_first",
 			"size":18,

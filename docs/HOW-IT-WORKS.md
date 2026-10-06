@@ -12,7 +12,7 @@ Repeated JSON keys represent sibling widgets. Property order relative to constru
 
 ## Artwork and tinting
 
-Battery fill is cropped, not scaled: the engine takes the first `h × pct` rows and draws them at `y + h − h × pct`. A donor image containing the outline and terminal produced a second battery inside the frame and lost useful fill at low charge. Full Mod separates a bare fill, sized and positioned to the frame opening, from the static frame. The same correction applies to charging artwork. Offline composites at 100%, 59%, 25% and 10% reproduced and checked the crop behavior.
+Battery fill is cropped, not scaled: the engine takes the first `h × pct` rows and draws them at `y + h − h × pct`. A donor image containing the outline and terminal produced a second battery inside the frame and lost useful fill at low charge. Full Mod separates a bare fill, sized and positioned to the frame opening, from the static frame. The same correction applies to charging artwork. Since v1.2.1 the frame also turns red at low battery through a player hook; see [UI fixes](UI-FIXES.md#low-battery-indicator-v121). Offline composites at 100%, 59%, 25% and 10% reproduced and checked the crop behavior.
 
 Accent tinting happens when PNGs load. `litegui/theme1/no_skin_list.txt` controls opt-outs; protect color swatches and QR artwork while allowing intended controls to follow the accent. Preserve Windows-style paths and CRLF endings. A late bind-mount cannot reliably test already-loaded colors.
 

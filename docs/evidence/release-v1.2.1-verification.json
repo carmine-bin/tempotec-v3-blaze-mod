@@ -1,0 +1,49 @@
+{
+  "version": "v1.2.1",
+  "date": "2026-10-06",
+  "official_sha256": "5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+  "editions": {
+    "stock-fix": {
+      "filename": "V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt",
+      "sha256": "5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af",
+      "final_verification": "PASS",
+      "changed_vs_v1.2.0": [],
+      "added_vs_v1.2.0": [],
+      "hardware_test": "unchanged from v1.2.0"
+    },
+    "full-mod": {
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.1.upt",
+      "sha256": "db91cf52c3ac0f0005d90563bc1fa7f9e3e85abdb2c5ce3fe2e9100c18e6695a",
+      "final_verification": "PASS",
+      "changed_vs_v1.2.0": [
+        "usr/bin/hiby_player",
+        "usr/resource/layout/theme1/dialog/notice_second.dlg",
+        "usr/resource/layout/theme1/topbar/topbar.view",
+        "usr/resource/litegui/theme1/no_skin_list.txt",
+        "usr/resource/litegui/theme1/topbar/battery_bg.png",
+        "usr/resource/litegui/theme1/topbar/battery_low.png"
+      ],
+      "added_vs_v1.2.0": [
+        "usr/resource/litegui/theme1/topbar/battery_bg_low.png"
+      ],
+      "hardware_test": "byte-identical to the image tested on a physical V3 Blaze",
+      "hook_validation": [
+        "LLVM MIPS32 assembly byte-identical, no relocations",
+        "All 123 list types: visible/hidden topbar selection, contract retained, geometry scoped to five types",
+        "Add/EQ resolver ABI, owning-view scope, theme prefix retained",
+        "Resolver failures retain original return and perform no path rewrite",
+        "Color-only reload bypasses Music/list restore; playback restore retained; ordinary/language branches retained",
+        "Settings full-surface invalidate; all 122 other types use original arguments; no geometry/scroll-state writes",
+        "Battery state/normal: original setter call unchanged, frame given the image of the same index",
+        "Battery frame: missing view, widget, image, object or setter leaves only the original call",
+        "Every binary edit reverses exactly to pinned Full Mod player",
+        "Layout construction order, full coverage, Properties bounds and preserved shutdown text positions"
+      ],
+      "player_after_sha256": "1285069ec7e3df4ac12573ab70e1afa34427c23688f951996051a38d94a2d9a5",
+      "hook_sites": {
+        "0x50c208": "jalr $25 -> jal battery_state (0x9073e0)",
+        "0x50cb18": "jalr $25 -> jal battery_normal (0x907428)"
+      }
+    }
+  }
+}

@@ -1828,6 +1828,7 @@
   "usr/resource/litegui/theme1/topbar/balance.png": {"mode": "-rwxr-xr-x", "uid": 1000, "gid": 1000, "mtime": "2026-04-17 01:15:50", "target": null},
   "usr/resource/litegui/theme1/topbar/battery.png": {"mode": "-rwxr-xr-x", "uid": 1000, "gid": 1000, "mtime": "2026-04-17 01:15:50", "target": null},
   "usr/resource/litegui/theme1/topbar/battery_bg.png": {"mode": "-rwxr-xr-x", "uid": 1000, "gid": 1000, "mtime": "2026-04-17 01:15:50", "target": null},
+  "usr/resource/litegui/theme1/topbar/battery_bg_low.png": {"mode": "-rwxr-xr-x", "uid": 1000, "gid": 1000, "mtime": "2026-04-17 01:15:50", "target": null},
   "usr/resource/litegui/theme1/topbar/battery_charge.png": {"mode": "-rw-r--r--", "uid": 1000, "gid": 1000, "mtime": "2026-08-19 02:35:51", "target": null},
   "usr/resource/litegui/theme1/topbar/battery_charge_bg.png": {"mode": "-rwxr-xr-x", "uid": 1000, "gid": 1000, "mtime": "2026-04-17 01:15:50", "target": null},
   "usr/resource/litegui/theme1/topbar/battery_empty.png": {"mode": "-rw-r--r--", "uid": 1000, "gid": 1000, "mtime": "2026-08-19 02:35:51", "target": null},

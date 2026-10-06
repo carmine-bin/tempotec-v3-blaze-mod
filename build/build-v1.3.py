@@ -191,7 +191,7 @@ def generate_ui(stock, work):
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
     paths, record = patch.generate(root, overlay)
-    assert record['after_sha256'] == '922d145931f71f4a46ea91a1bbc15263ad6d4f83db27452c6996891db11507c5'
+    assert record['after_sha256'] == '1285069ec7e3df4ac12573ab70e1afa34427c23688f951996051a38d94a2d9a5'
     for rel in paths:
         if rel != 'usr/bin/hiby_player':
             assert (overlay / rel).read_bytes() == (REPO / 'theme/v1.3' / rel).read_bytes(), rel

@@ -53,6 +53,12 @@ def assemble(source):
             rd, rs = a[:2]; rt = 'zero' if op == 'move' else a[2]
             words = [R[rs] << 21 | R[rt] << 16 | R[rd] << 11 | (0x25 if op == 'move' else 0x2a)]
         elif op == 'jr': words = [R[a[0]] << 21 | 8]
+        elif op == 'jalr': words = [R[a[0]] << 21 | R['ra'] << 11 | 9]
+        elif op == 'sll':
+            rd, rt, sa = a; assert 0 <= int(sa, 0) < 32
+            words = [R[rt] << 16 | R[rd] << 11 | int(sa, 0) << 6]
+        elif op == 'addu':
+            rd, rs, rt = a; words = [R[rs] << 21 | R[rt] << 16 | R[rd] << 11 | 0x21]
         elif op in ('j', 'jal'):
             target = val(a[0]); assert target % 4 == 0 and target >> 28 == (pc+4) >> 28
             words = [(2 if op == 'j' else 3) << 26 | target >> 2]
@@ -72,7 +78,7 @@ def assemble(source):
     # Reject a pseudo-instruction split across a control transfer's delay slot.
     bypc = {pc:line for pc,line in lines}
     for pc,line in lines:
-        if isinstance(line,str) and line.split()[0] in ('j','jal','jr','b','beq','bne','bltz','bgez'):
+        if isinstance(line,str) and line.split()[0] in ('j','jal','jr','jalr','b','beq','bne','bltz','bgez'):
             assert isinstance(bypc.get(pc+4),str) and not bypc[pc+4].startswith('li '), (hex(pc),line)
     return bytes(output), labels, listing
 
@@ -98,6 +104,10 @@ def patch_player(data):
     hook(0x4f5718,'50351108','color_reload',3)
     hook(0x5157c8,'120020128300053c','color_restore',3)
     hook(0x4e2e5c,'c8bc110c','settings_repaint',4,True)
+    # Battery frame follows the state image (jalr $25 -> jal; delay-slot nop kept).
+    assert data[0x10c20c:0x10c210] == bytes(4) and data[0x10cb1c:0x10cb20] == bytes(4)
+    hook(0x50c208,'09f82003','battery_state',5,True)
+    hook(0x50cb18,'09f82003','battery_normal',5,True)
     assert not any(data[0x507030:0x508000])
     assert BASE-0x400000+len(code) <= 0x508000
     change(BASE-0x400000,bytes(len(code)),code,'shared','UI hooks in verified unallocated file gap')

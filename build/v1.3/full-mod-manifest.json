@@ -25,7 +25,7 @@
   {
     "path": "/usr/bin/hiby_player",
     "operation": "modify",
-    "reason": "Physically validated UI correction: [2, 3, 4]",
+    "reason": "Physically validated UI correction: [2, 3, 4]; battery frame follows the battery state (hooks at 0x50c208/0x50cb18)",
     "before": {
       "mode": "-rwxrwxr-x",
       "uid": 0,
@@ -42,7 +42,7 @@
       "size": 5738084,
       "mtime": "2026-08-19 02:35:29",
       "target": null,
-      "sha256": "922d145931f71f4a46ea91a1bbc15263ad6d4f83db27452c6996891db11507c5"
+      "sha256": "1285069ec7e3df4ac12573ab70e1afa34427c23688f951996051a38d94a2d9a5"
     }
   },
   {
@@ -600,7 +600,7 @@
   {
     "path": "/usr/resource/layout/theme1/dialog/notice_second.dlg",
     "operation": "modify",
-    "reason": "Port custom layout styling; Restore tv_notice_first to official parent vg_dialog_notice_second; translate custom coordinates by (0,0); Restore tv_notice_second to official parent vg_dialog_notice_second; translate custom coordinates by (0,0)",
+    "reason": "Port custom layout styling; Restore tv_notice_first to official parent vg_dialog_notice_second; translate custom coordinates by (0,0); Restore tv_notice_second to official parent vg_dialog_notice_second; translate custom coordinates by (0,0); message rows are the dialog's first children again, so the low-battery notice shows its text",
     "before": {
       "mode": "-rwxrwxr-x",
       "uid": 0,
@@ -614,10 +614,10 @@
       "mode": "-rwxr-xr-x",
       "uid": 1000,
       "gid": 1000,
-      "size": 741,
+      "size": 605,
       "mtime": "2026-04-17 01:15:50",
       "target": null,
-      "sha256": "71c8f813546aa1a12bc8df9f43000854b52b30101be4a2982613a00d2e4694de"
+      "sha256": "e6d3776594f7de9c4f5344746929fe0f77e0b014055dc24d6679857bf1f718d8"
     }
   },
   {
@@ -2661,10 +2661,10 @@
       "mode": "-rwxr-xr-x",
       "uid": 1000,
       "gid": 1000,
-      "size": 3661,
+      "size": 3755,
       "mtime": "2026-04-17 01:15:50",
       "target": null,
-      "sha256": "a3a6223161641c7dfab1f99f87f841ed03fa98c691eda7c86dca3578f6be314e"
+      "sha256": "77b9dadec4b62f78c40b24fec92a456a3334496333eb7a2627cb79d87d94e432"
     }
   },
   {
@@ -7192,10 +7192,10 @@
       "mode": "-rwxr-xr-x",
       "uid": 1000,
       "gid": 1000,
-      "size": 3326,
+      "size": 3353,
       "mtime": "2026-04-17 01:15:50",
       "target": null,
-      "sha256": "585865e6330495b05fac5f61020790c44457075f0f4b6084b74930d6416d37d8"
+      "sha256": "32f8e1f4678d1938bd6995b137bd2c35905caf037141f357d25dcf16d5f3b1c9"
     }
   },
   {
@@ -10854,7 +10854,7 @@
   {
     "path": "/usr/resource/litegui/theme1/topbar/battery_bg.png",
     "operation": "modify",
-    "reason": "Port existing custom artwork: topbar; stock 1.3 content at this path has no intervening vendor change",
+    "reason": "Port existing custom artwork: topbar; stock 1.3 content at this path has no intervening vendor change; corners and cap fully opaque",
     "before": {
       "mode": "-rwxrwxr-x",
       "uid": 0,
@@ -10868,10 +10868,25 @@
       "mode": "-rwxr-xr-x",
       "uid": 1000,
       "gid": 1000,
-      "size": 161,
+      "size": 111,
       "mtime": "2026-04-17 01:15:50",
       "target": null,
-      "sha256": "76b164724bd1062dd5704fdecfe8d3fe103c262f6712632f0cfa912247b31245"
+      "sha256": "26cf6f29398c81600215b22e993c922e538a2290af01f14ed2ac8f16cb35d69b"
+    }
+  },
+  {
+    "path": "/usr/resource/litegui/theme1/topbar/battery_bg_low.png",
+    "operation": "add",
+    "reason": "Red battery frame for the low-battery state",
+    "before": null,
+    "after": {
+      "mode": "-rwxr-xr-x",
+      "uid": 1000,
+      "gid": 1000,
+      "size": 109,
+      "mtime": "2026-04-17 01:15:50",
+      "target": null,
+      "sha256": "4607491c87a32d5897d15b00496bd395b2337a61524ac75efaf715400ed60f75"
     }
   },
   {
@@ -10945,16 +10960,16 @@
   {
     "path": "/usr/resource/litegui/theme1/topbar/battery_low.png",
     "operation": "add",
-    "reason": "Port existing custom artwork: topbar; stock 1.3 content at this path has no intervening vendor change",
+    "reason": "Low-battery state looks like the normal state (transparent opening, white frame); the level fill stays visible",
     "before": null,
     "after": {
       "mode": "-rw-r--r--",
       "uid": 1000,
       "gid": 1000,
-      "size": 84,
+      "size": 71,
       "mtime": "2026-08-19 02:35:51",
       "target": null,
-      "sha256": "b05d4f858fefdee3fd87f2c81e0b8249649443305c87ed205ed688f894ab1fb8"
+      "sha256": "bbe031c0a4b2e1c2ee12ce347000809d3da687f02d107c873ec0375cb90a6f5b"
     }
   },
   {

@@ -146,3 +146,4 @@ about_dev\weibo_qrcode.png
 topbar\battery_low.png
 topbar\battery_charge.png
 touch_list\a_z.png
+topbar\battery_bg_low.png

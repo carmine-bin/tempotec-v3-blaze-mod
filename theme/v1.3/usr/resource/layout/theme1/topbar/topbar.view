@@ -111,6 +111,8 @@
 				"imageview":{
 					"name":"topbar_iv_battery_frame",
 					"img_path":"topbar\\battery_bg.png",
+					"img_path_1":"topbar\\battery_bg.png",
+					"img_path_2":"topbar\\battery_bg_low.png",
 					"x":302,
 					"y":5,
 					"imageview":true

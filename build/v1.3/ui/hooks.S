@@ -214,6 +214,62 @@ settings_repaint_original:
  nop
  leave
 
+# Battery frame follows the battery state. The topbar refresh (0x50c020) sets
+# the opening's state image by calling the image object's +0x180 setter; these
+# replace that call, make it unchanged, then give the static frame widget the
+# image of the same index: img_path_0 normal, _1 charging, _2 low (red).
+# Charging/low site 0x50c208: caller s0 = topbar, s3 = new state (1 or 2).
+battery_state:
+ enter
+ jalr t9
+ nop
+ move a0, s0
+ jal battery_frame
+ move a1, s3
+ leave
+
+# Normal site 0x50cb18: state 0.
+battery_normal:
+ enter
+ jalr t9
+ nop
+ move a0, s0
+ jal battery_frame
+ move a1, zero
+ leave
+
+# a0 = topbar, a1 = state index. Looks the frame up exactly as the refresh
+# looks up the opening (0x4a1b80 on the topbar's view, "imageview") and
+# returns quietly when the widget or that image is missing.
+battery_frame:
+ enter
+ move s0, a1
+ lw t0, 72(a0)
+ beq t0, zero, battery_frame_done
+ nop
+ lw a0, 36(t0)
+ li a1, frame_name
+ li a2, 0x80c710
+ jal 0x4a1b80
+ nop
+ beq v0, zero, battery_frame_done
+ nop
+ sll t1, s0, 2
+ addu t1, v0, t1
+ lw a1, 80(t1)
+ beq a1, zero, battery_frame_done
+ nop
+ lw a0, 36(v0)
+ beq a0, zero, battery_frame_done
+ nop
+ lw t9, 384(a0)
+ beq t9, zero, battery_frame_done
+ nop
+ jalr t9
+ nop
+battery_frame_done:
+ leave
+
 sub_filename:
  .asciiz "ui_sub_back.view"
 set_filename:
@@ -224,3 +280,5 @@ add_name:
  .asciiz "vg_listview_add_m3u"
 color_origin:
  .asciiz "ui_color_reload"
+frame_name:
+ .asciiz "topbar_iv_battery_frame"

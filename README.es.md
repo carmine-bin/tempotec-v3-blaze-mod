@@ -1,6 +1,6 @@
 # Firmware para TempoTec V3 Blaze
 
-Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con correcciones para los cortes y los artefactos de audio LDAC en modo Bluetooth Receiver. Versión del proyecto: v1.2.0.
+Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con correcciones para los cortes y los artefactos de audio LDAC en modo Bluetooth Receiver. Versión del proyecto: v1.2.1.
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze con Full Mod" width="70%"></p>
 
@@ -11,19 +11,19 @@ Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con correcciones para los cort
 | Edición | Contenido | Archivo |
 |---|---|---|
 | V3 Blaze v1.3 Stock + Fixes | Aspecto y funciones oficiales, con solo las correcciones de Bluetooth Receiver | `V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt` |
-| V3 Blaze v1.3 Full Mod | Base v1.3 corregida, interfaz personalizada de estilo HiBy y correcciones de UI probadas | `V3-Blaze-v1.3-Full-Mod-v1.2.0.upt` |
+| V3 Blaze v1.3 Full Mod | Base v1.3 corregida, interfaz personalizada de estilo HiBy y correcciones de UI probadas | `V3-Blaze-v1.3-Full-Mod-v1.2.1.upt` |
 
 Ambas ediciones usan el kernel oficial e incluyen PEQ, búsqueda Bluetooth en tiempo real y mejoras de estabilidad de v1.3. Ambas incluyen las mismas dos correcciones de Bluetooth Receiver:
 
 - **Cortes:** BlueZ mantenía la radio escaneando mientras recibía audio, así que el emisor no podía sostener LDAC 990 kb/s ni a corta distancia. Dos líneas de `/etc/bluetooth/main.conf` detienen esos escaneos; 990 kb/s ahora suena sin audio perdido a distancias que antes fallaban. [Detalles y mediciones](docs/BLUETOOTH-RANGE.md).
 - **Artefactos LDAC:** una corrección de un byte en el decoder elimina los artefactos digitales introducidos por la v1.3 oficial. [Evidencia del decoder](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
-Stock + LDAC Fix ahora se llama Stock + Fixes.
+Stock + LDAC Fix ahora se llama Stock + Fixes. Stock + Fixes no cambia en v1.2.1.
 
 Full Mod incluye:
 
 - Launcher y categorías de estilo HiBy, interfaz oscura y Now Playing a pantalla completa.
-- Relleno de batería y gráficos de carga corregidos, iconos de ganancia de tres estados, control de brillo y tintado del tema.
+- Relleno de batería y gráficos de carga corregidos, marco de batería rojo con carga baja sin perder el nivel, iconos de ganancia de tres estados, control de brillo y tintado del tema.
 - Entrada About en Ajustes, colores del tema, caché de imágenes/base de datos en TF y persistencia del ajuste DAC.
 - Correcciones existentes de navegación por álbumes, cuenta regresiva de apagado con Power restaurada y gráficos finales de Balance en Quick Settings.
 - Cobertura completa del apagado, encabezados coherentes en las páginas del menú de Now Playing, regreso a la pantalla principal al cambiar el color y redibujado correcto de Ajustes al ocultarse la barra de desplazamiento.
@@ -47,7 +47,7 @@ Solo para TempoTec V3 Blaze (`V3_ANALOG_2025`), no para el V3 Analog antiguo. Fl
 **Un archivo llamado `update.upt` tiene prioridad sobre `v3_analog_2025.upt`, incluso al actualizar desde Ajustes. Elimina o renombra cualquier `update.upt` antes de instalar.**
 
 1. **Si hay un `v3_analog_2025.upt` en la raíz de la microSD (por ejemplo, el que dejó la actualización OTA), renómbralo a `v3_analog_2025.upt.stock` antes de copiar el mod. Si no, el mod lo sobrescribirá y perderás tu copia del firmware oficial.**
-2. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.2.0](docs/releases/v1.2.0-manifest.json).
+2. Elige una edición y comprueba su SHA-256 con el [manifiesto v1.2.1](docs/releases/v1.2.1-manifest.json).
 3. Renómbrala a `v3_analog_2025.upt` y cópiala a la raíz de una microSD.
 4. Selecciona Ajustes → Actualización de firmware → Actualizar mediante microSD. Espera a que termine y reinicie.
 
@@ -60,7 +60,7 @@ Ambos paquetes tienen 44,367,872 bytes.
 | Edición | SHA-256 | MD5 |
 |---|---|---|
 | Stock + Fixes | `5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af` | `4e9408a7415b66fdad7d0ad560103194` |
-| Full Mod | `a918bf26817bd5ad806546d573a57a127570337a613f826cad2dd1f12cf75c5c` | `ea2509a069003d00f7f9aae1186de9c7` |
+| Full Mod | `db91cf52c3ac0f0005d90563bc1fa7f9e3e85abdb2c5ce3fe2e9100c18e6695a` | `d553a52f4fe924e1f663c0e3ac1ff992` |
 
 ## Desarrollo y licencia
 
