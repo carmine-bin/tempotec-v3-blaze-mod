@@ -4,7 +4,7 @@ Official TempoTec v1.3 (`V3_ANALOG_2025`) with corrections for Bluetooth Receive
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze running Full Mod" width="70%"></p>
 
-[Español](README.es.md) · [Downloads](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Install](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md) · [Build](docs/BUILD.md)
+[Español](README.es.md) · [Downloads](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Install](docs/INSTALL.md) · [Recovery](docs/RECOVERY.md) · [Build](docs/BUILD.md) · [Telegram](https://t.me/V3_Blaze_Discussion)
 
 ## Editions
 
@@ -95,6 +95,8 @@ Both packages are 44,367,872 bytes.
 ## Development and licence
 
 See [build instructions](docs/BUILD.md) to build either edition and check its contents. [CONTRIBUTING.md](CONTRIBUTING.md) covers device testing.
+
+Questions, help and bug reports: [Telegram group](https://t.me/V3_Blaze_Discussion). Confirmed, reproducible bugs go to [GitHub issues](https://github.com/carmine-bin/tempotec-v3-blaze-mod/issues) so they are tracked.
 
 Development and reverse-engineering work was assisted by AI tools. All released firmware changes were reviewed and tested on physical V3 Blaze hardware.
 

@@ -1,6 +1,6 @@
 # Contributing
 
-Include the device model, firmware version, reproduction steps and test method in an issue or pull request. Distinguish physical tests from static checks or simulated instruction execution.
+Questions and first reports are welcome in the [Telegram group](https://t.me/V3_Blaze_Discussion). For an issue or pull request, include the device model, firmware version, reproduction steps and test method in an issue or pull request. Distinguish physical tests from static checks or simulated instruction execution.
 
 A bind-mount over `/usr/resource` can test some layouts without flashing; reboot removes it. PNG accent tinting happens when assets load, so assess color changes from a rebuilt image. Startup configuration, fonts and cache flags also require a fresh boot.
 

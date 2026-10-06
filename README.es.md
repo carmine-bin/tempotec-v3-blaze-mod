@@ -4,7 +4,7 @@ Firmware oficial TempoTec v1.3 (`V3_ANALOG_2025`) con correcciones para los cort
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze con Full Mod" width="70%"></p>
 
-[English](README.md) · [Descargas](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Instalación](docs/INSTALL.md) · [Recuperación](docs/RECOVERY.md) · [Compilación](docs/BUILD.md)
+[English](README.md) · [Descargas](https://github.com/carmine-bin/tempotec-v3-blaze-mod/releases) · [Instalación](docs/INSTALL.md) · [Recuperación](docs/RECOVERY.md) · [Compilación](docs/BUILD.md) · [Telegram](https://t.me/V3_Blaze_Discussion)
 
 ## Ediciones
 
@@ -95,6 +95,8 @@ Ambos paquetes tienen 44,367,872 bytes.
 ## Desarrollo y licencia
 
 Las [instrucciones de compilación](docs/BUILD.md) explican cómo generar ambas ediciones y comprobar su contenido. [CONTRIBUTING.md](CONTRIBUTING.md) describe las pruebas en el dispositivo.
+
+Dudas, ayuda y reportes de errores: [grupo de Telegram](https://t.me/V3_Blaze_Discussion). Los errores confirmados y reproducibles van a los [issues de GitHub](https://github.com/carmine-bin/tempotec-v3-blaze-mod/issues) para darles seguimiento.
 
 El desarrollo y parte del trabajo de ingeniería inversa contó con asistencia de herramientas de IA. Los cambios publicados del firmware fueron revisados y probados en hardware V3 Blaze real.
 
