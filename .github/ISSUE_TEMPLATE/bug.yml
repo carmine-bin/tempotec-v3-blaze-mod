@@ -24,7 +24,7 @@ body:
     attributes:
       label: Release version
       description: The release tag you flashed, plus the SHA-256 of the .upt if you have it.
-      placeholder: "v1.2.1"
+      placeholder: "v1.2.2"
     validations:
       required: true
 

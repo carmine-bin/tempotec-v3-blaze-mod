@@ -13,6 +13,12 @@ Exactly six payload files differ from v1.1.1 Full Mod:
 | `/usr/resource/layout/theme1/ui_set_sub_back.view` | Added fullscreen Add header |
 | `/usr/resource/layout/theme1/ui_eq_title.view` | Added fullscreen EQ title |
 
+## Last track of an album (v1.2.2)
+
+With `tf_image_cache_enable` (config bit 7, enabled by Full Mod, off in official v1.3), Now Playing calls the player-state getter `0x438160` with case 31 from `0x518320` and `0x51d25c` to obtain the next track and prefetch its cover (`0x43f220`). Case 31 does not compute the next track separately: it saves the current index, runs the real advance routine `0x437840(1, 1)`, reads the result and restores the index. In play-in-order mode on the last track, the advance routine takes its end-of-list path, which calls `0x435d60` (stop playback) and sets the index to -1. Only the index was restored, so playback stopped about a second after the track started and the next selection resolved to the album's first track. In repeat-list mode the routine wraps instead and the bug did not occur, which was confirmed on hardware. The same look-ahead is why the next track's quality appeared in Now Playing (the metadata NOP at `0x38240`).
+
+Both `jal 0x438160` instructions become `nop`; the delay slot is kept. Each site zeroes its result buffer with `memset` just before the call and then branches past the prefetch when the buffer's first field is zero, so the prefetch is skipped and nothing else runs. Case 31 has no other callers. The cover cache still works; the next track's cover is cached when that track plays.
+
 ## Low-battery indicator (v1.2.1)
 
 Full Mod draws the battery as two widgets: a static frame (`topbar_iv_battery_frame`, 14x20) and, inside its 10x11 opening, the widget the player drives (`topbar_iv_battery`). The driven widget's state image (`img_path_0/1/2`: normal, charging, low) is drawn whole and its fill (`img_focus_path`) is cropped by charge level. The v1.0 artwork made the low state a solid red 10x11 block, so below 16 % the opening turned red and the level disappeared. Giving the opening per-state fills (`img_focus_path_1/2`) was tried on hardware and made the level vanish; it is not used.
@@ -87,6 +93,8 @@ For Settings type `0x27` only, the hook replaces the narrow invalidation with a 
 | `0x0e2e5c` | `0x4e2e5c` | 4 bytes | Settings repaint |
 | `0x10c208` | `0x50c208` | 4 bytes | battery frame, charging/low (v1.2.1) |
 | `0x10cb18` | `0x50cb18` | 4 bytes | battery frame, normal (v1.2.1) |
+| `0x118320` | `0x518320` | 4 bytes | next-track cover prefetch removed (v1.2.2) |
+| `0x11d25c` | `0x51d25c` | 4 bytes | next-track cover prefetch removed (v1.2.2) |
 | `0x507040–0x50757e` | `0x907040–0x90757e` | 1343 bytes | hook code and strings |
 | `0x0000a4–0x0000ab` | ELF program header | 8 bytes | RX filesz/memsz: `0x507030 → 0x50757f` |
 
@@ -94,7 +102,7 @@ The zero-filled gap ends before the next segment at file offset `0x508000`. Exec
 
 Hook entries: list header `0x9070e0`, Add `0x907168`, EQ `0x907208`, list geometry `0x907280`, color reload `0x9072c8`, color restore `0x90732c`, Settings repaint `0x90737c`, battery state `0x9073e0`, battery normal `0x907428`, battery frame `0x907470`; shared helpers start at `0x907040/0x907074/0x9070b0`.
 
-[hooks.S](../build/v1.3/ui/hooks.S) and [patch.py](../build/v1.3/ui/patch.py) retain the tested instructions and original-byte assertions. [validate.py](../build/v1.3/ui/validate.py) compares all 1343 bytes with LLVM and checks all 123 list types, hidden/visible topbar, resolver failure, ABI/stack preservation, color/language branches, Settings-only repaint arguments and, for the battery hooks, the unchanged original call, the frame image index per state and every missing-object case. The v1.2.1 code was inserted before the strings, so every v1.1.2 hook keeps its address. External functions are stubbed; the harness is not a GUI emulator.
+[hooks.S](../build/v1.3/ui/hooks.S) and [patch.py](../build/v1.3/ui/patch.py) retain the tested instructions and original-byte assertions. [validate.py](../build/v1.3/ui/validate.py) compares all 1343 bytes with LLVM and checks all 123 list types, hidden/visible topbar, resolver failure, ABI/stack preservation, color/language branches, Settings-only repaint arguments and, for the battery hooks, the unchanged original call, the frame image index per state and every missing-object case; for the prefetch sites it checks the zeroed buffer, the removed call and the following skip branch. The v1.2.1 code was inserted before the strings, so every v1.1.2 hook keeps its address. External functions are stubbed; the harness is not a GUI emulator.
 
 Each build writes exact before/after bytes in `BINARY-PATCHES.json`. [revert.py](../build/v1.3/ui/revert.py) supports per-bug development overlays; it is not part of production packaging. The original investigation checked individual reversions and full reversal to the pinned baseline. Any altered overlay needs a fresh manifest and hardware validation before release.
 

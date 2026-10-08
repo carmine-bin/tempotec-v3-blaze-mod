@@ -1,0 +1,45 @@
+{
+  "version": "v1.2.2",
+  "date": "2026-10-08",
+  "official_sha256": "5aa1bf262e9241737086076eef0f238e54e75ae226fa0c845d126de11ac01e95",
+  "editions": {
+    "stock-fix": {
+      "filename": "V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt",
+      "sha256": "5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af",
+      "final_verification": "PASS",
+      "hardware_test": "unchanged from v1.2.0",
+      "changed_vs_v1.2.1": [],
+      "added_vs_v1.2.1": []
+    },
+    "full-mod": {
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.2.upt",
+      "sha256": "fd84148be2370d8cf1c069b1189695ab33d17cb38bbd47c1612e9ae8bd811947",
+      "final_verification": "PASS",
+      "changed_vs_v1.2.1": [
+        "usr/bin/hiby_player"
+      ],
+      "added_vs_v1.2.1": [],
+      "hardware_test": "byte-identical to the image tested on a physical V3 Blaze (last track of an album plays through in play-in-order mode)",
+      "hook_validation": [
+        "LLVM MIPS32 assembly byte-identical, no relocations",
+        "All 123 list types: visible/hidden topbar selection, contract retained, geometry scoped to five types",
+        "Add/EQ resolver ABI, owning-view scope, theme prefix retained",
+        "Resolver failures retain original return and perform no path rewrite",
+        "Color-only reload bypasses Music/list restore; playback restore retained; ordinary/language branches retained",
+        "Settings full-surface invalidate; all 122 other types use original arguments; no geometry/scroll-state writes",
+        "Battery state/normal: original setter call unchanged, frame given the image of the same index",
+        "Battery frame: missing view, widget, image, object or setter leaves only the original call",
+        "Every binary edit reverses exactly to pinned Full Mod player",
+        "Next-track cover prefetch: both getter calls removed, zeroed buffer skips the prefetch",
+        "Layout construction order, full coverage, Properties bounds and preserved shutdown text positions"
+      ],
+      "player_after_sha256": "1f995adf13d83a44fd4b8180dafc8289d4e3ea2578979f8c5468bd7126aeaa71",
+      "hook_sites": {
+        "0x50c208": "jalr $25 -> jal battery_state (0x9073e0)",
+        "0x50cb18": "jalr $25 -> jal battery_normal (0x907428)",
+        "0x518320": "jal 0x438160 (getter case 31, next-track cover prefetch) -> nop",
+        "0x51d25c": "jal 0x438160 (getter case 31, next-track cover prefetch) -> nop"
+      }
+    }
+  }
+}

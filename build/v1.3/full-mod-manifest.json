@@ -25,7 +25,7 @@
   {
     "path": "/usr/bin/hiby_player",
     "operation": "modify",
-    "reason": "Physically validated UI correction: [2, 3, 4]; battery frame follows the battery state (hooks at 0x50c208/0x50cb18)",
+    "reason": "Physically validated UI correction: [2, 3, 4]; battery frame follows the battery state (hooks at 0x50c208/0x50cb18); next-track cover prefetch removed (0x518320/0x51d25c)",
     "before": {
       "mode": "-rwxrwxr-x",
       "uid": 0,
@@ -42,7 +42,7 @@
       "size": 5738084,
       "mtime": "2026-08-19 02:35:29",
       "target": null,
-      "sha256": "1285069ec7e3df4ac12573ab70e1afa34427c23688f951996051a38d94a2d9a5"
+      "sha256": "1f995adf13d83a44fd4b8180dafc8289d4e3ea2578979f8c5468bd7126aeaa71"
     }
   },
   {

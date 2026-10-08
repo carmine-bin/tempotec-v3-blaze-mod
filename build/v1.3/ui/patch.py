@@ -108,6 +108,12 @@ def patch_player(data):
     assert data[0x10c20c:0x10c210] == bytes(4) and data[0x10cb1c:0x10cb20] == bytes(4)
     hook(0x50c208,'09f82003','battery_state',5,True)
     hook(0x50cb18,'09f82003','battery_normal',5,True)
+    # Next-track cover prefetch (getter case 31, only with tf_image_cache_enable)
+    # peeks through the real advance routine; on an album's last track that
+    # stops playback. Drop the call: the zeroed buffer makes both sites skip.
+    for va in (0x518320,0x51d25c):
+        assert data[va-0x400000+4:va-0x400000+8] == bytes.fromhex('1f000424')
+        change(va-0x400000,bytes.fromhex('58e0100c'),bytes(4),6,'Skip next-track cover prefetch')
     assert not any(data[0x507030:0x508000])
     assert BASE-0x400000+len(code) <= 0x508000
     change(BASE-0x400000,bytes(len(code)),code,'shared','UI hooks in verified unallocated file gap')
@@ -174,5 +180,5 @@ def generate(root, out):
     changes=resources(root,out)
     data,record=patch_player((root/'usr/bin/hiby_player').read_bytes())
     p=out/'usr/bin/hiby_player';p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
-    changes['usr/bin/hiby_player']=[2,3,4]
+    changes['usr/bin/hiby_player']=[2,3,4,6]
     return changes,record

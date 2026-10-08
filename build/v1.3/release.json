@@ -1,13 +1,13 @@
 {
-  "version": "v1.2.1",
+  "version": "v1.2.2",
   "editions": {
     "stock-fix": {
       "filename": "V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt",
       "reference_sha256": "5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af"
     },
     "full-mod": {
-      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.1.upt",
-      "reference_sha256": "db91cf52c3ac0f0005d90563bc1fa7f9e3e85abdb2c5ce3fe2e9100c18e6695a"
+      "filename": "V3-Blaze-v1.3-Full-Mod-v1.2.2.upt",
+      "reference_sha256": "fd84148be2370d8cf1c069b1189695ab33d17cb38bbd47c1612e9ae8bd811947"
     }
   }
 }

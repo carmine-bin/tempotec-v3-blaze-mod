@@ -38,7 +38,7 @@ Linux verification:
 
 ```bash
 sha256sum V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt
-sha256sum V3-Blaze-v1.3-Full-Mod-v1.2.1.upt
+sha256sum V3-Blaze-v1.3-Full-Mod-v1.2.2.upt
 ```
 
 Windows: `certutil -hashfile <downloaded-file> SHA256`. Stop if the checksum differs. Renaming a file leaves its checksum unchanged.

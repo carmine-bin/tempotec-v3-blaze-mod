@@ -2,6 +2,23 @@
 
 User-facing changes in each release. "Full Mod" and "Stock + Fixes" (named "Stock + LDAC Fix" before 1.2.0) are the two editions published since 1.1.0. Notes on where historical claims came from are kept in [changelog provenance](docs/evidence/CHANGELOG-PROVENANCE.md).
 
+## [1.2.2] — 2026-10-08
+
+Based on official TempoTec firmware v1.3. Full Mod was tested on physical V3 Blaze hardware.
+
+### Fixed
+
+- Full Mod: in play-in-order mode, playing the last track of an album stopped it after about a second, and selecting it again started the album's first track. Full Mod enables the TF image cache, which makes Now Playing look ahead to the next track to prefetch its cover; on the last track that look-ahead ran the player's end-of-list stop. The look-ahead is removed. Covers are still cached; the next track's cover is cached when it plays instead of in advance. See [UI fixes](docs/UI-FIXES.md#last-track-of-an-album-v122). It affected every earlier Full Mod release based on v1.3.
+
+### Changed
+
+- Stock + Fixes is unchanged from 1.2.0; it does not enable the TF image cache and was not affected.
+
+### Known issues
+
+- Full Mod: the pull-down menu's battery icon keeps its white frame at low charge.
+- With the album-art screensaver active, track information and artwork can take about 1.5 seconds to update after a track change. Official TempoTec v1.2 and v1.3 behave the same.
+
 ## [1.2.1] — 2026-10-06
 
 Based on official TempoTec firmware v1.3. Full Mod was tested on physical V3 Blaze hardware.

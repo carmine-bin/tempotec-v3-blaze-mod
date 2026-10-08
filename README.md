@@ -1,6 +1,6 @@
 # TempoTec V3 Blaze firmware
 
-Official TempoTec v1.3 (`V3_ANALOG_2025`) with corrections for Bluetooth Receiver dropouts and LDAC audio artifacts. Project version: v1.2.1.
+Official TempoTec v1.3 (`V3_ANALOG_2025`) with corrections for Bluetooth Receiver dropouts and LDAC audio artifacts. Project version: v1.2.2.
 
 <p align="center"><img src="docs/img/blaze-full-mod.jpg" alt="TempoTec V3 Blaze running Full Mod" width="70%"></p>
 
@@ -11,14 +11,14 @@ Official TempoTec v1.3 (`V3_ANALOG_2025`) with corrections for Bluetooth Receive
 | Edition | Contents | Filename |
 |---|---|---|
 | V3 Blaze v1.3 Stock + Fixes | Official appearance and features, with only the Bluetooth Receiver corrections | `V3-Blaze-v1.3-Stock-Fixes-v1.2.0.upt` |
-| V3 Blaze v1.3 Full Mod | Corrected v1.3 base, customized HiBy-style interface and tested UI fixes | `V3-Blaze-v1.3-Full-Mod-v1.2.1.upt` |
+| V3 Blaze v1.3 Full Mod | Corrected v1.3 base, customized HiBy-style interface and tested UI fixes | `V3-Blaze-v1.3-Full-Mod-v1.2.2.upt` |
 
 Both editions use the official kernel and include v1.3 PEQ, real-time Bluetooth search and stability improvements. Both include the same two Bluetooth Receiver corrections:
 
 - **Dropouts:** BlueZ kept the radio scanning while receiving audio, so the source could not sustain LDAC 990 kb/s even at close range. Two lines of `/etc/bluetooth/main.conf` stop the scanning; 990 kb/s now plays without dropped audio at distances that previously failed. [Details and measurements](docs/BLUETOOTH-RANGE.md).
 - **LDAC artifacts:** a one-byte decoder correction removes the digital artifacts introduced by official v1.3. [Decoder evidence](docs/LDAC-RECEIVER-ARTIFACTS.md).
 
-Stock + LDAC Fix is now called Stock + Fixes. Stock + Fixes is unchanged in v1.2.1.
+Stock + LDAC Fix is now called Stock + Fixes. Stock + Fixes is unchanged in v1.2.2.
 
 Full Mod includes everything in Stock + Fixes, plus:
 
@@ -42,6 +42,7 @@ Full Mod includes everything in Stock + Fixes, plus:
 - Changing the theme color returns to the main screen instead of Music → Songs.
 - Settings cards no longer corrupt when the scrollbar disappears.
 - Now Playing no longer shows the next track's audio quality instead of the current one.
+- Playing the last track of an album no longer stops after a second in play-in-order mode.
 
 **Settings**
 
@@ -77,7 +78,7 @@ Only for TempoTec V3 Blaze (`V3_ANALOG_2025`), not the older V3 Analog. Flashing
 **A file named `update.upt` takes priority over `v3_analog_2025.upt`, even when updating from Settings. Remove or rename any `update.upt` before installing.**
 
 1. **If there is a `v3_analog_2025.upt` in the root of the microSD card (for example, the one left by the OTA update), rename it to `v3_analog_2025.upt.stock` before copying the mod. Otherwise the mod will overwrite it and you will lose your copy of the official firmware.**
-2. Choose an edition and verify its SHA-256 against the [v1.2.1 manifest](docs/releases/v1.2.1-manifest.json).
+2. Choose an edition and verify its SHA-256 against the [v1.2.2 manifest](docs/releases/v1.2.2-manifest.json).
 3. Rename it to `v3_analog_2025.upt` and copy it to the root of a microSD card.
 4. Select Settings → Firmware update → Update via micro SD card. Wait for flashing and reboot to finish.
 
@@ -90,7 +91,7 @@ Both packages are 44,367,872 bytes.
 | Edition | SHA-256 | MD5 |
 |---|---|---|
 | Stock + Fixes | `5ce109414e739546ed19d5cc74ad9b92e5a58f8545d5d3a482f673934a5929af` | `4e9408a7415b66fdad7d0ad560103194` |
-| Full Mod | `db91cf52c3ac0f0005d90563bc1fa7f9e3e85abdb2c5ce3fe2e9100c18e6695a` | `d553a52f4fe924e1f663c0e3ac1ff992` |
+| Full Mod | `fd84148be2370d8cf1c069b1189695ab33d17cb38bbd47c1612e9ae8bd811947` | `2f872850f45162e6926713095b3f5400` |
 
 ## Development and licence
 

@@ -193,6 +193,13 @@ def validate(root,overlay,out):
         assert rev[off:off+len(after)]==after;rev[off:off+len(after)]=before
     assert bytes(rev)==player and modified==(overlay/'usr/bin/hiby_player').read_bytes()
     checks.append('Every binary edit reverses exactly to pinned Full Mod player')
+    # Prefetch sites: buffer zeroed by memset, getter call gone, the check that
+    # follows reads that zeroed buffer and branches past the prefetch.
+    for va,buf,code in [(0x518320,24,'27a40018 0c241b34 00002825 00003025 27a50018 00000000 2404001f 97a2001c 1040ffcc'),
+                        (0x51d25c,32,'27a40020 0c241b34 00002825 00003025 27a50020 00000000 2404001f 97a20024 1040fea0')]:
+        o=va-0x400000-20;words=code.split()
+        assert [modified[o+4*i:o+4*i+4][::-1].hex() for i in range(len(words))]==words,hex(va)
+    checks.append('Next-track cover prefetch: both getter calls removed, zeroed buffer skips the prefetch')
     from layout import nodes,load,get,validate_order
     for p in (overlay/'usr/resource/layout/theme1').rglob('*'):
         if p.is_file():validate_order(load(p))

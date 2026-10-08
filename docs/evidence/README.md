@@ -1,7 +1,8 @@
 # Technical evidence
 
-Firmware and component hashes identify the audited artifacts. Published v1.1.0, v1.1.2 and v1.2.0 records remain unchanged; current v1.2.1 results are separate.
+Firmware and component hashes identify the audited artifacts. Published v1.1.0, v1.1.2, v1.2.0 and v1.2.1 records remain unchanged; current v1.2.2 results are separate.
 
+- [v1.2.2 verification](release-v1.2.2-verification.json): Full Mod next-track cover prefetch removed (last track of an album no longer stops), deterministic rebuild, byte equality with the hardware-tested image; Stock + Fixes unchanged.
 - [v1.2.1 verification](release-v1.2.1-verification.json): Full Mod battery-frame hooks and notice dialog, deterministic rebuild, byte equality with the hardware-tested image; Stock + Fixes unchanged.
 - [v1.2.0 verification](release-v1.2.0-verification.json): both editions, deterministic rebuild and the single filesystem difference from v1.1.2 (`etc/bluetooth/main.conf`).
 - [Bluetooth Receiver measurements](bluetooth-receiver-airtime.json): HCI scan parameters observed on official v1.3, method, per-run rate/dropped audio/link quality and the alternatives that did not help.
